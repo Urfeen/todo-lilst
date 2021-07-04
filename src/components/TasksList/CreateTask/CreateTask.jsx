@@ -3,11 +3,11 @@ import { useState } from "react";
 const CreateTask = ({ addTaskHandler }) => {
   const [taskText, setTaskText] = useState("");
 
-  const changeHandler = (event) => {
+  const changeHandler = event => {
     const { value } = event.target;
     setTaskText(value);
   }
-  const submitFormHandler = (event) => {
+  const submitFormHandler = event => {
     event.preventDefault();
     addTaskHandler(taskText);
     setTaskText("");

@@ -1,17 +1,39 @@
 import { useEffect, useState } from "react";
 import CreateTask from "./CreateTask/CreateTask.jsx";
 import "./TasksList.scss";
+import { nanoid } from "nanoid";
 
 const TasksList = () => {
   const [tasks, setTasks] = useState([]);
 
-  const addTaskHandler = (taskText) => {
+  const addTaskHandler = taskText => {
     const newTask = {
       taskText,
       done: false,
+      id: nanoid()
     }
 
     setTasks(prevState => prevState.concat(newTask));
+  }
+  const changeTaskStatusHandler = taskId => {
+    setTasks(prevState => {
+      const updatedList = prevState.map(task => {
+        if (task.id === taskId) {
+          return {
+            ...task,
+            done: !task.done
+          }
+        }
+        return task;
+      });
+      return updatedList;
+    });
+  }
+  const deleteTaskHandler = taskId => {
+    setTasks(prevState => {
+      const updatedList = prevState.filter(task => task.id !== taskId);
+      return updatedList;
+    });
   }
 
   useEffect(() => {
@@ -32,11 +54,16 @@ const TasksList = () => {
         {tasks.length === 0 ? (
           <span>no one task</span>
         ) : (
-          tasks.map((task, index) => (
-            <li key={index}>
-              <input defaultChecked={task.done} type="checkbox" name="checkbox" />
+          tasks.map(task => (
+            <li key={task.id}>
+              <input
+                defaultChecked={task.done}
+                onChange={() => changeTaskStatusHandler(task.id)}
+                type="checkbox"
+                name="checkbox"
+              />
               <span>{task.taskText}</span>
-              <button type="button">&times;</button>
+              <button onClick={() => deleteTaskHandler(task.id)} type="button">&times;</button>
             </li>
           ))
         )}
