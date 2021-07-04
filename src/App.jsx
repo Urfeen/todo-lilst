@@ -1,7 +1,7 @@
 import TodoList from "./components/TodoList.jsx";
 import './App.scss';
 
-function App() {
+const App = () => {
   return (
     <TodoList />
   );

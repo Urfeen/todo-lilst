@@ -1,6 +1,12 @@
-function TodoList() {
+import TasksList from "./TasksList/TasksList.jsx";
+import "./TodoList.scss";
+
+const TodoList = () => {
   return (
-    <h1>Todo list</h1>
+    <div className="todo-list">
+      <h1>Todo list</h1>
+      <TasksList />
+    </div>
   );
 }
 
