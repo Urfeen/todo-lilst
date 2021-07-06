@@ -7,4 +7,8 @@ const App = () => {
   );
 }
 
+// in one line task
+// subtasks
+// on hover or tap - expanded task with more info
+
 export default App;

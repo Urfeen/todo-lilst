@@ -45,7 +45,7 @@ const TasksList = () => {
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
-
+  console.log("yes");
   return (
     <>
       <CreateTask addTaskHandler={addTaskHandler} />
@@ -61,9 +61,14 @@ const TasksList = () => {
                 onChange={() => changeTaskStatusHandler(task.id)}
                 type="checkbox"
                 name="checkbox"
+                className="checkbox"
               />
               <span>{task.taskText}</span>
-              <button onClick={() => deleteTaskHandler(task.id)} type="button">&times;</button>
+              <button
+                onClick={() => deleteTaskHandler(task.id)}
+                type="button"
+                className="btn-cross"
+              ></button>
             </li>
           ))
         )}

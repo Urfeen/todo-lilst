@@ -1,7 +1,13 @@
 .tasks-list {
-  width: 100%;
-}
-.tasks-list li {
-  display: flex;
-  flex: 1 1 auto;
+  max-width: 100%;
+
+  li {
+    max-width: 100%;
+    span {
+      word-wrap: break-word;
+    }
+  }
+  li:last-child {
+    margin: 0px 0px 0px 0px;
+  }
 }
