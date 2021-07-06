@@ -67,8 +67,9 @@ const TasksList = () => {
               <button
                 onClick={() => deleteTaskHandler(task.id)}
                 type="button"
-                className="btn-cross"
-              ></button>
+                className="btn_cross"
+                style={{ height: "22px", width: "22px" }}
+              />
             </li>
           ))
         )}

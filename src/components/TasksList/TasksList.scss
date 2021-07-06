@@ -3,8 +3,25 @@
 
   li {
     max-width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0px 0px 0.5rem 0px;
+    border: 1px solid #000;
+    padding: 4px 5px;
+    border-radius: 5px;
     span {
       word-wrap: break-word;
+      max-width: calc(100% - 1rem - 5px - 22px - 5px);
+      flex-grow: 1;
+      line-height: 1.2;
+    }
+    input {
+      width: 1rem;
+      height: 1rem;
+      margin: 0px 5px 0px 0px;
+    }
+    button {
+      margin: 0px 0px 0px 5px;
     }
   }
   li:last-child {

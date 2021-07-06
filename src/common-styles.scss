@@ -4,10 +4,9 @@ body {
 
 // ============BUTTONS============
 
-button.btn-cross {
+// <button/>
+button.btn_cross {
   position: relative;
-  min-width: 22px;
-  min-height: 22px;
   background-color: rgba(0, 0, 0, 0);
   border: 1px solid #555;
   border-radius: 3px;
@@ -17,7 +16,7 @@ button.btn-cross {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20px;
+    width: 1.3em;
     height: 2px;
     background-color: #222;
   }
@@ -26,6 +25,9 @@ button.btn-cross {
   }
   &::after {
     transform: translate(-50%, -50%) rotate(45deg);
+  }
+  &:hover {
+    transform: scale(1.1);
   }
 }
 
