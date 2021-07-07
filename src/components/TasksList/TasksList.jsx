@@ -56,20 +56,25 @@ const TasksList = () => {
         ) : (
           tasks.map(task => (
             <li key={task.id}>
-              <input
-                defaultChecked={task.done}
-                onChange={() => changeTaskStatusHandler(task.id)}
-                type="checkbox"
-                name="checkbox"
-                className="checkbox"
-              />
-              <span>{task.taskText}</span>
-              <button
+              <div className="tasks-list__primary-area">
+                <input
+                  defaultChecked={task.done}
+                  onChange={() => changeTaskStatusHandler(task.id)}
+                  type="checkbox"
+                  name="checkbox"
+                  className="checkbox"
+                />
+                <span>{task.taskText}</span>
+              </div>
+              <div className="tasks-list__actions">
+
+              </div>
+              {/* <button
                 onClick={() => deleteTaskHandler(task.id)}
                 type="button"
                 className="btn_cross"
-                style={{ height: "22px", width: "22px" }}
-              />
+                style={{ height: "18px", width: "18px" }}
+              /> */}
             </li>
           ))
         )}
