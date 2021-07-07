@@ -1,13 +1,14 @@
 .tasks-list {
-  max-width: 100%;
+  min-width: 100%;
+  overflow: auto;
 
-  li {
+  .list-item {
     position: relative;
 
     max-width: 100%;
     border-bottom: 1px solid #555;
-    padding: 4px;
-    height: 2rem;
+    padding: 6px;
+    height: 2.4rem;
     overflow: hidden;
 
     display: flex;
@@ -16,18 +17,24 @@
 
     transition: height 0.2s ease;
 
-    div.tasks-list__primary-area {
+    &_done {
+      span {
+        text-decoration: line-through;
+      }
+    }
+    div.list-item__primary-area {
       display: flex;
       max-height: 100%;
 
       input {
         width: 1rem;
         height: 1rem;
-        margin: 2px 5px 0px 0px;
+        margin: 0.27rem 0.4rem 0px 0px;
       }
 
       span {
         max-width: calc(100% - 1rem - 5px);
+        font-size: 1.1rem;
         max-height: 100%;
         flex-grow: 1;
         line-height: 1.4;
@@ -37,23 +44,22 @@
       }
     }
 
-    // div.tasks-list__list__actions {
-    //   width: 100%;
-    //   min-height: 10px;
-    //   visibility: hidden;
-    //   background-color: #000;
-    // }
-
-    // &:last-child {
-    //   border-bottom: none;
-    // }
-    &:hover {
-      div.tasks-list__primary-area {
+    &.list-item_text-scroll {
+      overflow: auto;
+      div.list-item__primary-area {
         span {
-          word-wrap: break-word;
-          overflow: auto;
+          overflow: visible;
         }
       }
+    }
+    &.list-item_text-expand {
+      div.list-item__primary-area {
+        span {
+          word-wrap: break-word;
+        }
+      }
+    }
+    &.list-item_expanded {
       height: 10rem;
     }
   }

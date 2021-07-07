@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import CreateTask from "./CreateTask/CreateTask.jsx";
 import "./TasksList.scss";
 import { nanoid } from "nanoid";
+import ListItem from "./ListItem.jsx";
 
 const TasksList = () => {
   const [tasks, setTasks] = useState([]);
 
   const addTaskHandler = taskText => {
     const newTask = {
-      taskText,
+      taskText: taskText.trim(),
       done: false,
       id: nanoid()
     }
@@ -45,40 +46,27 @@ const TasksList = () => {
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
-  console.log("yes");
+
   return (
     <>
       <CreateTask addTaskHandler={addTaskHandler} />
 
-      <ul className="tasks-list">
-        {tasks.length === 0 ? (
-          <span>no one task</span>
-        ) : (
-          tasks.map(task => (
-            <li key={task.id}>
-              <div className="tasks-list__primary-area">
-                <input
-                  defaultChecked={task.done}
-                  onChange={() => changeTaskStatusHandler(task.id)}
-                  type="checkbox"
-                  name="checkbox"
-                  className="checkbox"
-                />
-                <span>{task.taskText}</span>
-              </div>
-              <div className="tasks-list__actions">
-
-              </div>
-              {/* <button
-                onClick={() => deleteTaskHandler(task.id)}
-                type="button"
-                className="btn_cross"
-                style={{ height: "18px", width: "18px" }}
-              /> */}
-            </li>
-          ))
-        )}
-      </ul>
+      {tasks.length === 0 ? (
+        <span>no one task</span>
+      ) : (
+        <ul className="tasks-list">
+          {tasks.map(task => (
+            <ListItem
+              key={task.id}
+              id={task.id}
+              done={task.done}
+              taskText={task.taskText}
+              changeTaskStatusHandler={changeTaskStatusHandler}
+              deleteTaskHandler={deleteTaskHandler}
+            />
+          ))}
+        </ul>
+      )}
     </>
   );
 }

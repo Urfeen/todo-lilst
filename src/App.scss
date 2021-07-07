@@ -2,5 +2,14 @@
 @import "./common-styles.scss";
 
 .todo-list {
-  margin: 20px auto;
+  position: relative;
+  top: 10%;
+  left: 0;
+
+  max-height: 70vh;
+}
+
+#root {
+  padding: 15px;
+  height: 100%;
 }
