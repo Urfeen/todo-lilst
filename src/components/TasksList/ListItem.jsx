@@ -1,7 +1,9 @@
 import { useRef, useState, memo } from 'react';
 import classNames from 'classnames';
+import moment from 'moment';
+import DeleteButton from '../DeleteButton/DeleteButton.jsx';
 
-const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandler }) => {
+const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandler, creationDate }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [textExpand, setTextExpand] = useState(false);
   const [textScroll, setTextScroll] = useState(false);
@@ -14,11 +16,17 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
       'list-item_text-expand': textExpand,
       'list-item_text-scroll': textScroll
     });
+  const moreClasses = classNames(
+    'list-item__more',
+    {
+      'list-item__more_hidden': !isExpanded
+    }
+  )
   const EXPAND_DURATION = 200;
 
   let mouseEnterTimeoutId = useRef();
   let mouseLeaveTimeoutId = useRef();
-  const onMouseEnterHandler = event => {
+  const onMouseEnterHandler = () => {
     if (mouseLeaveTimeoutId.current) clearTimeout(mouseLeaveTimeoutId.current);
 
     mouseEnterTimeoutId.current = setTimeout(() => {
@@ -28,7 +36,7 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
     setIsExpanded(true);
     setTextExpand(true);
   }
-  const onMouseLeaveHandler = event => {
+  const onMouseLeaveHandler = () => {
     if (mouseEnterTimeoutId.current) clearTimeout(mouseEnterTimeoutId.current);
 
     mouseLeaveTimeoutId.current = setTimeout(() => {
@@ -45,6 +53,7 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
     >
+
       <div className="list-item__primary-area">
         <input
           defaultChecked={done}
@@ -55,16 +64,13 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
         />
         <span>{taskText}</span>
       </div>
-      <div className="list-item__more">
 
+      <div className={moreClasses}>
+        <DeleteButton text="text" onClick={() => deleteTaskHandler(id)} />
+        <span>Start - {moment(creationDate).format('DD.MM.YY')}</span>
       </div>
-      {/* <button
-        onClick={() => deleteTaskHandler(task.id)}
-        type="button"
-        className="btn_cross"
-        style={{ height: "18px", width: "18px" }}
-      /> */}
-    </li>
+
+    </li >
   );
 }
 

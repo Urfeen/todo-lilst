@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./PopUp.scss";
 
 const CreateTask = ({ addTaskHandler }) => {
   const [taskText, setTaskText] = useState("");
@@ -17,6 +18,12 @@ const CreateTask = ({ addTaskHandler }) => {
     <form onSubmit={submitFormHandler} name="createTask" action="#">
       <input value={taskText} onChange={changeHandler} type="text" name="createTaskInput" />
       <button type="submit">create</button>
+      {/* <button
+          onClick={() => deleteTaskHandler(id)}
+          type="button"
+          className="btn_cross"
+          style={{ height: "1.5rem", width: "1.5rem" }}
+        /> */}
     </form>
   );
 }

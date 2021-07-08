@@ -1,3 +1,7 @@
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -10,6 +14,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 :focus,
 :active {
   outline: none;
@@ -48,6 +53,9 @@ input::-ms-clear {
 }
 button {
   cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
 }
 button::-moz-focus-inner {
   padding: 0;

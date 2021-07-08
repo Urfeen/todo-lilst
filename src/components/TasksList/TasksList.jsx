@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CreateTask from "./CreateTask/CreateTask.jsx";
+import PopUp from "../PopUp/PopUp.jsx";
 import "./TasksList.scss";
 import { nanoid } from "nanoid";
 import ListItem from "./ListItem.jsx";
@@ -11,7 +11,8 @@ const TasksList = () => {
     const newTask = {
       taskText: taskText.trim(),
       done: false,
-      id: nanoid()
+      id: nanoid(),
+      creationDate: Date.now(),
     }
 
     setTasks(prevState => prevState.concat(newTask));
@@ -49,7 +50,7 @@ const TasksList = () => {
 
   return (
     <>
-      <CreateTask addTaskHandler={addTaskHandler} />
+      <PopUp addTaskHandler={addTaskHandler} />
 
       {tasks.length === 0 ? (
         <span>no one task</span>
@@ -60,6 +61,7 @@ const TasksList = () => {
               key={task.id}
               id={task.id}
               done={task.done}
+              creationDate={task.creationDate}
               taskText={task.taskText}
               changeTaskStatusHandler={changeTaskStatusHandler}
               deleteTaskHandler={deleteTaskHandler}

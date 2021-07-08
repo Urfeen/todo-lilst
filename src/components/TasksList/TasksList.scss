@@ -22,7 +22,8 @@
         text-decoration: line-through;
       }
     }
-    div.list-item__primary-area {
+
+    .list-item__primary-area {
       display: flex;
       max-height: 100%;
 
@@ -43,17 +44,24 @@
         white-space: pre-wrap;
       }
     }
+    .list-item__more {
+      opacity: 1;
+      transition: opacity 0.2s ease;
+      &_hidden {
+        opacity: 0;
+      }
+    }
 
     &.list-item_text-scroll {
       overflow: auto;
-      div.list-item__primary-area {
+      .list-item__primary-area {
         span {
           overflow: visible;
         }
       }
     }
     &.list-item_text-expand {
-      div.list-item__primary-area {
+      .list-item__primary-area {
         span {
           word-wrap: break-word;
         }

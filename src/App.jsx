@@ -15,6 +15,7 @@ const App = () => {
 // add task in pop-up (with cross button)
 // :active :focus :hover 
 // change styles after checked
+// high-light hovered task
 
 
 export default App;
