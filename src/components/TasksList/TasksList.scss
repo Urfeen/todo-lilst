@@ -1,5 +1,5 @@
 .tasks-list {
-  min-width: 100%;
+  width: 100%;
   overflow: auto;
 
   .list-item {
@@ -24,27 +24,29 @@
     }
 
     .list-item__primary-area {
-      display: flex;
-      max-height: 100%;
+      // display: flex;
+      // max-height: 100%;
 
-      input {
-        width: 1rem;
-        height: 1rem;
-        margin: 0.27rem 0.4rem 0px 0px;
-      }
+      // input {
+      //   width: 1rem;
+      //   height: 1rem;
+      //   margin: 0.27rem 0.4rem 0px 0px;
+      // }
 
-      span {
-        max-width: calc(100% - 1rem - 5px);
-        font-size: 1.1rem;
-        max-height: 100%;
-        flex-grow: 1;
-        line-height: 1.4;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: pre-wrap;
-      }
+      // span {
+      //   max-width: calc(100% - 1rem - 5px);
+      //   font-size: 1.1rem;
+      //   max-height: 100%;
+      //   flex-grow: 1;
+      //   line-height: 1.4;
+      //   text-overflow: ellipsis;
+      //   overflow: hidden;
+      //   white-space: pre-wrap;
+      // }
     }
+
     .list-item__more {
+      margin: 10px 0px 0px 0px;
       opacity: 1;
       transition: opacity 0.2s ease;
       &_hidden {
@@ -52,23 +54,20 @@
       }
     }
 
-    &.list-item_text-scroll {
-      overflow: auto;
-      .list-item__primary-area {
-        span {
-          overflow: visible;
-        }
-      }
-    }
+    // &.list-item_text-scroll {
+    //   overflow: auto;
+    //   .list-item__primary-area {
+    //     span {
+    //       overflow: visible;
+    //     }
+    //   }
+    // }
     &.list-item_text-expand {
       .list-item__primary-area {
         span {
           word-wrap: break-word;
         }
       }
-    }
-    &.list-item_expanded {
-      height: 10rem;
     }
   }
 }

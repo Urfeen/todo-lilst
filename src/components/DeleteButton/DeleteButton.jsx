@@ -10,7 +10,9 @@ const DeleteButton = ({ text, onClick: action }) => {
       setDel(true);
       setTimeout(() => {
         setDel(false);
-        // action();
+        if (typeof action === 'function') {
+          action()
+        }
       }, 3200);
     }
   }

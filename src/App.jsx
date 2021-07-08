@@ -16,6 +16,12 @@ const App = () => {
 // :active :focus :hover 
 // change styles after checked
 // high-light hovered task
+// close-open with tap on li - hight light animation
+// scroll all page
+// min width to pixels
+// remake li structure
+// work on styles
+// add bg particles
 
 
 export default App;

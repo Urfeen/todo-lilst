@@ -1,3 +1,9 @@
+@function anim-dur($elem-dur, $expect-dur: 3.2s) {
+  $default-dur: 3.2s;
+
+  @return $elem-dur;
+}
+
 .btn_trash-bin {
   --background: #2b3044;
   --background-hover: #1e2235;
@@ -9,6 +15,7 @@
   --trash-lines: #bbc1e1;
   --check: #fff;
   --check-background: #5c86ff;
+  $anim-duration: 3.2s;
 
   position: relative;
   padding: 0.45rem 0.6rem 0.35rem;

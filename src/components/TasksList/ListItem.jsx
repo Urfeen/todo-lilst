@@ -5,16 +5,15 @@ import DeleteButton from '../DeleteButton/DeleteButton.jsx';
 
 const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandler, creationDate }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [textExpand, setTextExpand] = useState(false);
-  const [textScroll, setTextScroll] = useState(false);
+  // const [textExpand, setTextExpand] = useState(false);
+  // const [textScroll, setTextScroll] = useState(false);
 
   const liClasses = classNames(
     'tasks-list__item list-item',
     {
       'list-item_done': done,
-      'list-item_expanded': isExpanded,
-      'list-item_text-expand': textExpand,
-      'list-item_text-scroll': textScroll
+      // 'list-item_text-expand': textExpand,
+      // 'list-item_text-scroll': textScroll
     });
   const moreClasses = classNames(
     'list-item__more',
@@ -24,27 +23,30 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
   )
   const EXPAND_DURATION = 200;
 
+  const liPrimaryAreaRef = useRef();
+  const liMoreRef = useRef();
   let mouseEnterTimeoutId = useRef();
   let mouseLeaveTimeoutId = useRef();
+
   const onMouseEnterHandler = () => {
     if (mouseLeaveTimeoutId.current) clearTimeout(mouseLeaveTimeoutId.current);
 
     mouseEnterTimeoutId.current = setTimeout(() => {
-      setTextScroll(true);
+      // setTextScroll(true);
     }, EXPAND_DURATION);
 
     setIsExpanded(true);
-    setTextExpand(true);
+    // setTextExpand(true);
   }
   const onMouseLeaveHandler = () => {
     if (mouseEnterTimeoutId.current) clearTimeout(mouseEnterTimeoutId.current);
 
     mouseLeaveTimeoutId.current = setTimeout(() => {
-      setTextExpand(false);
+      // setTextExpand(false);
     }, EXPAND_DURATION);
 
     setIsExpanded(false);
-    setTextScroll(false);
+    // setTextScroll(false);
   }
 
   return (
@@ -52,21 +54,38 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
       className={liClasses}
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
+      style={{
+        height: isExpanded ? liPrimaryAreaRef.current.offsetHeight + liMoreRef.current.offsetHeight + 20 + 'px' : ''
+      }}
     >
 
-      <div className="list-item__primary-area">
-        <input
+      <div ref={liPrimaryAreaRef} className="list-item__primary-area">
+        <div className="list-item__paper" style={{
+          width: "100%",
+          height: "auto",
+          border: "1px solid #888"
+        }}>
+          <span>text</span><br />
+          <span>text</span><br />
+          <span>text</span><br />
+          <span>text</span><br />
+          <span>text</span><br />
+          <span>text</span><br />
+          <span>text</span><br />
+          <span>text</span>
+        </div>
+        {/* <input
           defaultChecked={done}
           onChange={() => changeTaskStatusHandler(id)}
           type="checkbox"
           name="checkbox"
           className="checkbox"
         />
-        <span>{taskText}</span>
+        <span>{taskText}</span> */}
       </div>
 
-      <div className={moreClasses}>
-        <DeleteButton text="text" onClick={() => deleteTaskHandler(id)} />
+      <div ref={liMoreRef} className={moreClasses}>
+        <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
         <span>Start - {moment(creationDate).format('DD.MM.YY')}</span>
       </div>
 
