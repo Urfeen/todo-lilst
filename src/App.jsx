@@ -22,6 +22,6 @@ const App = () => {
 // remake li structure
 // work on styles
 // add bg particles
-
+// footer
 
 export default App;

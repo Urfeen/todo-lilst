@@ -24,6 +24,18 @@
     }
 
     .list-item__primary-area {
+      .list-item__paper {
+        width: 100%;
+        height: auto;
+        border: 1px solid #888;
+
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        span {
+          font-size: 1.1rem;
+          line-height: 1.5;
+        }
+      }
       // display: flex;
       // max-height: 100%;
 
@@ -31,17 +43,6 @@
       //   width: 1rem;
       //   height: 1rem;
       //   margin: 0.27rem 0.4rem 0px 0px;
-      // }
-
-      // span {
-      //   max-width: calc(100% - 1rem - 5px);
-      //   font-size: 1.1rem;
-      //   max-height: 100%;
-      //   flex-grow: 1;
-      //   line-height: 1.4;
-      //   text-overflow: ellipsis;
-      //   overflow: hidden;
-      //   white-space: pre-wrap;
       // }
     }
 

@@ -60,19 +60,8 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
     >
 
       <div ref={liPrimaryAreaRef} className="list-item__primary-area">
-        <div className="list-item__paper" style={{
-          width: "100%",
-          height: "auto",
-          border: "1px solid #888"
-        }}>
-          <span>text</span><br />
-          <span>text</span><br />
-          <span>text</span><br />
-          <span>text</span><br />
-          <span>text</span><br />
-          <span>text</span><br />
-          <span>text</span><br />
-          <span>text</span>
+        <div className="list-item__paper">
+          <span>texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext</span>
         </div>
         {/* <input
           defaultChecked={done}

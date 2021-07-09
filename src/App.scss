@@ -6,10 +6,12 @@
   top: 10%;
   left: 0;
 
-  max-height: 70vh;
+  margin: 0px auto;
 }
 
 #root {
-  padding: 15px;
+  padding: 0px 15px;
   height: 100%;
+
+  overflow: auto;
 }
