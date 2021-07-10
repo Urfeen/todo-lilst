@@ -61,21 +61,58 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
 
       <div ref={liPrimaryAreaRef} className="list-item__primary-area">
         <div className="list-item__paper">
-          <span>texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext</span>
+          <div className="list-item__task">
+            <div className="list-item__checkbox">
+              <input
+                defaultChecked={done}
+                onChange={() => changeTaskStatusHandler(id)}
+                type="checkbox"
+                className="checkbox"
+              />
+
+              <svg width="100%" height={30}>
+                <line x1="0.5rem" y1="0" x2="0.5rem" y2="100" stroke="orange" fill="transparent" strokeWidth="2" />
+              </svg>
+            </div>
+            <div className="list-item__task-content">
+              <span>{taskText}</span>
+
+              <ul className="list-item__subtasks">
+                <li className="list-item__task">
+                  <div className="list-item__checkbox">
+                    <input
+                      defaultChecked={done}
+                      onChange={() => changeTaskStatusHandler(id)}
+                      type="checkbox"
+                      className="checkbox"
+                    />
+                  </div>
+                  <div className="list-item__task-content">
+                    <span>{taskText}</span>
+                  </div>
+                </li>
+                <li className="list-item__task">
+                  <div className="list-item__checkbox">
+                    <input
+                      defaultChecked={done}
+                      onChange={() => changeTaskStatusHandler(id)}
+                      type="checkbox"
+                      className="checkbox"
+                    />
+                  </div>
+                  <div className="list-item__task-content">
+                    <span>{taskText}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        {/* <input
-          defaultChecked={done}
-          onChange={() => changeTaskStatusHandler(id)}
-          type="checkbox"
-          name="checkbox"
-          className="checkbox"
-        />
-        <span>{taskText}</span> */}
       </div>
 
       <div ref={liMoreRef} className={moreClasses}>
         <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
-        <span>Start - {moment(creationDate).format('DD.MM.YY')}</span>
+        <span> Start - {moment(creationDate).format('DD.MM.YY')}</span>
       </div>
 
     </li >

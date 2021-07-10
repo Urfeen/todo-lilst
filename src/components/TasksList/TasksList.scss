@@ -7,13 +7,15 @@
 
     max-width: 100%;
     border-bottom: 1px solid #555;
-    padding: 6px;
-    height: 2.4rem;
+    padding: 0.38rem;
+    height: 2.6rem;
     overflow: hidden;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    box-shadow: 0px -3px 6px 1px rgba(0, 0, 255, 0.2);
 
     transition: height 0.2s ease;
 
@@ -23,30 +25,47 @@
       }
     }
 
-    .list-item__primary-area {
-      .list-item__paper {
-        width: 100%;
-        height: auto;
-        border: 1px solid #888;
-
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        span {
-          font-size: 1.1rem;
-          line-height: 1.5;
-        }
-      }
-      // display: flex;
-      // max-height: 100%;
-
-      // input {
-      //   width: 1rem;
-      //   height: 1rem;
-      //   margin: 0.27rem 0.4rem 0px 0px;
-      // }
+    &__primary-area {
     }
 
-    .list-item__more {
+    &__paper {
+      width: 100%;
+      height: auto;
+      border: 1px solid #888;
+      padding: 0.2rem 0.3rem;
+    }
+    &__task {
+      display: flex;
+    }
+
+    &__task-content {
+      max-width: calc(100% - 1.3rem);
+
+      span {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 1.1rem;
+        line-height: 1.2;
+      }
+    }
+    &__checkbox {
+      margin: 0px 0.3rem 0px 0px;
+      max-width: 1rem;
+      input {
+        margin: 0.2rem 0px 0px 0px;
+      }
+    }
+    &__subtasks {
+      margin: 0.2rem 0px 0px 0px;
+      li {
+        margin: 0px 0px 0.2rem 0px;
+        &:last-child {
+          margin: 0px 0px 0px 0px;
+        }
+      }
+    }
+
+    &__more {
       margin: 10px 0px 0px 0px;
       opacity: 1;
       transition: opacity 0.2s ease;
@@ -55,19 +74,9 @@
       }
     }
 
-    // &.list-item_text-scroll {
-    //   overflow: auto;
-    //   .list-item__primary-area {
-    //     span {
-    //       overflow: visible;
-    //     }
-    //   }
-    // }
-    &.list-item_text-expand {
-      .list-item__primary-area {
-        span {
-          word-wrap: break-word;
-        }
+    &__primary-area {
+      span {
+        word-wrap: break-word;
       }
     }
   }

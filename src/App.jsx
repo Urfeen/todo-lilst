@@ -15,10 +15,9 @@ const App = () => {
 // add task in pop-up (with cross button)
 // :active :focus :hover 
 // change styles after checked
+// max-height of li
 // high-light hovered task
 // close-open with tap on li - hight light animation
-// scroll all page
-// min width to pixels
 // remake li structure
 // work on styles
 // add bg particles

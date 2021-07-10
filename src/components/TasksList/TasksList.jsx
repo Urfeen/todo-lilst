@@ -15,7 +15,11 @@ const TasksList = () => {
       creationDate: Date.now(),
     }
 
-    setTasks(prevState => prevState.concat(newTask));
+    setTasks(prevState => {
+      const arrCopy = [...prevState];
+      arrCopy.unshift(newTask);
+      return arrCopy;
+    });
   }
   const changeTaskStatusHandler = taskId => {
     setTasks(prevState => {
