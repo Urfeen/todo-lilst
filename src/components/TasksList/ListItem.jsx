@@ -2,19 +2,11 @@ import { useRef, useState, memo } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import DeleteButton from '../DeleteButton/DeleteButton.jsx';
+import InputCheckbox from '../InputCheckbox/InputCheckbox.jsx';
 
 const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandler, creationDate }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  // const [textExpand, setTextExpand] = useState(false);
-  // const [textScroll, setTextScroll] = useState(false);
 
-  const liClasses = classNames(
-    'tasks-list__item list-item',
-    {
-      'list-item_done': done,
-      // 'list-item_text-expand': textExpand,
-      // 'list-item_text-scroll': textScroll
-    });
   const moreClasses = classNames(
     'list-item__more',
     {
@@ -31,27 +23,21 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
   const onMouseEnterHandler = () => {
     if (mouseLeaveTimeoutId.current) clearTimeout(mouseLeaveTimeoutId.current);
 
-    mouseEnterTimeoutId.current = setTimeout(() => {
-      // setTextScroll(true);
-    }, EXPAND_DURATION);
+    mouseEnterTimeoutId.current = setTimeout(() => { }, EXPAND_DURATION);
 
     setIsExpanded(true);
-    // setTextExpand(true);
   }
   const onMouseLeaveHandler = () => {
     if (mouseEnterTimeoutId.current) clearTimeout(mouseEnterTimeoutId.current);
 
-    mouseLeaveTimeoutId.current = setTimeout(() => {
-      // setTextExpand(false);
-    }, EXPAND_DURATION);
+    mouseLeaveTimeoutId.current = setTimeout(() => { }, EXPAND_DURATION);
 
     setIsExpanded(false);
-    // setTextScroll(false);
   }
 
   return (
     <li
-      className={liClasses}
+      className='tasks-list__item list-item'
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
       style={{
@@ -61,13 +47,11 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
 
       <div ref={liPrimaryAreaRef} className="list-item__primary-area">
         <div className="list-item__paper">
-          <div className="list-item__task">
+          <div className={classNames('list-item__task', { 'list-item__task_done': done })}>
             <div className="list-item__checkbox">
-              <input
+              <InputCheckbox
                 defaultChecked={done}
                 onChange={() => changeTaskStatusHandler(id)}
-                type="checkbox"
-                className="checkbox"
               />
 
               <svg width="100%" height={30}>
@@ -80,11 +64,9 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
               <ul className="list-item__subtasks">
                 <li className="list-item__task">
                   <div className="list-item__checkbox">
-                    <input
+                    <InputCheckbox
                       defaultChecked={done}
                       onChange={() => changeTaskStatusHandler(id)}
-                      type="checkbox"
-                      className="checkbox"
                     />
                   </div>
                   <div className="list-item__task-content">
@@ -93,11 +75,9 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
                 </li>
                 <li className="list-item__task">
                   <div className="list-item__checkbox">
-                    <input
+                    <InputCheckbox
                       defaultChecked={done}
                       onChange={() => changeTaskStatusHandler(id)}
-                      type="checkbox"
-                      className="checkbox"
                     />
                   </div>
                   <div className="list-item__task-content">
@@ -112,7 +92,7 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
 
       <div ref={liMoreRef} className={moreClasses}>
         <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
-        <span> Start - {moment(creationDate).format('DD.MM.YY')}</span>
+        <span>Start - {moment(creationDate).format('DD.MM.YY')}</span>
       </div>
 
     </li >

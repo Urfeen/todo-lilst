@@ -2,9 +2,6 @@ body {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-// ============BUTTONS============
-
-// <button/>
 button.btn_cross {
   position: relative;
   background-color: rgba(0, 0, 0, 0);
@@ -29,9 +26,4 @@ button.btn_cross {
   &:hover {
     transform: scale(1.1);
   }
-}
-
-// ============CHECKBOX============
-
-input.checkbox {
 }

@@ -18,9 +18,11 @@ const App = () => {
 // max-height of li
 // high-light hovered task
 // close-open with tap on li - hight light animation
-// remake li structure
 // work on styles
 // add bg particles
 // footer
+// change task done handler
+// draw check 
+// li focus 
 
 export default App;

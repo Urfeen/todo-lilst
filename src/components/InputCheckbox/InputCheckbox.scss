@@ -1,0 +1,33 @@
+.check {
+  padding: 0px 0px 1.2rem 1.2rem;
+  &__input {
+    position: absolute;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  &__box {
+    position: absolute;
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: tomato; // off
+    margin: 0px 0px 0px -1.2rem;
+  }
+
+  &__input:checked + &__box {
+    background-color: green; // on
+  }
+  &__input:focus + &__box {
+    background-color: black; // off-focused
+  }
+  &__input:checked:focus + &__box {
+    background-color: yellow; // on-focused
+  }
+
+  &__input:disabled + &__box {
+    background-color: green; // off-disabled
+  }
+  &__input:checked:disabled + &__box {
+    background-color: yellow; // on-disabled
+  }
+}
