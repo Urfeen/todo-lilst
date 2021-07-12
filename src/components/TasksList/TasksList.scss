@@ -6,8 +6,8 @@
 
     max-width: 100%;
     border-bottom: 1px solid #555;
-    padding: 0.38rem;
-    height: 2.6rem;
+    padding: 0.5rem;
+    height: 3.3rem;
     overflow: hidden;
 
     display: flex;
@@ -25,10 +25,14 @@
       width: 100%;
       height: auto;
       border: 1px solid #888;
-      padding: 0.2rem 0.3rem;
+      padding: 0.4rem;
+      & > .list-item__task {
+        margin: 0px 0px 0px 0px;
+      }
     }
     &__task {
       display: flex;
+      margin: 0.5rem 0px 0px 0px;
       &_done {
         text-decoration: line-through;
       }
@@ -46,20 +50,10 @@
       }
     }
     &__checkbox {
-      margin: 0px 0.3rem 0px 0px;
+      margin: 0.05rem 0.3rem 0px 0px;
       max-width: 1.2rem;
-      input {
-        margin: 0.2rem 0px 0px 0px;
-      }
     }
     &__subtasks {
-      margin: 0.2rem 0px 0px 0px;
-      li {
-        margin: 0px 0px 0.2rem 0px;
-        &:last-child {
-          margin: 0px 0px 0px 0px;
-        }
-      }
     }
 
     &__more {
