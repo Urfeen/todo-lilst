@@ -38,7 +38,7 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
   return (
     // <a href={'task-' + (index + 1)}>
     <li
-      className='tasks-list__item list-item'
+      className={classNames('tasks-list__item list-item', { 'list-item_expanded': isExpanded })}
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
       style={{
@@ -55,14 +55,15 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
                 onChange={() => changeTaskStatusHandler(id)}
               />
 
-              <svg width="100%" height={30}>
-                <line x1="0.6rem" y1="0" x2="0.6rem" y2="100" stroke="orange" fill="transparent" strokeWidth="2" />
-              </svg>
+              {/* <svg width="100%" height={42}>
+                <polyline points="8,0 8,20 16,20" fill="none" stroke="#fff" />
+                <polyline points="8,0 8,40 16,40" fill="none" stroke="#fff" />
+              </svg> */}
             </div>
             <div className="list-item__task-content">
               <span>{taskText}</span>
 
-              <ul className="list-item__subtasks">
+              {/* <ul className="list-item__subtasks">
                 <li className="list-item__task">
                   <div className="list-item__checkbox">
                     <InputCheckbox
@@ -85,7 +86,7 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
                     <span>{taskText}</span>
                   </div>
                 </li>
-              </ul>
+              </ul> */}
 
             </div>
           </div>

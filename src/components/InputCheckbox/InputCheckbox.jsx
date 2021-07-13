@@ -11,7 +11,7 @@ const InputCheckbox = ({ defaultChecked, disabled, onChange: action }) => {
         className="check__input"
         disabled={!!disabled}
       />
-      <span className="check__box"></span>
+      <span className="check__box" />
     </div>
   );
 }

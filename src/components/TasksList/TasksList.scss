@@ -2,12 +2,11 @@
 
 .tasks-list {
   width: 100%;
-
   .list-item {
     position: relative;
 
     max-width: 100%;
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid $dark-white2;
     padding: 0.5rem;
     height: 3.3rem;
     overflow: hidden;
@@ -16,13 +15,9 @@
     flex-direction: column;
     justify-content: space-between;
 
-    box-shadow: inset 0px -10px 6px -6px $dark-blue2;
+    box-shadow: inset 0px -10px 6px -6px $dark2;
 
     transition: height 0.2s ease;
-
-    &__primary-area {
-    }
-
     &__paper {
       width: 100%;
       height: auto;
@@ -66,7 +61,6 @@
         opacity: 0;
       }
     }
-
     &__primary-area {
       span {
         word-wrap: break-word;
