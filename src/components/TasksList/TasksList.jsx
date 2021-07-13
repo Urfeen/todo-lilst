@@ -54,7 +54,7 @@ const TasksList = () => {
 
   return (
     <>
-      <PopUp addTaskHandler={addTaskHandler} />
+      {/* <PopUp addTaskHandler={addTaskHandler} /> */}
 
       {tasks.length === 0 ? (
         <span>no one task</span>

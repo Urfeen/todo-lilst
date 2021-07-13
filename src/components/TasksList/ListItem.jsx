@@ -36,69 +36,69 @@ const ListItem = ({ id, done, taskText, changeTaskStatusHandler, deleteTaskHandl
   }
 
   return (
-    <a href="#">
-      <li
-        className='tasks-list__item list-item'
-        onMouseEnter={onMouseEnterHandler}
-        onMouseLeave={onMouseLeaveHandler}
-        style={{
-          height: isExpanded ? liPrimaryAreaRef.current.offsetHeight + liMoreRef.current.offsetHeight + 20 + 'px' : ''
-        }}
-      >
+    // <a href={'task-' + (index + 1)}>
+    <li
+      className='tasks-list__item list-item'
+      onMouseEnter={onMouseEnterHandler}
+      onMouseLeave={onMouseLeaveHandler}
+      style={{
+        height: isExpanded ? liPrimaryAreaRef.current.offsetHeight + liMoreRef.current.offsetHeight + 20 + 'px' : ''
+      }}
+    >
 
-        <div ref={liPrimaryAreaRef} className="list-item__primary-area">
-          <div className="list-item__paper">
-            <div className={classNames('list-item__task', { 'list-item__task_done': done })}>
-              <div className="list-item__checkbox">
-                <InputCheckbox
-                  defaultChecked={done}
-                  onChange={() => changeTaskStatusHandler(id)}
-                />
+      <div ref={liPrimaryAreaRef} className="list-item__primary-area">
+        <div className="list-item__paper">
+          <div className={classNames('list-item__task', { 'list-item__task_done': done })}>
+            <div className="list-item__checkbox">
+              <InputCheckbox
+                defaultChecked={done}
+                onChange={() => changeTaskStatusHandler(id)}
+              />
 
-                <svg width="100%" height={30}>
-                  <line x1="0.6rem" y1="0" x2="0.6rem" y2="100" stroke="orange" fill="transparent" strokeWidth="2" />
-                </svg>
-              </div>
-              <div className="list-item__task-content">
-                <span>{taskText}</span>
+              <svg width="100%" height={30}>
+                <line x1="0.6rem" y1="0" x2="0.6rem" y2="100" stroke="orange" fill="transparent" strokeWidth="2" />
+              </svg>
+            </div>
+            <div className="list-item__task-content">
+              <span>{taskText}</span>
 
-                <ul className="list-item__subtasks">
-                  <li className="list-item__task">
-                    <div className="list-item__checkbox">
-                      <InputCheckbox
-                        defaultChecked={done}
-                        onChange={() => changeTaskStatusHandler(id)}
-                      />
-                    </div>
-                    <div className="list-item__task-content">
-                      <span>{taskText}</span>
-                    </div>
-                  </li>
-                  <li className="list-item__task">
-                    <div className="list-item__checkbox">
-                      <InputCheckbox
-                        defaultChecked={done}
-                        onChange={() => changeTaskStatusHandler(id)}
-                      />
-                    </div>
-                    <div className="list-item__task-content">
-                      <span>{taskText}</span>
-                    </div>
-                  </li>
-                </ul>
+              <ul className="list-item__subtasks">
+                <li className="list-item__task">
+                  <div className="list-item__checkbox">
+                    <InputCheckbox
+                      defaultChecked={done}
+                      onChange={() => changeTaskStatusHandler(id)}
+                    />
+                  </div>
+                  <div className="list-item__task-content">
+                    <span>{taskText}</span>
+                  </div>
+                </li>
+                <li className="list-item__task">
+                  <div className="list-item__checkbox">
+                    <InputCheckbox
+                      defaultChecked={done}
+                      onChange={() => changeTaskStatusHandler(id)}
+                    />
+                  </div>
+                  <div className="list-item__task-content">
+                    <span>{taskText}</span>
+                  </div>
+                </li>
+              </ul>
 
-              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div ref={liMoreRef} className={moreClasses}>
-          <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
-          <span>Start - {moment(creationDate).format('DD.MM.YY')}</span>
-        </div>
+      <div ref={liMoreRef} className={moreClasses}>
+        <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
+        <span>Start - {moment(creationDate).format('DD.MM.YY')}</span>
+      </div>
 
-      </li >
-    </a>
+    </li >
+    // </a>
   );
 }
 

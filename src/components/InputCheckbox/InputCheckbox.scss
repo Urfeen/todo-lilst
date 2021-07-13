@@ -15,26 +15,34 @@
   }
   &__box {
     position: absolute;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: tomato; // off
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 0.1rem solid #395ac0;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0.2rem;
     margin: 0px 0px 0px -1.2rem;
+
+    box-shadow: 0 0 0rem 0rem #5c86ff;
+    transition: box-shadow 0.1s ease, background-color 0.1s ease, border 0.1s ease;
   }
 
   &__input:checked + &__box {
-    background-color: green; // on
+    background-color: #395ac0;
   }
   &__input:focus + &__box {
-    background-color: black; // off-focused
+    box-shadow: 0 0 0.1rem 0.05rem #5c86ff;
+    border: 0.1rem solid #5c86ff;
   }
   &__input:checked:focus + &__box {
-    background-color: yellow; // on-focused
+    background-color: #5c86ff;
+    border: 0.1rem solid #5c86ff;
+    box-shadow: 0 0 0.1rem 0.05rem #5c86ff;
   }
-
   &__input:disabled + &__box {
-    background-color: green; // off-disabled
+    border: 0.1rem solid #2f3955;
   }
   &__input:checked:disabled + &__box {
-    background-color: yellow; // on-disabled
+    background-color: #2f3955;
+    border: 0.1rem solid #2f3955;
   }
 }
