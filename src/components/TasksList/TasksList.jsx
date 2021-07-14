@@ -1,5 +1,6 @@
 import "./TasksList.scss";
 import ListItem from "./ListItem.jsx";
+import { memo } from "react";
 
 const TasksList = ({ tasks, changeTaskStatusHandler, deleteTaskHandler }) => {
   return (
@@ -26,4 +27,4 @@ const TasksList = ({ tasks, changeTaskStatusHandler, deleteTaskHandler }) => {
   );
 }
 
-export default TasksList;
+export default memo(TasksList);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./AddButton.scss";
 
 const AddButton = ({ onClick: action }) => {
@@ -9,4 +10,4 @@ const AddButton = ({ onClick: action }) => {
   );
 }
 
-export default AddButton;
+export default memo(AddButton);

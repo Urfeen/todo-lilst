@@ -2,11 +2,17 @@ import TasksList from "./TasksList/TasksList.jsx";
 import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import InputText from "./InputText/InputText.jsx";
+import AddButton from "../components/AddButton/AddButton.jsx";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModalHandler = () => {
+    setIsModalOpen(!isModalOpen);
+  }
 
   const addTaskHandler = taskText => {
     const newTask = {
@@ -22,7 +28,6 @@ const TodoList = () => {
       return arrCopy;
     });
   }
-
   const changeTaskStatusHandler = taskId => {
     setTasks(prevState => {
       const updatedList = prevState.map(task => {
@@ -58,9 +63,17 @@ const TodoList = () => {
     <div className="todo-list">
       <header>
         <h1>Todo list</h1>
-        <Modal>
-          <InputText addTaskHandler={addTaskHandler} />
-        </Modal>
+        <div className="todo-list__add-todo">
+          <AddButton onClick={toggleModalHandler} />
+        </div>
+        {isModalOpen && (
+          <Modal
+            isOpen={isModalOpen}
+            onClose={toggleModalHandler}
+          >
+            <InputText addTaskHandler={addTaskHandler} />
+          </Modal>
+        )}
       </header>
       <TasksList
         tasks={tasks}
@@ -71,4 +84,4 @@ const TodoList = () => {
   );
 }
 
-export default TodoList;
+export default memo(TodoList);

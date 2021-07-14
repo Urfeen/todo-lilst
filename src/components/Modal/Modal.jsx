@@ -1,31 +1,23 @@
-import { useState } from "react";
+import { memo, useEffect } from "react";
 import "./Modal.scss";
-import AddButton from "../AddButton/AddButton.jsx";
+import { createPortal } from "react-dom";
 
-const Modal = ({ children }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const Modal = ({ children, onClose: close }) => {
+  const modalRoot = document.createElement('div');
 
-  const toggleModalHandler = () => {
-    setIsModalOpen(!isModalOpen);
-  }
+  useEffect(() => {
+    document.body.appendChild(modalRoot);
+    return () => {
+      document.body.removeChild(modalRoot);
+    }
+  }, [modalRoot]);
 
   return (
-    <div>
-      <AddButton onClick={toggleModalHandler} />
-      {isModalOpen && (
-        // <Modal
-        //   id="modal"
-        //   isOpen={isModalOpen}
-        //   onClose={toggleModalHandler}
-        //   class="my-class"
-        // >
-        //   <div className="box-body">I am the content of the modal</div>
-        // </Modal>
-
-        <div>{children}</div>
-      )}
-    </div>
+    createPortal(
+      <div>{children}</div>,
+      modalRoot
+    )
   )
 }
 
-export default Modal;
+export default memo(Modal);
