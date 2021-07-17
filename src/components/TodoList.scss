@@ -7,8 +7,25 @@
   flex: 1 0 auto;
   max-width: 600px;
   border: 1px solid $blue;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem;
+  header {
+    border-bottom: 1px solid $blue;
+    width: 100%;
+    text-align: center;
+    margin: 0px 0px 0.7rem 0px;
+    position: relative;
+  }
+  &__add-todo {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 2rem;
+    height: 2rem;
+  }
   h1 {
     font-size: 1.5rem;
+    line-height: 2rem;
+    margin: 0px 0px 10px 0px;
   }
 }
