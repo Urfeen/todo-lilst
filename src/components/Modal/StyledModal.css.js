@@ -1,4 +1,6 @@
-#modal-root {
+import styled from 'styled-components';
+
+const StyledModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -15,15 +17,6 @@
     max-width: 400px;
 
     border: 1px solid white;
-
-    &.fade-in {
-      opacity: 1;
-      transition: opacity linear 0.5s; // super slow to see fade works
-    }
-    &.fade-out {
-      opacity: 0;
-      transition: opacity linear 0.5s; // super slow to see fade works
-    }
   }
   .modal-background {
     position: absolute;
@@ -34,4 +27,6 @@
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 2;
   }
-}
+`
+
+export default StyledModal;

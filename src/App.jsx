@@ -24,5 +24,7 @@ const App = () => {
 // change task done handler
 // draw check 
 // li focus 
+// onTransitionEnd instead numbers
+// rewrite on styled component
 
 export default App;
