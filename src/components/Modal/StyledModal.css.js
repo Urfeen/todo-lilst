@@ -89,7 +89,7 @@ const StyledModal = styled.div`
     };
   }};
   transition: opacity linear 0.2s;
-  }
+}
 `
 
 export default StyledModal;

@@ -3,7 +3,7 @@ import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
 import { nanoid } from "nanoid";
 import { memo, useEffect, useState } from "react";
-import InputText from "./InputText/InputText.jsx";
+import TextareaWithSubtasks from "./TextareaWithSubtasks/TextareaWithSubtasks.jsx";
 import AddButton from "../components/AddButton/AddButton.jsx";
 
 const TodoList = () => {
@@ -64,7 +64,7 @@ const TodoList = () => {
       <header>
         <h1>Todo list</h1>
         <AddButton
-          className="todo-list__add-todo"
+          className="todo-list__add-todo-btn"
           size="2rem"
           onClick={toggleModalHandler}
         />
@@ -74,7 +74,7 @@ const TodoList = () => {
             zIndexBox={2}
             onClose={toggleModalHandler}
           >
-            <InputText addTaskHandler={addTaskHandler} />
+            <TextareaWithSubtasks addTaskHandler={addTaskHandler} />
           </Modal>
         )}
       </header>
