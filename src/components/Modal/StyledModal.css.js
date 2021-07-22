@@ -34,6 +34,12 @@ const StyledModal = styled.div`
       align-items: center;
       justify-content: space-between;
     }
+    &__content {
+      padding: 10px 0;
+    }
+    &__footer {
+
+    }
     &__title {
       font-size: 1.2rem;
     }
@@ -63,9 +69,6 @@ const StyledModal = styled.div`
       &:hover {
         transform: scale(1.1);
       }
-    }
-    &__content {
-      padding: 10px 0;
     }
   }
   .modal-background {

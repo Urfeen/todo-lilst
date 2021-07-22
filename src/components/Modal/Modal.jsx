@@ -4,9 +4,19 @@ import StyledModal from "./StyledModal.css.js";
 
 const modalRoot = document.createElement("div");
 modalRoot.id = "modal-root";
-document.body.appendChild(modalRoot);
 
-const Modal = ({ id, className, zIndexBox, children, onClose: close }) => {
+if (!document.querySelector("#modal-root")) {
+  document.body.appendChild(modalRoot);
+}
+
+const Modal = ({
+  title,
+  id,
+  className,
+  zIndexBox,
+  children,
+  onClose: close,
+}) => {
   const [fadeType, setFadeType] = useState(null);
 
   const transitionEndHandler = (e) => {
@@ -45,11 +55,11 @@ const Modal = ({ id, className, zIndexBox, children, onClose: close }) => {
     >
       <div className="modal-box">
         <div className="modal-box__header">
-          <h4 className="modal-box__title">Title Of Modal</h4>
+          <h4 className="modal-box__title">{title && title}</h4>
           <button onClick={closeHandler} className="modal-box__close"></button>
         </div>
         <div className="modal-box__content">{children}</div>
-        <div className="modal-box__footer">footer</div>
+        <div className="modal-box__footer"></div>
       </div>
       <div
         className="modal-background"
@@ -57,7 +67,7 @@ const Modal = ({ id, className, zIndexBox, children, onClose: close }) => {
         onMouseDown={closeHandler}
       />
     </StyledModal>,
-    modalRoot
+    document.querySelector("#modal-root")
   );
 };
 

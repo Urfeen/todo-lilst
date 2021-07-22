@@ -69,7 +69,11 @@ const TodoList = () => {
           onClick={toggleModalHandler}
         />
         {isModalOpen && (
-          <Modal zIndexBox={2} onClose={toggleModalHandler}>
+          <Modal
+            title="Create new task"
+            zIndexBox={2}
+            onClose={toggleModalHandler}
+          >
             <InputText addTaskHandler={addTaskHandler} />
           </Modal>
         )}
