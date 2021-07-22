@@ -47,7 +47,7 @@ const Modal = ({
 
   return createPortal(
     <StyledModal
-      id={id ? id : ""}
+      id={id ? id : "modal"}
       className={className ? className : ""}
       role="dialog"
       zIndexBox={typeof zIndexBox === "number" && zIndexBox > 0 ? zIndexBox : 2}

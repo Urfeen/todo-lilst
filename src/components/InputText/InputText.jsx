@@ -1,9 +1,9 @@
-import './InputText.scss';
+import { useRef } from "react";
 
 const InputText = () => {
-  return (
-    <input type="text" />
-  );
-}
+  const textArea = useRef();
+
+  return <textarea ref={textArea} />;
+};
 
 export default InputText;

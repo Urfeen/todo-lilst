@@ -6,9 +6,7 @@ const StyledModal = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0 1rem;
 
   .modal-box {
     z-index: ${({ zIndexBox }) => zIndexBox};
@@ -16,15 +14,17 @@ const StyledModal = styled.div`
     width: 100%;
     border: 1px solid #fff;
     padding: 0.5rem;
-    margin: 0 1rem;
 
     position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
     ${({ fadeType }) => {
     switch (fadeType) {
       case "in":
-        return "top: -15vh; opacity: 1;";
+        return "top: 27vh; opacity: 1;";
       default:
-        return "top: -17vh; opacity: 0;";
+        return "top: 25vh; opacity: 0;";
     }
   }};
     transition: top linear 0.1s, opacity linear 0.1s;
