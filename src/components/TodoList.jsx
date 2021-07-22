@@ -69,16 +69,22 @@ const TodoList = () => {
           onClick={toggleModalHandler}
         />
         {isModalOpen && (
-          <Modal isOpen={isModalOpen} onClose={toggleModalHandler}>
+          <Modal zIndexBox={2} onClose={toggleModalHandler}>
             <InputText addTaskHandler={addTaskHandler} />
           </Modal>
         )}
       </header>
-      <TasksList
-        tasks={tasks}
-        changeTaskStatusHandler={changeTaskStatusHandler}
-        deleteTaskHandler={deleteTaskHandler}
-      />
+      <div className="todo-list__todos">
+        {tasks.length !== 0 ? (
+          <TasksList
+            tasks={tasks}
+            changeTaskStatusHandler={changeTaskStatusHandler}
+            deleteTaskHandler={deleteTaskHandler}
+          />
+        ) : (
+          <span>no one task</span>
+        )}
+      </div>
     </div>
   );
 };

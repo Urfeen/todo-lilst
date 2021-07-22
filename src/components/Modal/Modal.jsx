@@ -1,77 +1,60 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import StyledModal from "./StyledModal.css.js";
 
-const Modal = ({ zIndexBox, children, onClose: close }) => {
-  const modalRoot = document.createElement("div");
-  modalRoot.id = "modal-root";
+const modalRoot = document.createElement("div");
+modalRoot.id = "modal-root";
+document.body.appendChild(modalRoot);
 
-  // const transitionEndHandler = e => {
-  //   if (e.propertyName !== "opacity" || this.state.fadeType === "in") return;
-  //   if (this.state.fadeType === "out") {
-  //     this.props.onClose();
-  //   }
-  // };
+const Modal = ({ id, className, zIndexBox, children, onClose: close }) => {
+  const [fadeType, setFadeType] = useState(null);
 
-  // { fadeType: null };
-  // background = React.createRef();
-  // componentDidMount() {
-  //     window.addEventListener("keydown", this.onEscKeyDown, false);
-  //     setTimeout(() => this.setState({ fadeType: "in" }), 0);
-  //   }
-  // componentDidUpdate(prevProps, prevState) {
-  //     if (!this.props.isOpen && prevProps.isOpen) {
-  //       this.setState({ fadeType: "out" });
-  //     }
-  //   }
-  // componentWillUnmount() {
-  //     window.removeEventListener("keydown", this.onEscKeyDown, false);
-  //   }
-  // transitionEnd = e => {
-  //     if (e.propertyName !== "opacity" || this.state.fadeType === "in") return;
-  // if (this.state.fadeType === "out") {
-  //       this.props.onClose();
-  //     }
-  //   };
-  // onEscKeyDown = e => {
-  //     if (e.key !== "Escape") return;
-  //     this.setState({ fadeType: "out" });
-  //   };
-  // handleClick = e => {
-  //     e.preventDefault();
-  //     this.setState({ fadeType: "out" });
-  //   };
+  const transitionEndHandler = (e) => {
+    if (e.propertyName !== "opacity" || fadeType === "in") return;
+    if (fadeType === "out") close();
+  };
+
+  const closeHandler = (e) => {
+    e.preventDefault();
+    setFadeType("out");
+  };
+
+  const onEscKeyDownHandler = (e) => {
+    if (e.key !== "Escape") return;
+    setFadeType("out");
+  };
+
   useEffect(() => {
-    document.body.appendChild(modalRoot);
+    setTimeout(setFadeType("in"), 0);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("keydown", onEscKeyDownHandler);
     return () => {
-      document.body.removeChild(modalRoot);
+      window.removeEventListener("keydown", onEscKeyDownHandler);
     };
-  }, [modalRoot]);
+  }, []);
 
   return createPortal(
     <StyledModal
-      // id={this.props.id}
-      // className={`wrapper ${this.props.class}`}
+      id={id ? id : ""}
+      className={className ? className : ""}
       role="dialog"
-      zIndexBox={parseInt(zIndexBox) ? zIndexBox : 2}
-      // onTransitionEnd={this.transitionEnd}
-      // fadeType={this.state.fadeType}
+      zIndexBox={typeof zIndexBox === "number" && zIndexBox > 0 ? zIndexBox : 2}
+      fadeType={fadeType}
     >
       <div className="modal-box">
         <div className="modal-box__header">
           <h4 className="modal-box__title">Title Of Modal</h4>
-          <button
-            onClick={typeof close === "function" ? close : ""}
-            className="modal-box__close"
-          ></button>
+          <button onClick={closeHandler} className="modal-box__close"></button>
         </div>
         <div className="modal-box__content">{children}</div>
         <div className="modal-box__footer">footer</div>
       </div>
       <div
         className="modal-background"
-        onMouseDown={typeof close === "function" ? close : ""}
-        // ref={this.background}
+        onTransitionEnd={transitionEndHandler}
+        onMouseDown={closeHandler}
       />
     </StyledModal>,
     modalRoot

@@ -32,8 +32,9 @@ const StyledAddButton = styled.button`
 const AddButton = ({ className, size, onClick: action }) => {
   return (
     <StyledAddButton
+      type="button"
       className={className ? className : ""}
-      size={size ? size : "1.6rem"}
+      size={size ? size : "2rem"}
       onClick={typeof action === "function" ? action : ""}
     />
   );
