@@ -2,7 +2,7 @@ import { memo, useEffect } from "react";
 import { createPortal } from "react-dom";
 import StyledModal from "./StyledModal.css.js";
 
-const Modal = ({ children, onClose: close }) => {
+const Modal = ({ zIndexBox, children, onClose: close }) => {
   const modalRoot = document.createElement("div");
   modalRoot.id = "modal-root";
 
@@ -53,6 +53,7 @@ const Modal = ({ children, onClose: close }) => {
       // id={this.props.id}
       // className={`wrapper ${this.props.class}`}
       role="dialog"
+      zIndexBox={parseInt(zIndexBox) ? zIndexBox : 2}
       // onTransitionEnd={this.transitionEnd}
       // fadeType={this.state.fadeType}
     >
@@ -61,7 +62,7 @@ const Modal = ({ children, onClose: close }) => {
           <h4 className="modal-box__title">Title Of Modal</h4>
           <button
             onClick={typeof close === "function" ? close : ""}
-            className="modal-box__close btn_cross"
+            className="modal-box__close"
           ></button>
         </div>
         <div className="modal-box__content">{children}</div>

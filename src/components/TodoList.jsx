@@ -63,9 +63,11 @@ const TodoList = () => {
     <div className="todo-list">
       <header>
         <h1>Todo list</h1>
-        <div className="todo-list__add-todo">
-          <AddButton onClick={toggleModalHandler} />
-        </div>
+        <AddButton
+          className="todo-list__add-todo"
+          size="2rem"
+          onClick={toggleModalHandler}
+        />
         {isModalOpen && (
           <Modal isOpen={isModalOpen} onClose={toggleModalHandler}>
             <InputText addTaskHandler={addTaskHandler} />

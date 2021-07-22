@@ -8,6 +8,7 @@
   max-width: 600px;
   border: 1px solid $blue;
   padding: 0.8rem;
+
   header {
     border-bottom: 1px solid $blue;
     width: 100%;
@@ -16,12 +17,9 @@
     position: relative;
   }
   &__add-todo {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     right: 0;
-
-    width: 2rem;
-    height: 2rem;
   }
   h1 {
     font-size: 1.5rem;
