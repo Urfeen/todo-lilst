@@ -1,4 +1,3 @@
-import { memo } from "react";
 import styled from "styled-components";
 
 const StyledAddButton = styled.button`
@@ -40,4 +39,4 @@ const AddButton = ({ className, size, onClick: action }) => {
   );
 };
 
-export default memo(AddButton);
+export default AddButton;

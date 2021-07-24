@@ -3,7 +3,7 @@ import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
 import { nanoid } from "nanoid";
 import { memo, useEffect, useState } from "react";
-import TextareaWithSubtasks from "./TextareaWithSubtasks/TextareaWithSubtasks.jsx";
+import TaskWithSubtasks from "./TaskWithSubtasks/TaskWithSubtasks.jsx";
 import AddButton from "../components/AddButton/AddButton.jsx";
 
 const TodoList = () => {
@@ -74,7 +74,7 @@ const TodoList = () => {
             zIndexBox={2}
             onClose={toggleModalHandler}
           >
-            <TextareaWithSubtasks addTaskHandler={addTaskHandler} />
+            <TaskWithSubtasks addTaskHandler={addTaskHandler} />
           </Modal>
         )}
       </header>

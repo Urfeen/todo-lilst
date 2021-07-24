@@ -1,35 +1,33 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import "./DeleteButton.scss";
 import classNames from "classnames";
 
 const DeleteButton = ({ text, onClick: action }) => {
   const [del, setDel] = useState(false);
 
-  const onClickHandler = event => {
+  const onClickHandler = (event) => {
     if (!del) {
       setDel(true);
       setTimeout(() => {
         setDel(false);
-        if (typeof action === 'function') {
-          action()
+        if (typeof action === "function") {
+          action();
         }
       }, 3200);
     }
-  }
+  };
 
   return (
     <button
       onClick={onClickHandler}
       type="button"
-      className={classNames("btn_trash-bin", { 'delete': del })}
+      className={classNames("btn_trash-bin", { delete: del })}
     >
       <div
-        style={
-          {
-            marginRight: text ? '0.4rem' : 0,
-            left: text ? '-2px' : 0
-          }
-        }
+        style={{
+          marginRight: text ? "0.4rem" : 0,
+          left: text ? "-2px" : 0,
+        }}
         className="trash"
       >
         <div className="top">
@@ -44,8 +42,8 @@ const DeleteButton = ({ text, onClick: action }) => {
         </div>
       </div>
       <span>{text && text}</span>
-    </button >
+    </button>
   );
-}
+};
 
-export default memo(DeleteButton);
+export default DeleteButton;
