@@ -10,7 +10,7 @@ const TodoList = () => {
   const [textareaData, setTextareaData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(textareaData);
+  // console.log(textareaData);
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);

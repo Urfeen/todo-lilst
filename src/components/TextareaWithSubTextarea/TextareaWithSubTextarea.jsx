@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import styled from "styled-components";
 
@@ -13,11 +13,12 @@ const StyledTextareaWithSubTextarea = styled.div`
     background-color: rgba(0, 0, 0, 0);
     border: 1px #999 solid;
     color: #fff;
+    border-radius: 3px;
   }
   .sub-textareas {
     display: flex;
     &__lines {
-      width: 24px;
+      width: 30px;
     }
     &__list {
       flex: 1 1 auto;
@@ -67,8 +68,24 @@ const TextareaWithSubTextarea = ({
   };
 
   const getPoints = (index, commonAmountOfLines) => {
-    const WIDTH_OF_LINES_BOX = 24;
-    return "12,1 12,50 22,50";
+    const WIDTH_OF_LINES_BOX = 30;
+    const HEIGHT_OF_INPUT_AREA = 28;
+    const MARGIN_TOP = 7;
+
+    const DISTANCE_FROM_STARTx =
+      WIDTH_OF_LINES_BOX -
+      Math.floor(WIDTH_OF_LINES_BOX / (commonAmountOfLines + 1)) * (index + 1);
+
+    const DISTANCE_FROM_STARTy =
+      HEIGHT_OF_INPUT_AREA * (index + 1) +
+      MARGIN_TOP * (index + 1) -
+      HEIGHT_OF_INPUT_AREA / 2;
+
+    return `${DISTANCE_FROM_STARTx},
+    1 ${DISTANCE_FROM_STARTx},
+    ${DISTANCE_FROM_STARTy},
+    ${WIDTH_OF_LINES_BOX - 2},
+    ${DISTANCE_FROM_STARTy}`;
   };
 
   useEffect(() => {
