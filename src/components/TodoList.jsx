@@ -1,22 +1,26 @@
 import TasksList from "./TasksList/TasksList.jsx";
 import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
-import { nanoid } from "nanoid";
 import { memo, useEffect, useState } from "react";
-import TextareaWithSubTextarea from "./TextareaWithSubtextarea/TextareaWiThSuTtextarea.jsx";
+import TextareaWithSubTextarea from "./TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
 import AddButton from "../components/AddButton/AddButton.jsx";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
+  const [textareaData, setTextareaData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log(textareaData);
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const addTaskHandler = (task) => {
+  const addTaskHandler = ({ text }) => {
+    // w: { text: "", id: nanoid(), subtasks: [] }
+
     const newTask = {
-      ...task,
+      ...tasks,
       creationDate: Date.now(),
     };
 
@@ -72,7 +76,10 @@ const TodoList = () => {
             zIndexBox={2}
             onClose={toggleModalHandler}
           >
-            <TextareaWithSubtextarea aTdTaskHandler={addTaskHandler} />
+            <TextareaWithSubTextarea
+              placeholder='Press "Enter" to create a subtask'
+              onChangeGetData={setTextareaData}
+            />
           </Modal>
         )}
       </header>

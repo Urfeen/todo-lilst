@@ -33,12 +33,13 @@ const StyledModal = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0px 0px 0.5rem 0px;
+      margin: 0px 0px 0.8rem 0px;
+      border-bottom: 1px solid #fff;
     }
     &__content {
-      padding: 10px 0;
     }
     &__footer {
-
     }
     &__title {
       font-size: 1.2rem;
