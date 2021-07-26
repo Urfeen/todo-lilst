@@ -6,14 +6,18 @@ import styled from "styled-components";
 const StyledTextareaWithSubTextarea = styled.div`
   textarea {
     width: 100%;
-    color: #000;
     resize: none;
     padding: 4px;
     font-size: 14px;
     background-color: rgba(0, 0, 0, 0);
-    border: 1px #999 solid;
-    color: #fff;
+    border: 1px #ccc solid;
+    color: #ccc;
+    transition: border 0.2s ease, color 0.2s ease;
     border-radius: 3px;
+  }
+  textarea:focus {
+    border: 1px #fff solid;
+    color: #fff;
   }
   .sub-textareas {
     display: flex;
@@ -36,8 +40,9 @@ const TextareaWithSubTextarea = ({
 }) => {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
+  const [focusLineIndex, setFocusLineIndex] = useState(null);
 
-  const MARGIN_TOP = 7;
+  const _MARGIN_TOP = 7;
 
   const textareaOnChangeHandler = (event) => {
     event.preventDefault();
@@ -54,7 +59,7 @@ const TextareaWithSubTextarea = ({
   const subTextareaOnChangeHandler = (event, subTextareaIndex) => {
     event.preventDefault();
     const inputType = event.nativeEvent.inputType;
-    const { value, offsetHeight } = event.target;
+    const value = event.target.value;
 
     if (inputType === "insertLineBreak") {
       addSubTextarea();
@@ -66,12 +71,6 @@ const TextareaWithSubTextarea = ({
       prevValueCopy.subTextareas[subTextareaIndex].subTextareaText = value;
       return prevValueCopy;
     });
-
-    if (offsetHeight + 2 !== heightOfEachSubtask[subTextareaIndex]) {
-      const heightOfEachSubtaskCopy = heightOfEachSubtask.slice();
-      heightOfEachSubtaskCopy[subTextareaIndex] = offsetHeight + 2;
-      setHeightOfEachSubtask(heightOfEachSubtaskCopy);
-    }
   };
 
   const addSubTextarea = () => {
@@ -104,7 +103,7 @@ const TextareaWithSubTextarea = ({
       heightOfEachSubtask
         .slice(0, index + 1)
         .reduce((prev, curr) => prev + curr) +
-      MARGIN_TOP * (index + 1) -
+      _MARGIN_TOP * (index + 1) -
       Math.floor(heightOfEachSubtask[index] / 2);
 
     return `${DISTANCE_FROM_STARTx},
@@ -115,6 +114,10 @@ const TextareaWithSubTextarea = ({
   };
 
   useEffect(() => {
+    const newHeightOfEachSubtask = data.subTextareas.map((subTextarea) => {
+      return subTextarea.tag.offsetHeight + 2;
+    });
+    setHeightOfEachSubtask(newHeightOfEachSubtask);
     onChangeReturnData(data);
   }, [onChangeReturnData, data]);
 
@@ -123,7 +126,9 @@ const TextareaWithSubTextarea = ({
       <TextareaAutosize
         value={data.textareaText}
         onChange={textareaOnChangeHandler}
+        onFocus={() => setFocusLineIndex(null)}
         placeholder={placeholder ? placeholder : ""}
+        ref={(tag) => (data.tag = tag)}
         autoFocus
       />
       {data.subTextareas.length !== 0 && (
@@ -133,7 +138,7 @@ const TextareaWithSubTextarea = ({
               width="100%"
               height={
                 heightOfEachSubtask.reduce((prev, curr) => prev + curr) +
-                data.subTextareas.length * MARGIN_TOP
+                data.subTextareas.length * _MARGIN_TOP
               }
             >
               {data.subTextareas.map((subTextarea, index) => {
@@ -142,7 +147,7 @@ const TextareaWithSubTextarea = ({
                     key={subTextarea.id}
                     points={getPoints(index, data.subTextareas.length)}
                     fill="none"
-                    stroke="#fff"
+                    stroke={focusLineIndex === index ? "#fff" : "#999"}
                   />
                 );
               })}
@@ -156,7 +161,9 @@ const TextareaWithSubTextarea = ({
                     onChange={(event) =>
                       subTextareaOnChangeHandler(event, index)
                     }
+                    onFocus={() => setFocusLineIndex(index)}
                     value={data.subTextareas[index].subTextareaText}
+                    ref={(tag) => (data.subTextareas[index].tag = tag)}
                     autoFocus
                   />
                 </li>
