@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import StyledModal from "./StyledModal.css.js";
 
@@ -71,4 +71,4 @@ const Modal = ({
   );
 };
 
-export default Modal;
+export default memo(Modal);

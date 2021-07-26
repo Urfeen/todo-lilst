@@ -35,8 +35,11 @@ const TextareaWithSubTextarea = ({
   placeholder,
 }) => {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
+  const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
 
-  const onChangeHandler = (event) => {
+  const MARGIN_TOP = 7;
+
+  const textareaOnChangeHandler = (event) => {
     event.preventDefault();
     const inputType = event.nativeEvent.inputType;
     const value = event.target.value;
@@ -48,6 +51,28 @@ const TextareaWithSubTextarea = ({
 
     setData({ ...data, textareaText: value });
   };
+  const subTextareaOnChangeHandler = (event, subTextareaIndex) => {
+    event.preventDefault();
+    const inputType = event.nativeEvent.inputType;
+    const { value, offsetHeight } = event.target;
+
+    if (inputType === "insertLineBreak") {
+      addSubTextarea();
+      return;
+    }
+
+    setData((prevValue) => {
+      const prevValueCopy = Object.assign({}, prevValue);
+      prevValueCopy.subTextareas[subTextareaIndex].subTextareaText = value;
+      return prevValueCopy;
+    });
+
+    if (offsetHeight + 2 !== heightOfEachSubtask[subTextareaIndex]) {
+      const heightOfEachSubtaskCopy = heightOfEachSubtask.slice();
+      heightOfEachSubtaskCopy[subTextareaIndex] = offsetHeight + 2;
+      setHeightOfEachSubtask(heightOfEachSubtaskCopy);
+    }
+  };
 
   const addSubTextarea = () => {
     const newSubTextareas = data.subTextareas.slice().concat({
@@ -55,31 +80,32 @@ const TextareaWithSubTextarea = ({
       id: nanoid(),
     });
 
-    if (data.textareaText.trim() === "") {
-      setData({
-        ...data,
-        textareaText: "ListList of subtasks",
-        subTextareas: newSubTextareas,
-      });
-      return;
-    }
+    const HEIGHT_OF_INPUT_AREA = 28;
+    setHeightOfEachSubtask([...heightOfEachSubtask, HEIGHT_OF_INPUT_AREA]);
 
-    setData({ ...data, subTextareas: newSubTextareas });
+    setData({
+      ...data,
+      subTextareas: newSubTextareas,
+      textareaText:
+        data.textareaText.trim() === ""
+          ? "List of subtasks"
+          : data.textareaText,
+    });
   };
 
   const getPoints = (index, commonAmountOfLines) => {
     const WIDTH_OF_LINES_BOX = 30;
-    const HEIGHT_OF_INPUT_AREA = 28;
-    const MARGIN_TOP = 7;
 
     const DISTANCE_FROM_STARTx =
       WIDTH_OF_LINES_BOX -
       Math.floor(WIDTH_OF_LINES_BOX / (commonAmountOfLines + 1)) * (index + 1);
 
     const DISTANCE_FROM_STARTy =
-      HEIGHT_OF_INPUT_AREA * (index + 1) +
+      heightOfEachSubtask
+        .slice(0, index + 1)
+        .reduce((prev, curr) => prev + curr) +
       MARGIN_TOP * (index + 1) -
-      HEIGHT_OF_INPUT_AREA / 2;
+      Math.floor(heightOfEachSubtask[index] / 2);
 
     return `${DISTANCE_FROM_STARTx},
     1 ${DISTANCE_FROM_STARTx},
@@ -90,20 +116,26 @@ const TextareaWithSubTextarea = ({
 
   useEffect(() => {
     onChangeReturnData(data);
-  }, [data, onChangeReturnData]);
+  }, [onChangeReturnData, data]);
 
   return (
     <StyledTextareaWithSubTextarea className={className ? className : ""}>
       <TextareaAutosize
         value={data.textareaText}
-        onChange={onChangeHandler}
+        onChange={textareaOnChangeHandler}
         placeholder={placeholder ? placeholder : ""}
         autoFocus
       />
       {data.subTextareas.length !== 0 && (
         <div className="sub-textareas">
           <div className="sub-textareas__lines">
-            <svg width="100%">
+            <svg
+              width="100%"
+              height={
+                heightOfEachSubtask.reduce((prev, curr) => prev + curr) +
+                data.subTextareas.length * MARGIN_TOP
+              }
+            >
               {data.subTextareas.map((subTextarea, index) => {
                 return (
                   <polyline
@@ -117,10 +149,16 @@ const TextareaWithSubTextarea = ({
             </svg>
           </div>
           <ul className="sub-textareas__list">
-            {data.subTextareas.map((subTextarea) => {
+            {data.subTextareas.map((subTextarea, index) => {
               return (
                 <li key={subTextarea.id}>
-                  <TextareaAutosize autoFocus />
+                  <TextareaAutosize
+                    onChange={(event) =>
+                      subTextareaOnChangeHandler(event, index)
+                    }
+                    value={data.subTextareas[index].subTextareaText}
+                    autoFocus
+                  />
                 </li>
               );
             })}
