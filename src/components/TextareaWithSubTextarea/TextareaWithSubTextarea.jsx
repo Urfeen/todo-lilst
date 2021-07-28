@@ -17,6 +17,7 @@ const StyledTextareaWithSubTextarea = styled.div`
   }
   textarea:focus {
     border: 1px #395ac0 solid;
+    box-shadow: 0px 0px 3px 1px #395ac050;
     color: #fff;
   }
   .sub-textareas {
@@ -48,7 +49,7 @@ const TextareaWithSubTextarea = ({
 }) => {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
-  const [focusLineIndex, setFocusLineIndex] = useState(null);
+  const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);
 
   const _MARGIN_TOP = 7;
   const MAX_AMOUNT_OF_LINES = 9;
@@ -155,7 +156,6 @@ const TextareaWithSubTextarea = ({
       <TextareaAutosize
         value={data.textareaText}
         onChange={textareaOnChangeHandler}
-        onFocus={() => setFocusLineIndex(null)}
         placeholder={placeholder ? placeholder : ""}
         ref={(tag) => (data.tag = tag)}
         autoFocus
@@ -177,7 +177,9 @@ const TextareaWithSubTextarea = ({
                         points={getLinesPoints(index, data.subTextareas.length)}
                         key={subTextarea.id}
                         fill="none"
-                        stroke={focusLineIndex === index ? "#5c86ff" : "#999"}
+                        stroke={
+                          focusVisualNavIndex === index ? "#5c86ff" : "#999"
+                        }
                       />
                     );
                   })
@@ -186,9 +188,13 @@ const TextareaWithSubTextarea = ({
                       <circle
                         {...getCircleCoords(index)}
                         key={subTextarea.id}
-                        stroke={focusLineIndex === index ? "#5c86ff" : "#999"}
+                        stroke={
+                          focusVisualNavIndex === index ? "#5c86ff" : "#999"
+                        }
                         strokeWidth={2}
-                        fill={focusLineIndex === index ? "#5c86ff" : "none"}
+                        fill={
+                          focusVisualNavIndex === index ? "#5c86ff" : "none"
+                        }
                       />
                     );
                   })}
@@ -202,7 +208,10 @@ const TextareaWithSubTextarea = ({
                     onChange={(event) =>
                       subTextareaOnChangeHandler(event, index)
                     }
-                    onFocus={() => setFocusLineIndex(index)}
+                    onBlur={() => setFocusVisualNavIndex(null)}
+                    onFocus={() => {
+                      setFocusVisualNavIndex(index);
+                    }}
                     value={data.subTextareas[index].subTextareaText}
                     ref={(tag) => (data.subTextareas[index].tag = tag)}
                     placeholder={subPlaceholder ? subPlaceholder : ""}
