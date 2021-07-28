@@ -12,8 +12,11 @@ const StyledModal = styled.div`
     z-index: ${({ zIndexBox }) => zIndexBox};
     max-width: 400px;
     width: 100%;
-    border: 1px solid #fff;
+    border: 2px solid #202a47;
+    border-radius: 5px;
     padding: 0.5rem;
+    background-color: #111527;
+    box-shadow: 0px 0px 5px 1px #1e2235;
 
     position: relative;
     left: 50%;
@@ -22,9 +25,9 @@ const StyledModal = styled.div`
     ${({ fadeType }) => {
     switch (fadeType) {
       case "in":
-        return "top: 27vh; opacity: 1;";
+        return "top: 20vh; opacity: 1;";
       default:
-        return "top: 25vh; opacity: 0;";
+        return "top: 18vh; opacity: 0;";
     }
   }};
     transition: top linear 0.1s, opacity linear 0.1s;
@@ -35,7 +38,7 @@ const StyledModal = styled.div`
       justify-content: space-between;
       padding: 0px 0px 0.5rem 0px;
       margin: 0px 0px 0.8rem 0px;
-      border-bottom: 1px solid #fff;
+      border-bottom: 2px solid #202a47;
     }
     &__content {
     }

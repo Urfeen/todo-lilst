@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import styled from "styled-components";
 
@@ -8,26 +8,32 @@ const StyledTextareaWithSubTextarea = styled.div`
     width: 100%;
     resize: none;
     padding: 4px;
-    font-size: 14px;
+    font-size: 16px;
     background-color: rgba(0, 0, 0, 0);
-    border: 1px #ccc solid;
+    border: 1px #2b3044 solid;
     color: #ccc;
     transition: border 0.2s ease, color 0.2s ease;
     border-radius: 3px;
   }
   textarea:focus {
-    border: 1px #fff solid;
+    border: 1px #395ac0 solid;
     color: #fff;
   }
   .sub-textareas {
     display: flex;
-    &__lines {
+    &__visual-nav {
       width: 30px;
+      polyline {
+        transition: stroke 0.2s ease;
+      }
     }
     &__list {
       flex: 1 1 auto;
       li {
         margin: 7px 0 0 0;
+      }
+      textarea {
+        font-size: 14px;
       }
     }
   }
@@ -37,12 +43,15 @@ const TextareaWithSubTextarea = ({
   className,
   onChangeGetData: onChangeReturnData,
   placeholder,
+  subPlaceholder,
+  showLines,
 }) => {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
   const [focusLineIndex, setFocusLineIndex] = useState(null);
 
   const _MARGIN_TOP = 7;
+  const MAX_AMOUNT_OF_LINES = 9;
 
   const textareaOnChangeHandler = (event) => {
     event.preventDefault();
@@ -92,7 +101,7 @@ const TextareaWithSubTextarea = ({
     });
   };
 
-  const getPoints = (index, commonAmountOfLines) => {
+  const getLinesPoints = (index, commonAmountOfLines) => {
     const WIDTH_OF_LINES_BOX = 30;
 
     const DISTANCE_FROM_STARTx =
@@ -111,6 +120,26 @@ const TextareaWithSubTextarea = ({
     ${DISTANCE_FROM_STARTy},
     ${WIDTH_OF_LINES_BOX - 2},
     ${DISTANCE_FROM_STARTy}`;
+  };
+
+  const getCircleCoords = (index) => {
+    const WIDTH_OF_CIRCLES_BOX = 30;
+    const MARGIN_RIGHT = 2;
+
+    const DISTANCE_FROM_STARTx = WIDTH_OF_CIRCLES_BOX / 2 - MARGIN_RIGHT;
+
+    const DISTANCE_FROM_STARTy =
+      heightOfEachSubtask
+        .slice(0, index + 1)
+        .reduce((prev, curr) => prev + curr) +
+      _MARGIN_TOP * (index + 1) -
+      Math.floor(heightOfEachSubtask[index] / 2);
+
+    const cx = DISTANCE_FROM_STARTx;
+    const cy = DISTANCE_FROM_STARTy;
+    const r = 4;
+
+    return { cx, cy, r };
   };
 
   useEffect(() => {
@@ -133,24 +162,36 @@ const TextareaWithSubTextarea = ({
       />
       {data.subTextareas.length !== 0 && (
         <div className="sub-textareas">
-          <div className="sub-textareas__lines">
+          <div className="sub-textareas__visual-nav">
             <svg
               width="100%"
               height={
                 heightOfEachSubtask.reduce((prev, curr) => prev + curr) +
-                data.subTextareas.length * _MARGIN_TOP
+                heightOfEachSubtask.length * _MARGIN_TOP
               }
             >
-              {data.subTextareas.map((subTextarea, index) => {
-                return (
-                  <polyline
-                    key={subTextarea.id}
-                    points={getPoints(index, data.subTextareas.length)}
-                    fill="none"
-                    stroke={focusLineIndex === index ? "#fff" : "#999"}
-                  />
-                );
-              })}
+              {showLines && data.subTextareas.length <= MAX_AMOUNT_OF_LINES
+                ? data.subTextareas.map((subTextarea, index) => {
+                    return (
+                      <polyline
+                        points={getLinesPoints(index, data.subTextareas.length)}
+                        key={subTextarea.id}
+                        fill="none"
+                        stroke={focusLineIndex === index ? "#5c86ff" : "#999"}
+                      />
+                    );
+                  })
+                : data.subTextareas.map((subTextarea, index) => {
+                    return (
+                      <circle
+                        {...getCircleCoords(index)}
+                        key={subTextarea.id}
+                        stroke={focusLineIndex === index ? "#5c86ff" : "#999"}
+                        strokeWidth={2}
+                        fill={focusLineIndex === index ? "#5c86ff" : "none"}
+                      />
+                    );
+                  })}
             </svg>
           </div>
           <ul className="sub-textareas__list">
@@ -164,6 +205,7 @@ const TextareaWithSubTextarea = ({
                     onFocus={() => setFocusLineIndex(index)}
                     value={data.subTextareas[index].subTextareaText}
                     ref={(tag) => (data.subTextareas[index].tag = tag)}
+                    placeholder={subPlaceholder ? subPlaceholder : ""}
                     autoFocus
                   />
                 </li>
