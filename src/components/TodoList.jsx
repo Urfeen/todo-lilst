@@ -7,7 +7,7 @@ import AddButton from "../components/AddButton/AddButton.jsx";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
-  const [textareaData, setTextareaData] = useState();
+  const [textareaData, setTextareaWithSubTextareasData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // console.log(textareaData);
@@ -79,7 +79,7 @@ const TodoList = () => {
             <TextareaWithSubTextarea
               subPlaceholder="Type something here..."
               showLines={true}
-              onChangeGetData={setTextareaData}
+              onChangeGetData={setTextareaWithSubTextareasData}
             />
           </Modal>
         )}
