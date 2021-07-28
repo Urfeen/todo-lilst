@@ -77,8 +77,7 @@ const TodoList = () => {
             onClose={toggleModalHandler}
           >
             <TextareaWithSubTextarea
-              placeholder='Press "Enter" to create a subtask'
-              subPlaceholder="Type subtask here..."
+              subPlaceholder="Type something here..."
               showLines={true}
               onChangeGetData={setTextareaData}
             />

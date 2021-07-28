@@ -46,6 +46,25 @@ const TextareaWithSubTextarea = ({
     });
   };
 
+  const onKeyDownSubTextareaHandler = (event, subTextareaIndex) => {
+    if (
+      event.code === "Backspace" &&
+      data.subTextareas[subTextareaIndex].subTextareaText === ""
+    ) {
+      if (subTextareaIndex > 0) {
+        data.subTextareas[subTextareaIndex - 1].tag.focus();
+      } else data.tag.focus();
+
+      setData((prevValue) => {
+        const prevSubTextareasCopy = prevValue.subTextareas.slice();
+        const newSubTextareas = prevSubTextareasCopy.filter(
+          (subTextarea, index) => index !== subTextareaIndex
+        );
+        return { ...prevValue, subTextareas: newSubTextareas };
+      });
+    }
+  };
+
   const addSubTextarea = () => {
     const newSubTextareas = data.subTextareas.slice().concat({
       subTextareaText: "",
@@ -119,7 +138,7 @@ const TextareaWithSubTextarea = ({
       <TextareaAutosize
         value={data.textareaText}
         onChange={textareaOnChangeHandler}
-        placeholder={placeholder ? placeholder : ""}
+        placeholder={placeholder ?? 'Press "Enter" to create a subtask'}
         ref={(tag) => (data.tag = tag)}
         autoFocus
       />
@@ -175,9 +194,14 @@ const TextareaWithSubTextarea = ({
                     onFocus={() => {
                       setFocusVisualNavIndex(index);
                     }}
+                    onKeyDown={(event) =>
+                      onKeyDownSubTextareaHandler(event, index)
+                    }
                     value={data.subTextareas[index].subTextareaText}
                     ref={(tag) => (data.subTextareas[index].tag = tag)}
-                    placeholder={subPlaceholder ? subPlaceholder : ""}
+                    placeholder={
+                      subPlaceholder ?? 'Press "Backspace" to delete subtask'
+                    }
                     autoFocus
                   />
                 </li>
