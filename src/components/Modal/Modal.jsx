@@ -47,15 +47,15 @@ const Modal = ({
 
   return createPortal(
     <StyledModal
-      id={id ? id : "modal"}
-      className={className ? className : ""}
+      id={id ?? "modal"}
+      className={className ?? ""}
       role="dialog"
       zIndexBox={typeof zIndexBox === "number" && zIndexBox > 0 ? zIndexBox : 2}
       fadeType={fadeType}
     >
       <div className="modal-box">
         <div className="modal-box__header">
-          <h4 className="modal-box__title">{title && title}</h4>
+          <h4 className="modal-box__title">{title ?? ""}</h4>
           <button onClick={closeHandler} className="modal-box__close"></button>
         </div>
         <div className="modal-box__content">{children}</div>

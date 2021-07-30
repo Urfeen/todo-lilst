@@ -11,6 +11,7 @@ const StyledModal = styled.div`
   .modal-box {
     z-index: ${({ zIndexBox }) => zIndexBox};
     max-width: 400px;
+    max-height: 60vh;
     width: 100%;
     border: 2px solid #202a47;
     border-radius: 5px;
@@ -40,7 +41,9 @@ const StyledModal = styled.div`
       margin: 0px 0px 0.8rem 0px;
       border-bottom: 2px solid #202a47;
     }
-    &__content {
+    &__content {      
+      max-height: calc(60vh - 60px);
+      overflow: auto;
     }
     &__footer {
     }
@@ -52,8 +55,18 @@ const StyledModal = styled.div`
       height: 20px;
       position: relative;
       background-color: rgba(0, 0, 0, 0);
-      border: 1px solid #fff;
+      border: 1px solid #ddd;
       border-radius: 3px;
+      &:focus,
+      &:hover{
+        transform: scale(1.1);
+        border: 1px solid #fff;
+        /* outline: 1px solid #fff; */
+        &::after,
+        &::before {
+          background-color: #fff;
+        }
+      }
       &::after,
       &::before {
         content: "";
@@ -62,16 +75,13 @@ const StyledModal = styled.div`
         left: 50%;
         width: 90%;
         height: 2px;
-        background-color: #fff;
+        background-color: #ddd;
       }
       &::before {
         transform: translate(-50%, -50%) rotate(-45deg);
       }
       &::after {
         transform: translate(-50%, -50%) rotate(45deg);
-      }
-      &:hover {
-        transform: scale(1.1);
       }
     }
   }
