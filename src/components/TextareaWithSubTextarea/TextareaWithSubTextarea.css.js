@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const StyledTextareaWithSubTextarea = styled.div`
+  margin: 0.8rem 0px 0px 0px;
   textarea {
     width: 100%;
     resize: none;

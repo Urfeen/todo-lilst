@@ -38,7 +38,6 @@ const StyledModal = styled.div`
       align-items: center;
       justify-content: space-between;
       padding: 0px 0px 0.5rem 0px;
-      margin: 0px 0px 0.8rem 0px;
       border-bottom: 2px solid #202a47;
     }
     &__content {      
