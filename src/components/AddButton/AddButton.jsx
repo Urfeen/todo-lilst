@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const StyledAddButton = styled.button`
   width: ${(props) => props.size};
@@ -28,13 +29,13 @@ const StyledAddButton = styled.button`
   }
 `;
 
-const AddButton = ({ className, size, onClick: action }) => {
+const AddButton = ({ type, className, size, onClick: action }) => {
   return (
     <StyledAddButton
-      type="button"
+      type={type && "submit"}
       className={className ? className : ""}
       size={size ? size : "2rem"}
-      onClick={typeof action === "function" ? action : ""}
+      onClick={typeof action === "function" ? action : null}
     />
   );
 };

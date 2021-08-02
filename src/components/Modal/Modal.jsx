@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import StyledModal from "./StyledModal.css.js";
 

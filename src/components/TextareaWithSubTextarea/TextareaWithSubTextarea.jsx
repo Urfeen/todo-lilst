@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import StyledTextareaWithSubTextarea from "./TextareaWithSubTextarea.css.js";
 
@@ -9,13 +9,14 @@ const TextareaWithSubTextarea = ({
   placeholder,
   subPlaceholder,
   showLines,
+  errors,
 }) => {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
   const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);
 
   const _MARGIN_TOP = 7;
-  const _MAX_AMOUNT_OF_LINES = 9;
+  const _MAX_AMOUNT_OF_LINES = 6;
 
   const textareaOnChangeHandler = (event) => {
     event.preventDefault();
@@ -125,6 +126,9 @@ const TextareaWithSubTextarea = ({
     return { cx, cy, r };
   };
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
   useEffect(() => {
     const newHeightOfEachSubtask = data.subTextareas.map((subTextarea) => {
       return subTextarea.tag.offsetHeight + 2;

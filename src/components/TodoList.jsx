@@ -1,34 +1,49 @@
+import React, { memo, useEffect, useState } from "react";
 import TasksList from "./TasksList/TasksList.jsx";
 import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
-import { memo, useEffect, useState } from "react";
 import TextareaWithSubTextarea from "./TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
 import AddButton from "../components/AddButton/AddButton.jsx";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
-  const [textareaData, setTextareaWithSubTextareasData] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textareaData, setTextareaData] = useState();
+  const [textareaErrors, setTextareaErrors] = useState(null);
 
-  // console.log(textareaData);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
+  const checkTextAreaFields = () => {
+    const errors = {};
+    if (!textareaData.textareaText.trim()) errors.textAreaError = true;
+    else errors.textAreaError = false;
 
-  const addTaskHandler = ({ text }) => {
-    // w: { text: "", id: nanoid(), subtasks: [] }
-
-    const newTask = {
-      ...tasks,
-      creationDate: Date.now(),
-    };
-
-    setTasks((prevState) => {
-      const arrCopy = [...prevState];
-      arrCopy.unshift(newTask);
-      return arrCopy;
+    errors.subTextareasError = textareaData.subTextareas.map((subTextarea) => {
+      return !subTextarea.subTextareaText;
     });
+
+    if (errors.textAreaError || errors.subTextareasError.find((flag) => flag)) {
+      setTextareaErrors(errors);
+    }
+  };
+  const addTaskHandler = (event) => {
+    event.preventDefault();
+    checkTextAreaFields();
+    // if(textareaData.textareaText.trim())
+    // console.log(textareaData);
+    // w: { text: "", id: nanoid(), subtasks: [] }
+    // const newTask = {
+    //   ...tasks,
+    //   creationDate: Date.now(),
+    // };
+
+    // setTasks((prevState) => {
+    //   const arrCopy = [...prevState];
+    //   arrCopy.unshift(newTask);
+    //   return arrCopy;
+    // });
   };
   const changeTaskStatusHandler = (taskId) => {
     setTasks((prevState) => {
@@ -76,11 +91,15 @@ const TodoList = () => {
             zIndexBox={2}
             onClose={toggleModalHandler}
           >
-            <TextareaWithSubTextarea
-              subPlaceholder="Type something here..."
-              showLines={true}
-              onChangeGetData={setTextareaWithSubTextareasData}
-            />
+            <form onSubmit={addTaskHandler}>
+              <TextareaWithSubTextarea
+                subPlaceholder="Type something here..."
+                showLines={true}
+                onChangeGetData={setTextareaData}
+                errors={textareaErrors}
+              />
+              <AddButton />
+            </form>
           </Modal>
         )}
       </header>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./DeleteButton.scss";
 import classNames from "classnames";
 
@@ -41,7 +41,7 @@ const DeleteButton = ({ text, onClick: action }) => {
           </svg>
         </div>
       </div>
-      <span>{text && text}</span>
+      <span>{text && ""}</span>
     </button>
   );
 };
