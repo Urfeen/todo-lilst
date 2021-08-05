@@ -4,9 +4,8 @@ import styled from "styled-components";
 const StyledConfirm = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${({ justifyContent }) => justifyContent};
   gap: 10px;
-  margin: 0px 0px 0.6rem 0px;
   button {
     padding: 7px 10px;
     border: 1px #2b3044 solid;
@@ -41,29 +40,36 @@ const StyledConfirm = styled.div`
 `;
 
 const Confirm = ({
-  type,
-  className,
+  type = "submit",
+  className = "",
+  justifyContent = "center",
   onAccept,
   onDecline,
+  showDecline = true,
+  showAccept = true,
   acceptText,
   declineText,
 }) => {
   return (
-    <StyledConfirm className={className ? className : ""}>
-      <button
-        onClick={typeof onAccept === "function" ? onAccept : null}
-        type={type || "submit"}
-        className="confirm-accept"
-      >
-        {acceptText ?? "Accept"}
-      </button>
-      <button
-        onClick={typeof onDecline === "function" ? onDecline : null}
-        type={type || "submit"}
-        className="confirm-decline"
-      >
-        {declineText ?? "Decline"}
-      </button>
+    <StyledConfirm justifyContent={justifyContent} className={className}>
+      {showAccept && (
+        <button
+          onClick={typeof onAccept === "function" ? onAccept : null}
+          type={type}
+          className="confirm-accept"
+        >
+          {acceptText || "Accept"}
+        </button>
+      )}
+      {showDecline && (
+        <button
+          onClick={typeof onDecline === "function" ? onDecline : null}
+          type={type}
+          className="confirm-decline"
+        >
+          {declineText || "Decline"}
+        </button>
+      )}
     </StyledConfirm>
   );
 };

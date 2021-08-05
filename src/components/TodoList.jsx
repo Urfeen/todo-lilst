@@ -8,8 +8,16 @@ import styled from "styled-components";
 import AddButton from "./AddButton/AddButton.jsx";
 import Confirm from "./Confirm/Confirm.jsx";
 
-const StyledEmptyFieldMessage = styled.div`
-  padding: 5px;
+const StyledConfirmBox = styled.div`
+  display: flex;
+  align-items: center;
+  div:nth-child(2) {
+    margin: 0px 0px 0px 0.6rem;
+    span {
+      font-size: 1rem;
+      color: #ebe71fcf;
+    }
+  }
 `;
 
 const TodoList = () => {
@@ -119,13 +127,19 @@ const TodoList = () => {
                 showLines={true}
                 onChangeGetData={setTextareaData}
               />
-              <Confirm />
+              <StyledConfirmBox>
+                <Confirm
+                  showDecline={false}
+                  justifyContent="flex-left"
+                  onAccept={addTaskHandler}
+                />
+                {emptyFieldMessage && (
+                  <div>
+                    <span>{emptyFieldMessage}</span>
+                  </div>
+                )}
+              </StyledConfirmBox>
             </form>
-            {emptyFieldMessage && (
-              <StyledEmptyFieldMessage>
-                {emptyFieldMessage}
-              </StyledEmptyFieldMessage>
-            )}
           </Modal>
         )}
       </header>
