@@ -9,7 +9,6 @@ const TextareaWithSubTextarea = ({
   placeholder,
   subPlaceholder,
   showLines,
-  errors,
 }) => {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
@@ -59,7 +58,7 @@ const TextareaWithSubTextarea = ({
       setData((prevValue) => {
         const prevSubTextareasCopy = prevValue.subTextareas.slice();
         const newSubTextareas = prevSubTextareasCopy.filter(
-          (subTextarea, index) => index !== subTextareaIndex
+          (_, index) => index !== subTextareaIndex
         );
         return { ...prevValue, subTextareas: newSubTextareas };
       });
@@ -126,9 +125,6 @@ const TextareaWithSubTextarea = ({
     return { cx, cy, r };
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
   useEffect(() => {
     const newHeightOfEachSubtask = data.subTextareas.map((subTextarea) => {
       return subTextarea.tag.offsetHeight + 2;

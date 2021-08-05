@@ -32,7 +32,7 @@ const StyledAddButton = styled.button`
 const AddButton = ({ type, className, size, onClick: action }) => {
   return (
     <StyledAddButton
-      type={type && "submit"}
+      type={type || "submit"}
       className={className ? className : ""}
       size={size ? size : "2rem"}
       onClick={typeof action === "function" ? action : null}

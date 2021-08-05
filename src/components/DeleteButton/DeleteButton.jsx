@@ -41,7 +41,7 @@ const DeleteButton = ({ text, onClick: action }) => {
           </svg>
         </div>
       </div>
-      <span>{text && ""}</span>
+      <span>{text || ""}</span>
     </button>
   );
 };

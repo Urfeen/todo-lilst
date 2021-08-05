@@ -3,42 +3,64 @@ import TasksList from "./TasksList/TasksList.jsx";
 import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
 import TextareaWithSubTextarea from "./TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
-import AddButton from "../components/AddButton/AddButton.jsx";
+import { nanoid } from "nanoid";
+import styled from "styled-components";
+import AddButton from "./AddButton/AddButton.jsx";
+import Confirm from "./Confirm/Confirm.jsx";
+
+const StyledEmptyFieldMessage = styled.div`
+  padding: 5px;
+`;
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
   const [textareaData, setTextareaData] = useState();
-  const [textareaErrors, setTextareaErrors] = useState(null);
+  const [emptyFieldMessage, setEmptyFieldMessage] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
-  const checkTextAreaFields = () => {
-    const errors = {};
-    if (!textareaData.textareaText.trim()) errors.textAreaError = true;
-    else errors.textAreaError = false;
 
-    errors.subTextareasError = textareaData.subTextareas.map((subTextarea) => {
-      return !subTextarea.subTextareaText;
+  const isTextareaHasEmptyFields = () => {
+    if (!textareaData.textareaText.trim()) return true;
+
+    const emptySubTextarea = textareaData.subTextareas.find((subTextarea) => {
+      return !subTextarea.subTextareaText.trim();
     });
 
-    if (errors.textAreaError || errors.subTextareasError.find((flag) => flag)) {
-      setTextareaErrors(errors);
-    }
+    if (emptySubTextarea) return true;
+
+    return false;
   };
+
   const addTaskHandler = (event) => {
     event.preventDefault();
-    checkTextAreaFields();
-    // if(textareaData.textareaText.trim())
-    // console.log(textareaData);
-    // w: { text: "", id: nanoid(), subtasks: [] }
-    // const newTask = {
-    //   ...tasks,
-    //   creationDate: Date.now(),
-    // };
 
+    if (isTextareaHasEmptyFields()) {
+      const message = "You must fill in all empty fields";
+      setEmptyFieldMessage(message);
+      return;
+    }
+
+    if (emptyFieldMessage) setEmptyFieldMessage(null);
+
+    const newTask = {
+      id: nanoid(),
+      done: false,
+      tag: textareaData.tag,
+      text: textareaData.textareaText,
+      subTasks: textareaData.subTextareas.map((task) => ({
+        text: task.subTextareaText,
+        id: task.id,
+        tag: task.tag,
+        done: false,
+      })),
+      creationDate: Date.now(),
+    };
+
+    console.log(newTask);
     // setTasks((prevState) => {
     //   const arrCopy = [...prevState];
     //   arrCopy.unshift(newTask);
@@ -96,10 +118,14 @@ const TodoList = () => {
                 subPlaceholder="Type something here..."
                 showLines={true}
                 onChangeGetData={setTextareaData}
-                errors={textareaErrors}
               />
-              <AddButton />
+              <Confirm />
             </form>
+            {emptyFieldMessage && (
+              <StyledEmptyFieldMessage>
+                {emptyFieldMessage}
+              </StyledEmptyFieldMessage>
+            )}
           </Modal>
         )}
       </header>
