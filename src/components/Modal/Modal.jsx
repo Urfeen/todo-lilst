@@ -10,12 +10,15 @@ if (!document.querySelector("#modal-root")) {
 }
 
 const Modal = ({
-  title,
-  id,
-  className,
+  title = "",
+  id = "modal",
+  className = "",
   zIndexBox,
   children,
   onClose: close,
+  modalClosing = false,
+  setModalClosing,
+  onUnmount: unmountAction,
 }) => {
   const [fadeType, setFadeType] = useState(null);
 
@@ -37,25 +40,31 @@ const Modal = ({
   useEffect(() => {
     setTimeout(setFadeType("in"), 0);
   }, []);
-
   useEffect(() => {
     window.addEventListener("keydown", onEscKeyDownHandler);
     return () => {
       window.removeEventListener("keydown", onEscKeyDownHandler);
     };
   }, []);
+  useEffect(() => {
+    if (modalClosing) setFadeType("out");
+    return () => {
+      setModalClosing(false);
+      typeof unmountAction === "function" && unmountAction();
+    };
+  }, [modalClosing, setModalClosing, unmountAction]);
 
   return createPortal(
     <StyledModal
-      id={id ?? "modal"}
-      className={className ?? ""}
+      id={id}
+      className={className}
       role="dialog"
       zIndexBox={typeof zIndexBox === "number" && zIndexBox > 0 ? zIndexBox : 2}
       fadeType={fadeType}
     >
       <div className="modal-box">
         <div className="modal-box__header">
-          <h4 className="modal-box__title">{title ?? ""}</h4>
+          <h4 className="modal-box__title">{title}</h4>
           <button onClick={closeHandler} className="modal-box__close"></button>
         </div>
         <div className="modal-box__content">{children}</div>

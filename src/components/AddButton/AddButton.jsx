@@ -29,12 +29,17 @@ const StyledAddButton = styled.button`
   }
 `;
 
-const AddButton = ({ type, className, size, onClick: action }) => {
+const AddButton = ({
+  type = "submit",
+  className = "",
+  size = "2rem",
+  onClick: action,
+}) => {
   return (
     <StyledAddButton
-      type={type || "submit"}
-      className={className ? className : ""}
-      size={size ? size : "2rem"}
+      type={type}
+      className={className}
+      size={size}
       onClick={typeof action === "function" ? action : null}
     />
   );

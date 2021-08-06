@@ -1,0 +1,16 @@
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #fff;
+}
+
+#root {
+  height: 100%;
+}
+
+.wrapper {
+  padding: 0px 15px;
+  height: 100%;
+
+  overflow: auto;
+  background-color: #1e2235;
+}

@@ -1,18 +1,22 @@
-import "./InputCheckbox.scss";
 import React from "react";
+import StyledInputCheckBox from "./InputCheckbox.css";
 
-const InputCheckbox = ({ defaultChecked, disabled, onChange: action }) => {
+const InputCheckbox = ({
+  checked = false,
+  disabled = false,
+  onChange: action,
+  className = "",
+}) => {
   return (
-    <div className="check">
+    <StyledInputCheckBox className={className}>
       <input
-        defaultChecked={!!defaultChecked}
+        checked={checked}
         onChange={typeof action === "function" ? action : ""}
         type="checkbox"
-        className="check__input"
-        disabled={!!disabled}
+        disabled={disabled}
       />
-      <span className="check__box" />
-    </div>
+      <span />
+    </StyledInputCheckBox>
   );
 };
 

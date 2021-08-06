@@ -1,10 +1,9 @@
-import "./TasksList.scss";
 import ListItem from "./ListItem.jsx";
 import React from "react";
 
 const TasksList = ({ tasks, changeTaskStatusHandler, deleteTaskHandler }) => {
   return (
-    <ul className="tasks-list">
+    <ul>
       {tasks.map((task, index) => (
         <ListItem
           key={task.id}
@@ -12,8 +11,8 @@ const TasksList = ({ tasks, changeTaskStatusHandler, deleteTaskHandler }) => {
           done={task.done}
           index={index}
           creationDate={task.creationDate}
-          taskText={task.subTextareaText}
-          subtasks={task.subTextareas}
+          taskText={task.text}
+          subtasks={task.subtasks}
           changeTaskStatusHandler={changeTaskStatusHandler}
           deleteTaskHandler={deleteTaskHandler}
         />

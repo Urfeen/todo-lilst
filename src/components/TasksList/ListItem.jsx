@@ -3,6 +3,7 @@ import classNames from "classnames";
 import moment from "moment";
 import DeleteButton from "../DeleteButton/DeleteButton.jsx";
 import InputCheckbox from "../InputCheckbox/InputCheckbox.jsx";
+import StyledListItem from "./StyledListItem.css.js";
 
 const ListItem = ({
   id,
@@ -12,11 +13,12 @@ const ListItem = ({
   deleteTaskHandler,
   creationDate,
   index,
+  subtasks,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const moreClasses = classNames("list-item__more", {
-    "list-item__more_hidden": !isExpanded,
+  const moreClasses = classNames("more", {
+    more_hidden: !isExpanded,
   });
   const EXPAND_DURATION = 200;
 
@@ -42,8 +44,8 @@ const ListItem = ({
 
   return (
     // <a href={'task-' + (index + 1)}>
-    <li
-      className={classNames("tasks-list__item list-item", {
+    <StyledListItem
+      className={classNames({
         "list-item_expanded": isExpanded,
       })}
       onMouseEnter={onMouseEnterHandler}
@@ -57,16 +59,16 @@ const ListItem = ({
           : "",
       }}
     >
-      <div ref={liPrimaryAreaRef} className="list-item__primary-area">
-        <div className="list-item__paper">
+      <div ref={liPrimaryAreaRef} className="primary-area">
+        <div className="paper">
           <div
-            className={classNames("list-item__task", {
-              "list-item__task_done": done,
+            className={classNames("task", {
+              task_done: done,
             })}
           >
-            <div className="list-item__checkbox">
+            <div className="checkbox">
               <InputCheckbox
-                defaultChecked={done}
+                checked={done}
                 onChange={() => changeTaskStatusHandler(id)}
               />
 
@@ -75,33 +77,30 @@ const ListItem = ({
                 <polyline points="8,0 8,40 16,40" fill="none" stroke="#fff" />
               </svg> */}
             </div>
-            <div className="list-item__task-content">
+            <div className="task-content">
               <span>{taskText}</span>
 
-              {/* <ul className="list-item__subtasks">
-                <li className="list-item__task">
-                  <div className="list-item__checkbox">
-                    <InputCheckbox
-                      defaultChecked={done}
-                      onChange={() => changeTaskStatusHandler(id)}
-                    />
-                  </div>
-                  <div className="list-item__task-content">
-                    <span>{taskText}</span>
-                  </div>
-                </li>
-                <li className="list-item__task">
-                  <div className="list-item__checkbox">
-                    <InputCheckbox
-                      defaultChecked={done}
-                      onChange={() => changeTaskStatusHandler(id)}
-                    />
-                  </div>
-                  <div className="list-item__task-content">
-                    <span>{taskText}</span>
-                  </div>
-                </li>
-              </ul> */}
+              {subtasks.length > 0 && (
+                <ul className="subtasks">
+                  {subtasks.map((subtask) => {
+                    return (
+                      <li key={subtask.id} className="task">
+                        <div className="checkbox">
+                          <InputCheckbox
+                            checked={subtask.done}
+                            onChange={() =>
+                              changeTaskStatusHandler(id, subtask.id)
+                            }
+                          />
+                        </div>
+                        <div className="task-content">
+                          <span>{subtask.text}</span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           </div>
         </div>
@@ -111,7 +110,7 @@ const ListItem = ({
         <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
         <span>Start - {moment(creationDate).format("DD.MM.YY")}</span>
       </div>
-    </li>
+    </StyledListItem>
     // </a>
   );
 };

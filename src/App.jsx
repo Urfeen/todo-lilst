@@ -1,6 +1,8 @@
 import React from "react";
 import TodoList from "./components/TodoList.jsx";
-import "./App.scss";
+import "./App.css";
+import "./reset-styles.css";
+import "./common-styles.scss";
 
 const App = () => {
   return (
@@ -9,23 +11,5 @@ const App = () => {
     </div>
   );
 };
-
-// subtasks
-// tap on the expanded button - expanded task with more info (delete (trash bin bottom), edit, data of creation - date of finish)
-// sort list
-// auth by google account
-// add task in pop-up (with cross button)
-// :active :focus :hover
-// change styles after checked
-// max-height of li
-// high-light hovered task
-// close-open with tap on li - hight light animation
-// work on styles
-// add bg particles
-// footer
-// change task done handler
-// li focus
-// onTransitionEnd instead numbers
-// rewrite on styled component
 
 export default App;

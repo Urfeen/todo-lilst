@@ -1,21 +1,22 @@
 import React, { memo, useEffect, useState } from "react";
 import TasksList from "./TasksList/TasksList.jsx";
-import "./TodoList.scss";
 import Modal from "./Modal/Modal.jsx";
 import TextareaWithSubTextarea from "./TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
 import { nanoid } from "nanoid";
 import styled from "styled-components";
 import AddButton from "./AddButton/AddButton.jsx";
 import Confirm from "./Confirm/Confirm.jsx";
+import StyledTodoList from "./StyledTodoList.css.js";
 
 const StyledConfirmBox = styled.div`
   display: flex;
   align-items: center;
+  padding: 0px 0px 1px 0px;
   div:nth-child(2) {
     margin: 0px 0px 0px 0.6rem;
     span {
       font-size: 1rem;
-      color: #ebe71fcf;
+      color: #fffb17cf;
     }
   }
 `;
@@ -26,6 +27,7 @@ const TodoList = () => {
   const [emptyFieldMessage, setEmptyFieldMessage] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalClosing, setModalClosing] = useState(false);
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -57,35 +59,61 @@ const TodoList = () => {
     const newTask = {
       id: nanoid(),
       done: false,
-      tag: textareaData.tag,
       text: textareaData.textareaText,
-      subTasks: textareaData.subTextareas.map((task) => ({
+      subtasks: textareaData.subTextareas.map((task) => ({
         text: task.subTextareaText,
         id: task.id,
-        tag: task.tag,
         done: false,
       })),
       creationDate: Date.now(),
     };
 
-    console.log(newTask);
-    // setTasks((prevState) => {
-    //   const arrCopy = [...prevState];
-    //   arrCopy.unshift(newTask);
-    //   return arrCopy;
-    // });
-  };
-  const changeTaskStatusHandler = (taskId) => {
     setTasks((prevState) => {
-      const updatedList = prevState.map((task) => {
-        if (task.id === taskId) {
-          return {
-            ...task,
-            done: !task.done,
-          };
-        }
-        return task;
-      });
+      const arrCopy = [...prevState];
+      arrCopy.unshift(newTask);
+      return arrCopy;
+    });
+    setModalClosing(true);
+  };
+  const changeTaskStatusHandler = (taskId, subtaskId) => {
+    setTasks((prevState) => {
+      let updatedList = null;
+
+      if (subtaskId) {
+        updatedList = prevState.map((task) => {
+          if (task.id === taskId) {
+            return {
+              ...task,
+              subtasks: task.subtasks.map((subtask) => {
+                if (subtask.id === subtaskId) {
+                  return {
+                    ...subtask,
+                    done: !subtask.done,
+                  };
+                }
+                return subtask;
+              }),
+            };
+          }
+          return task;
+        });
+      } else {
+        updatedList = prevState.map((task) => {
+          if (task.id === taskId) {
+            return {
+              ...task,
+              done: !task.done,
+              subtasks: task.subtasks.map((subtask) => {
+                return {
+                  ...subtask,
+                  done: !task.done,
+                };
+              }),
+            };
+          }
+          return task;
+        });
+      }
       return updatedList;
     });
   };
@@ -107,11 +135,11 @@ const TodoList = () => {
   }, [tasks]);
 
   return (
-    <div className="todo-list">
+    <StyledTodoList>
       <header>
         <h1>Todo list</h1>
         <AddButton
-          className="todo-list__add-todo-btn"
+          className="add-todo-btn"
           size="2rem"
           onClick={toggleModalHandler}
         />
@@ -120,6 +148,9 @@ const TodoList = () => {
             title="Create new task"
             zIndexBox={2}
             onClose={toggleModalHandler}
+            modalClosing={modalClosing}
+            setModalClosing={setModalClosing}
+            onUnmount={() => setEmptyFieldMessage(null)}
           >
             <form onSubmit={addTaskHandler}>
               <TextareaWithSubTextarea
@@ -129,8 +160,11 @@ const TodoList = () => {
               />
               <StyledConfirmBox>
                 <Confirm
-                  showDecline={false}
                   justifyContent="flex-left"
+                  onDecline={(e) => {
+                    e.preventDefault();
+                    setModalClosing(true);
+                  }}
                   onAccept={addTaskHandler}
                 />
                 {emptyFieldMessage && (
@@ -143,7 +177,7 @@ const TodoList = () => {
           </Modal>
         )}
       </header>
-      <div className="todo-list__todos">
+      <div className="todos">
         {tasks.length !== 0 ? (
           <TasksList
             tasks={tasks}
@@ -151,10 +185,10 @@ const TodoList = () => {
             deleteTaskHandler={deleteTaskHandler}
           />
         ) : (
-          <span>no one task</span>
+          <span>no one todo</span>
         )}
       </div>
-    </div>
+    </StyledTodoList>
   );
 };
 
