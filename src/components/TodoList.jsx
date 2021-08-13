@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import styled from "styled-components";
 import AddButton from "./AddButton/AddButton.jsx";
 import Confirm from "./Confirm/Confirm.jsx";
-import StyledTodoList from "./StyledTodoList.css.js";
+import StyledTodoList from "./StyledTodoList.style.js";
 
 const StyledConfirmBox = styled.div`
   display: flex;

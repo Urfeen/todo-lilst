@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import StyledModal from "./StyledModal.css.js";
+import StyledModal from "./StyledModal.style.js";
 
 const modalRoot = document.createElement("div");
 modalRoot.id = "modal-root";
@@ -24,7 +24,10 @@ const Modal = ({
 
   const transitionEndHandler = (e) => {
     if (e.propertyName !== "opacity" || fadeType === "in") return;
-    if (fadeType === "out") close();
+    if (fadeType === "out") {
+      typeof unmountAction === "function" && unmountAction();
+      close();
+    }
   };
 
   const closeHandler = (e) => {
@@ -50,9 +53,8 @@ const Modal = ({
     if (modalClosing) setFadeType("out");
     return () => {
       setModalClosing(false);
-      typeof unmountAction === "function" && unmountAction();
     };
-  }, [modalClosing, setModalClosing, unmountAction]);
+  }, [modalClosing, setModalClosing]);
 
   return createPortal(
     <StyledModal

@@ -1,5 +1,5 @@
 import React from "react";
-import StyledInputCheckBox from "./InputCheckbox.css";
+import StyledInputCheckBox from "./InputCheckbox.style.js";
 
 const InputCheckbox = ({
   checked = false,

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import moment from "moment";
 import DeleteButton from "../DeleteButton/DeleteButton.jsx";
 import InputCheckbox from "../InputCheckbox/InputCheckbox.jsx";
-import StyledListItem from "./StyledListItem.css.js";
+import StyledListItem from "./StyledListItem.style.js";
 
 const ListItem = ({
   id,
