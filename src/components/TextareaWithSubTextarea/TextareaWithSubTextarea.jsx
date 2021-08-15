@@ -166,32 +166,33 @@ const TextareaWithSubTextarea = ({
             >
               {showLines && data.subTextareas.length <= _MAX_AMOUNT_OF_LINES
                 ? data.subTextareas.map((subTextarea, index) => {
-                    return (
-                      <polyline
-                        points={getLinesPoints(index, data.subTextareas.length)}
-                        key={subTextarea.id}
-                        fill="none"
-                        stroke={
-                          focusVisualNavIndex === index ? "#5c86ff" : "#999"
-                        }
-                      />
-                    );
-                  })
+                  return (
+                    <polyline
+                      points={getLinesPoints(index, data.subTextareas.length)}
+                      key={subTextarea.id}
+                      fill="none"
+                      className={focusVisualNavIndex === index ? "focusing" : ""}
+                      stroke={
+                        focusVisualNavIndex === index ? "#5c86ff" : "#99999970"
+                      }
+                    />
+                  );
+                })
                 : data.subTextareas.map((subTextarea, index) => {
-                    return (
-                      <circle
-                        {...getCircleCoords(index)}
-                        key={subTextarea.id}
-                        stroke={
-                          focusVisualNavIndex === index ? "#5c86ff" : "#999"
-                        }
-                        strokeWidth={2}
-                        fill={
-                          focusVisualNavIndex === index ? "#5c86ff" : "none"
-                        }
-                      />
-                    );
-                  })}
+                  return (
+                    <circle
+                      {...getCircleCoords(index)}
+                      key={subTextarea.id}
+                      stroke={
+                        focusVisualNavIndex === index ? "#5c86ff" : "#99999970"
+                      }
+                      strokeWidth={2}
+                      fill={
+                        focusVisualNavIndex === index ? "#5c86ff" : "none"
+                      }
+                    />
+                  );
+                })}
             </svg>
           </div>
           <ul className="sub-textareas__list">

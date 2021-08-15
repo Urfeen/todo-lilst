@@ -25,6 +25,9 @@ const StyledTextareaWithSubTextarea = styled.div`
       polyline {
         transition: stroke 0.2s ease;
       }
+      polyline.focusing{
+        filter: drop-shadow(0 0 2px #5c86ff);
+      }
     }
     &__list {
       flex: 1 1 auto;
