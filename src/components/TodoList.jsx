@@ -59,9 +59,9 @@ const TodoList = () => {
     const newTask = {
       id: nanoid(),
       done: false,
-      text: textareaData.textareaText,
+      text: textareaData.textareaText.trim(),
       subtasks: textareaData.subTextareas.map((task) => ({
-        text: task.subTextareaText,
+        text: task.subTextareaText.trim(),
         id: task.id,
         done: false,
       })),

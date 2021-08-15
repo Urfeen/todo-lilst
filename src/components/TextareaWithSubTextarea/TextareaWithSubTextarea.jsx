@@ -128,11 +128,19 @@ const TextareaWithSubTextarea = ({
   };
 
   useEffect(() => {
-    const newHeightOfEachSubtask = refs.current.subTextareaTags
-      .filter((subTag) => subTag !== null)
-      .map((subTextareaTag) => {
+    refs.current = {
+      mainTextareaTag: refs.current.mainTextareaTag,
+      subTextareaTags: refs.current.subTextareaTags.filter(
+        (subTag) => subTag !== null
+      ),
+    };
+
+    const newHeightOfEachSubtask = refs.current.subTextareaTags.map(
+      (subTextareaTag) => {
         return subTextareaTag.offsetHeight + 2;
-      });
+      }
+    );
+
     setHeightOfEachSubtask(newHeightOfEachSubtask);
     onChangeReturnData(data);
   }, [onChangeReturnData, data]);

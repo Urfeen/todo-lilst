@@ -16,7 +16,6 @@ const ListItem = ({
   subtasks,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [checkBoxHeight, setCheckBoxHeight] = useState(0);
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
 
   const moreClasses = classNames("more", {
@@ -30,7 +29,7 @@ const ListItem = ({
 
   const checkboxRef = useRef();
   const checkRef = useRef();
-  const subtaskRef = useRef([]);
+  const subtasksRef = useRef([]);
 
   let mouseEnterTimeoutId = useRef();
   let mouseLeaveTimeoutId = useRef();
@@ -38,27 +37,40 @@ const ListItem = ({
   const onMouseEnterHandler = () => {
     if (mouseLeaveTimeoutId.current) clearTimeout(mouseLeaveTimeoutId.current);
 
-    mouseEnterTimeoutId.current = setTimeout(() => {}, EXPAND_DURATION);
+    mouseEnterTimeoutId.current = setTimeout(() => { }, EXPAND_DURATION);
 
     setIsExpanded(true);
   };
   const onMouseLeaveHandler = () => {
     if (mouseEnterTimeoutId.current) clearTimeout(mouseEnterTimeoutId.current);
 
-    mouseLeaveTimeoutId.current = setTimeout(() => {}, EXPAND_DURATION);
+    mouseLeaveTimeoutId.current = setTimeout(() => { }, EXPAND_DURATION);
 
     setIsExpanded(false);
   };
-  const getPolylinePoints = () => {
-    return "8,0 8,20 16,20";
+  const getPolylinePoints = (index, isDone) => {
+    if (heightOfEachSubtask.length === 0) return;
+
+    const boxWidth = checkboxRef.current.offsetWidth;
+    const DISTANCE_FROM_STARTy =
+      heightOfEachSubtask
+        .slice(0, index + 1)
+        .reduce((prev, curr) => prev + curr) +
+      _MARGIN_TOP * (index + 1) -
+      Math.floor(heightOfEachSubtask[index] - _MARGIN_TOP);
+
+    return `${boxWidth / 2},${DISTANCE_FROM_STARTy -
+      (heightOfEachSubtask[index - 1] || _MARGIN_TOP) -
+      _MARGIN_TOP
+      } ${boxWidth / 2},
+    ${DISTANCE_FROM_STARTy} ${boxWidth},${DISTANCE_FROM_STARTy}`;
   };
 
   useEffect(() => {
     setIsExpanded(true);
-    setCheckBoxHeight(
-      checkboxRef.current.offsetHeight - checkRef.current.offsetHeight
+    setHeightOfEachSubtask(
+      subtasksRef.current.map((subtask) => subtask.offsetHeight)
     );
-    setHeightOfEachSubtask();
   }, []);
 
   // useEffect(() => {
@@ -76,9 +88,9 @@ const ListItem = ({
       calcHeight={
         isExpanded
           ? liPrimaryAreaRef.current.offsetHeight +
-            liMoreRef.current.offsetHeight +
-            20 +
-            "px"
+          liMoreRef.current.offsetHeight +
+          20 +
+          "px"
           : ""
       }
     >
@@ -97,27 +109,26 @@ const ListItem = ({
               />
 
               {subtasks.length > 0 && (
-                <svg width="100%" height={checkBoxHeight}>
+                <svg
+                  width="100%"
+                  height={
+                    checkboxRef.current
+                      ? checkboxRef.current.offsetHeight -
+                      checkRef.current.offsetHeight -
+                      2
+                      : 0
+                  }
+                >
                   {subtasks.map((subtask, index) => {
                     return (
                       <polyline
                         key={subtask.id}
-                        points={getPolylinePoints(index)}
+                        points={getPolylinePoints(index, subtask.done)}
                         fill="none"
                         stroke="#fff"
                       />
                     );
                   })}
-                  <polyline
-                    points="8,20 8,40 16,40"
-                    fill="none"
-                    stroke="#fff"
-                  />
-                  <polyline
-                    points="8,40 8,60 16,60"
-                    fill="none"
-                    stroke="#fff"
-                  />
                 </svg>
               )}
             </div>
@@ -126,10 +137,10 @@ const ListItem = ({
 
               {subtasks.length > 0 && (
                 <ul className="subtasks">
-                  {subtasks.map((subtask) => {
+                  {subtasks.map((subtask, index) => {
                     return (
                       <li
-                        // ref={createNewLiRef()}
+                        ref={(tag) => (subtasksRef.current[index] = tag)}
                         key={subtask.id}
                         className="task"
                       >
