@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import StyledTextareaWithSubTextarea from "./TextareaWithSubTextarea.css.js";
 
@@ -13,6 +13,7 @@ const TextareaWithSubTextarea = ({
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
   const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);
+  const refs = useRef({ mainTextareaTag: null, subTextareaTags: [] });
 
   const _MARGIN_TOP = 7;
   const _MAX_AMOUNT_OF_LINES = 6;
@@ -52,14 +53,15 @@ const TextareaWithSubTextarea = ({
       data.subTextareas[subTextareaIndex].subTextareaText === ""
     ) {
       if (subTextareaIndex > 0) {
-        data.subTextareas[subTextareaIndex - 1].tag.focus();
-      } else data.tag.focus();
+        refs.current.subTextareaTags[subTextareaIndex - 1].focus();
+      } else refs.current.mainTextareaTag.focus();
 
       setData((prevValue) => {
         const prevSubTextareasCopy = prevValue.subTextareas.slice();
         const newSubTextareas = prevSubTextareasCopy.filter(
           (_, index) => index !== subTextareaIndex
         );
+
         return { ...prevValue, subTextareas: newSubTextareas };
       });
     }
@@ -126,9 +128,11 @@ const TextareaWithSubTextarea = ({
   };
 
   useEffect(() => {
-    const newHeightOfEachSubtask = data.subTextareas.map((subTextarea) => {
-      return subTextarea.tag.offsetHeight + 2;
-    });
+    const newHeightOfEachSubtask = refs.current.subTextareaTags
+      .filter((subTag) => subTag !== null)
+      .map((subTextareaTag) => {
+        return subTextareaTag.offsetHeight + 2;
+      });
     setHeightOfEachSubtask(newHeightOfEachSubtask);
     onChangeReturnData(data);
   }, [onChangeReturnData, data]);
@@ -139,7 +143,7 @@ const TextareaWithSubTextarea = ({
         value={data.textareaText}
         onChange={textareaOnChangeHandler}
         placeholder={placeholder ?? 'Press "Enter" to create a subtask'}
-        ref={(tag) => (data.tag = tag)}
+        ref={(tag) => (refs.current.mainTextareaTag = tag)}
         autoFocus
       />
       {data.subTextareas.length !== 0 && (
@@ -198,7 +202,7 @@ const TextareaWithSubTextarea = ({
                       onKeyDownSubTextareaHandler(event, index)
                     }
                     value={data.subTextareas[index].subTextareaText}
-                    ref={(tag) => (data.subTextareas[index].tag = tag)}
+                    ref={(tag) => (refs.current.subTextareaTags[index] = tag)}
                     placeholder={
                       subPlaceholder ?? 'Press "Backspace" to delete subtask'
                     }

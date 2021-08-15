@@ -1,4 +1,4 @@
-import React, { useRef, useState, memo } from "react";
+import React, { useRef, useState, memo, useEffect } from "react";
 import classNames from "classnames";
 import moment from "moment";
 import DeleteButton from "../DeleteButton/DeleteButton.jsx";
@@ -16,14 +16,22 @@ const ListItem = ({
   subtasks,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [checkBoxHeight, setCheckBoxHeight] = useState(0);
+  const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
 
   const moreClasses = classNames("more", {
     more_hidden: !isExpanded,
   });
   const EXPAND_DURATION = 200;
+  const _MARGIN_TOP = 7;
 
   const liPrimaryAreaRef = useRef();
   const liMoreRef = useRef();
+
+  const checkboxRef = useRef();
+  const checkRef = useRef();
+  const subtaskRef = useRef([]);
+
   let mouseEnterTimeoutId = useRef();
   let mouseLeaveTimeoutId = useRef();
 
@@ -41,6 +49,21 @@ const ListItem = ({
 
     setIsExpanded(false);
   };
+  const getPolylinePoints = () => {
+    return "8,0 8,20 16,20";
+  };
+
+  useEffect(() => {
+    setIsExpanded(true);
+    setCheckBoxHeight(
+      checkboxRef.current.offsetHeight - checkRef.current.offsetHeight
+    );
+    setHeightOfEachSubtask();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(done);
+  // }, [done]);
 
   return (
     // <a href={'task-' + (index + 1)}>
@@ -50,14 +73,14 @@ const ListItem = ({
       })}
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
-      style={{
-        height: isExpanded
+      calcHeight={
+        isExpanded
           ? liPrimaryAreaRef.current.offsetHeight +
             liMoreRef.current.offsetHeight +
             20 +
             "px"
-          : "",
-      }}
+          : ""
+      }
     >
       <div ref={liPrimaryAreaRef} className="primary-area">
         <div className="paper">
@@ -66,16 +89,37 @@ const ListItem = ({
               task_done: done,
             })}
           >
-            <div className="checkbox">
+            <div ref={checkboxRef} className="checkbox">
               <InputCheckbox
                 checked={done}
                 onChange={() => changeTaskStatusHandler(id)}
+                ref={checkRef}
               />
 
-              {/* <svg width="100%" height={42}>
-                <polyline points="8,0 8,20 16,20" fill="none" stroke="#fff" />
-                <polyline points="8,0 8,40 16,40" fill="none" stroke="#fff" />
-              </svg> */}
+              {subtasks.length > 0 && (
+                <svg width="100%" height={checkBoxHeight}>
+                  {subtasks.map((subtask, index) => {
+                    return (
+                      <polyline
+                        key={subtask.id}
+                        points={getPolylinePoints(index)}
+                        fill="none"
+                        stroke="#fff"
+                      />
+                    );
+                  })}
+                  <polyline
+                    points="8,20 8,40 16,40"
+                    fill="none"
+                    stroke="#fff"
+                  />
+                  <polyline
+                    points="8,40 8,60 16,60"
+                    fill="none"
+                    stroke="#fff"
+                  />
+                </svg>
+              )}
             </div>
             <div className="task-content">
               <span>{taskText}</span>
@@ -84,7 +128,11 @@ const ListItem = ({
                 <ul className="subtasks">
                   {subtasks.map((subtask) => {
                     return (
-                      <li key={subtask.id} className="task">
+                      <li
+                        // ref={createNewLiRef()}
+                        key={subtask.id}
+                        className="task"
+                      >
                         <div className="checkbox">
                           <InputCheckbox
                             checked={subtask.done}

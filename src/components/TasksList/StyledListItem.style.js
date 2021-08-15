@@ -6,7 +6,10 @@ const StyledListItem = styled.li`
   max-width: 100%;
   border-bottom: 1px solid #bbc1e1;
   padding: 0.5rem;
-  height: 3.3rem;
+  height: ${({ calcHeight }) => {
+    if (!calcHeight) return "3.3rem"
+    return calcHeight;
+  }};
   overflow: hidden;
 
   display: flex;
@@ -27,7 +30,7 @@ const StyledListItem = styled.li`
   }
   .task {
     display: flex;
-    margin: 0.5rem 0px 0px 0px;
+    margin: 7px 0px 0px 0px;
     &_done {
       text-decoration: line-through;
     }
