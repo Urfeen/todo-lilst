@@ -117,9 +117,8 @@ const TodoList = () => {
           }
           return task;
         });
-        updatedList.sort((a, b) => a.done - b.done);
       }
-      return updatedList;
+      return updatedList.sort((a, b) => a.done - b.done);
     });
   };
   const deleteTaskHandler = (taskId) => {

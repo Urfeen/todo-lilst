@@ -28,8 +28,11 @@ const StyledListItem = styled.li`
   .paper {
     width: 100%;
     height: auto;
-    border: 1px solid #395ac0;
+    border: 1px solid #202a47;
+    border-radius: 5px;
     padding: 0.4rem;
+    background-color: #111527;
+    color: #ccc;
     & > .task {
       margin: 0px 0px 0px 0px;
     }
@@ -42,15 +45,24 @@ const StyledListItem = styled.li`
     }
   }
 
+  .task-content.head-focusing{
+    color: #fff;
+  }
   .task-content {
     flex-grow: 1;
     max-width: calc(100% - 1.5rem);
-
+    &_focusing{
+      color: #fff;
+    }
+    label{
+      display: block;
+    }
     span {
       white-space: pre-wrap;
       word-wrap: break-word;
       font-size: 1.1rem;
       line-height: 1.2;
+      width: 100%;
     }
   }
   .checkbox {

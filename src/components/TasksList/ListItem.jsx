@@ -73,13 +73,14 @@ const ListItem = ({
   };
 
   useEffect(() => {
+    setIsExpanded(true);
     setHeightOfEachSubtask(
       subtasksRef.current.map((subtask) => subtask.offsetHeight)
     );
-    if (focusVisualNavIndex !== null) {
+    if (focusVisualNavIndex !== null && focusVisualNavIndex !== "head") {
       subtasksRef.current[focusVisualNavIndex].childNodes[0].childNodes[0].childNodes[0].focus();
     }
-  }, [subtasks]);
+  }, [subtasks, focusVisualNavIndex]);
 
 
   return (
@@ -111,6 +112,11 @@ const ListItem = ({
                 checked={done}
                 onChange={() => changeTaskStatusHandler(listItemId)}
                 ref={checkRef}
+                onBlur={() => setFocusVisualNavIndex(null)}
+                onFocus={() => {
+                  setFocusVisualNavIndex("head");
+                }}
+                id={`task-${listItemId}`}
               />
 
               {subtasks.length > 0 && (
@@ -138,8 +144,10 @@ const ListItem = ({
                 </svg>
               )}
             </div>
-            <div className="task-content">
-              <span>{taskText}</span>
+            <div className={classNames("task-content", { "head-focusing": focusVisualNavIndex === "head" })}>
+              <label onClick={() => changeTaskStatusHandler(listItemId)} htmlFor={`task-${listItemId}`}>
+                <span>{taskText}</span>
+              </label>
 
               {subtasks.length > 0 && (
                 <ul className="subtasks">
@@ -154,7 +162,6 @@ const ListItem = ({
                           <InputCheckbox
                             checked={subtask.done}
                             onChange={() => {
-                              // setFocusVisualNavIndex(index - 1);
                               changeTaskStatusHandler(listItemId, subtask.id, listItemIndex)
                             }
                             }
@@ -162,10 +169,20 @@ const ListItem = ({
                             onFocus={() => {
                               setFocusVisualNavIndex(index);
                             }}
+                            id={`subtask-${subtask.id}`}
                           />
                         </div>
                         <div className="task-content">
-                          <span>{subtask.text}</span>
+                          <label
+                            onClick={() => {
+                              changeTaskStatusHandler(listItemId, subtask.id, listItemIndex)
+                            }}
+                            htmlFor={`subtask-${subtask.id}`}
+                          >
+                            <span className={classNames({ "task-content_focusing": focusVisualNavIndex === index })}>
+                              {subtask.text}
+                            </span>
+                          </label>
                         </div>
                       </li>
                     );
@@ -181,7 +198,7 @@ const ListItem = ({
         <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
         <span>Start - {moment(creationDate).format("DD.MM.YY")}</span>
       </div>
-    </StyledListItem>
+    </StyledListItem >
     // </a>
   );
 };
