@@ -75,7 +75,7 @@ const TodoList = () => {
     });
     setModalClosing(true);
   };
-  const changeTaskStatusHandler = (taskId, subtaskId) => {
+  const changeTaskStatusHandler = (taskId, subtaskId, taskIndex) => {
     setTasks((prevState) => {
       let updatedList = null;
 
@@ -97,6 +97,7 @@ const TodoList = () => {
           }
           return task;
         });
+        updatedList[taskIndex].subtasks.sort((a, b) => a.done - b.done);
       } else {
         updatedList = prevState.map((task) => {
           if (task.id === taskId) {
@@ -113,6 +114,7 @@ const TodoList = () => {
           }
           return task;
         });
+        updatedList.sort((a, b) => a.done - b.done);
       }
       return updatedList;
     });

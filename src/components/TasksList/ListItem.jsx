@@ -6,13 +6,13 @@ import InputCheckbox from "../InputCheckbox/InputCheckbox.jsx";
 import StyledListItem from "./StyledListItem.style.js";
 
 const ListItem = ({
-  id,
+  id: listItemId,
   done,
   taskText,
   changeTaskStatusHandler,
   deleteTaskHandler,
   creationDate,
-  index,
+  index: listItemIndex,
   subtasks,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -49,7 +49,7 @@ const ListItem = ({
 
     setIsExpanded(false);
   };
-  const getPolylinePoints = (index, isDone) => {
+  const getPolylinePoints = (index) => {
     if (heightOfEachSubtask.length === 0) return;
 
     const boxWidth = checkboxRef.current.offsetWidth;
@@ -73,15 +73,14 @@ const ListItem = ({
   };
 
   useEffect(() => {
-    setIsExpanded(true);
     setHeightOfEachSubtask(
       subtasksRef.current.map((subtask) => subtask.offsetHeight)
     );
-  }, []);
+    if (focusVisualNavIndex !== null) {
+      subtasksRef.current[focusVisualNavIndex].childNodes[0].childNodes[0].childNodes[0].focus();
+    }
+  }, [subtasks]);
 
-  // useEffect(() => {
-  //   console.log(done);
-  // }, [done]);
 
   return (
     // <a href={'task-' + (index + 1)}>
@@ -110,7 +109,7 @@ const ListItem = ({
             <div ref={checkboxRef} className="checkbox">
               <InputCheckbox
                 checked={done}
-                onChange={() => changeTaskStatusHandler(id)}
+                onChange={() => changeTaskStatusHandler(listItemId)}
                 ref={checkRef}
               />
 
@@ -129,7 +128,7 @@ const ListItem = ({
                     return (
                       <polyline
                         key={subtask.id}
-                        points={getPolylinePoints(index, subtask.done)}
+                        points={getPolylinePoints(index)}
                         fill="none"
                         stroke={focusVisualNavIndex === index ? "#5c86ff" : "#a3a3a3a0"}
                         className={classNames({ "focusing": focusVisualNavIndex === index })}
@@ -154,8 +153,10 @@ const ListItem = ({
                         <div className="checkbox">
                           <InputCheckbox
                             checked={subtask.done}
-                            onChange={() =>
-                              changeTaskStatusHandler(id, subtask.id)
+                            onChange={() => {
+                              // setFocusVisualNavIndex(index - 1);
+                              changeTaskStatusHandler(listItemId, subtask.id, listItemIndex)
+                            }
                             }
                             onBlur={() => setFocusVisualNavIndex(null)}
                             onFocus={() => {
