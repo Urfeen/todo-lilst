@@ -82,17 +82,20 @@ const TodoList = () => {
       if (subtaskId) {
         updatedList = prevState.map((task) => {
           if (task.id === taskId) {
+            const updatedSubtasks = task.subtasks.map((subtask) => {
+              if (subtask.id === subtaskId) {
+                return {
+                  ...subtask,
+                  done: !subtask.done,
+                };
+              }
+              return subtask;
+            })
+
             return {
               ...task,
-              subtasks: task.subtasks.map((subtask) => {
-                if (subtask.id === subtaskId) {
-                  return {
-                    ...subtask,
-                    done: !subtask.done,
-                  };
-                }
-                return subtask;
-              }),
+              done: !updatedSubtasks.find((subtask) => subtask.done === false),
+              subtasks: updatedSubtasks,
             };
           }
           return task;
