@@ -17,6 +17,7 @@ const ListItem = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
+  const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);
 
   const moreClasses = classNames("more", {
     more_hidden: !isExpanded,
@@ -58,6 +59,11 @@ const ListItem = ({
         .reduce((prev, curr) => prev + curr) +
       _MARGIN_TOP * (index + 1) -
       Math.floor(heightOfEachSubtask[index] - _MARGIN_TOP);
+
+    if (index === focusVisualNavIndex) {
+      return `${boxWidth / 2},0 ${boxWidth / 2},
+      ${DISTANCE_FROM_STARTy} ${boxWidth},${DISTANCE_FROM_STARTy}`;
+    }
 
     return `${boxWidth / 2},${DISTANCE_FROM_STARTy -
       (heightOfEachSubtask[index - 1] || _MARGIN_TOP) -
@@ -125,7 +131,8 @@ const ListItem = ({
                         key={subtask.id}
                         points={getPolylinePoints(index, subtask.done)}
                         fill="none"
-                        stroke="#fff"
+                        stroke={focusVisualNavIndex === index ? "#5c86ff" : "#a3a3a3a0"}
+                        className={classNames({ "focusing": focusVisualNavIndex === index })}
                       />
                     );
                   })}
@@ -150,6 +157,10 @@ const ListItem = ({
                             onChange={() =>
                               changeTaskStatusHandler(id, subtask.id)
                             }
+                            onBlur={() => setFocusVisualNavIndex(null)}
+                            onFocus={() => {
+                              setFocusVisualNavIndex(index);
+                            }}
                           />
                         </div>
                         <div className="task-content">

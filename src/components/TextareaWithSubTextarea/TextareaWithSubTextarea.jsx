@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import React, { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import StyledTextareaWithSubTextarea from "./TextareaWithSubTextarea.css.js";
+import classNames from "classnames";
 
 const TextareaWithSubTextarea = ({
   className,
@@ -171,9 +172,9 @@ const TextareaWithSubTextarea = ({
                       points={getLinesPoints(index, data.subTextareas.length)}
                       key={subTextarea.id}
                       fill="none"
-                      className={focusVisualNavIndex === index ? "focusing" : ""}
+                      className={classNames({ "focusing": focusVisualNavIndex === index })}
                       stroke={
-                        focusVisualNavIndex === index ? "#5c86ff" : "#99999970"
+                        focusVisualNavIndex === index ? "#5c86ff" : "#a3a3a3a0"
                       }
                     />
                   );

@@ -19,6 +19,12 @@ const StyledListItem = styled.li`
   box-shadow: inset 0px -10px 6px -6px #2b3044;
 
   transition: height 0.2s ease;
+  polyline {
+    transition: stroke 0.2s ease;
+  }
+  polyline.focusing{
+    filter: drop-shadow(0 0 2px #5c86ff);
+  }   
   .paper {
     width: 100%;
     height: auto;
