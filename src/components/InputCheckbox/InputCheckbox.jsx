@@ -3,7 +3,16 @@ import StyledInputCheckBox from "./InputCheckbox.style.js";
 
 const InputCheckbox = forwardRef(
   (
-    { checked = false, disabled = false, onChange: action, className = "", id = "", onFocus, onBlur },
+    {
+      checked = false,
+      disabled = false,
+      onChange: action,
+      className = "",
+      id = "",
+      onFocus,
+      onBlur,
+      tabIndex = 0
+    },
     ref
   ) => {
     return (
@@ -17,6 +26,7 @@ const InputCheckbox = forwardRef(
           type="checkbox"
           disabled={disabled}
           ref={ref}
+          tabIndex={tabIndex}
           id={id}
         />
         <span />

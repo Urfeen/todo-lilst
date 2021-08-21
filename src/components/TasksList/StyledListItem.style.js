@@ -10,6 +10,17 @@ const StyledListItem = styled.li`
     if (!calcHeight) return "3.3rem"
     return calcHeight;
   }};
+
+  ${({ isListItemFocus }) => {
+    return isListItemFocus ? `
+      &:focus-within{
+        .paper{
+          filter: drop-shadow(0 0 2px #5c86ff);
+        }
+      }
+    `: ''
+  }}
+  
   overflow: hidden;
 
   display: flex;
@@ -26,16 +37,22 @@ const StyledListItem = styled.li`
     filter: drop-shadow(0 0 2px #5c86ff);
   }   
   .paper {
+    position: relative;
     width: 100%;
     height: auto;
     border: 1px solid #202a47;
     border-radius: 5px;
     padding: 0.4rem;
-    background-color: #111527;
+    background-color: #171e42;
     color: #ccc;
     & > .task {
       margin: 0px 0px 0px 0px;
     }
+    filter: brightness(0.7);
+    transition: filter 0.2s ease;
+  }
+  .paper_expanded{
+    filter: brightness(1);
   }
   .task {
     display: flex;

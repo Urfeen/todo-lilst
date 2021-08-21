@@ -4,6 +4,16 @@ import moment from "moment";
 import DeleteButton from "../DeleteButton/DeleteButton.jsx";
 import InputCheckbox from "../InputCheckbox/InputCheckbox.jsx";
 import StyledListItem from "./StyledListItem.style.js";
+import styled from "styled-components";
+
+const StyledHiddenCheckbox = styled.input`
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+`;
 
 const ListItem = ({
   id: listItemId,
@@ -18,6 +28,7 @@ const ListItem = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
   const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);
+  const [isListItemFocus, setIsListItemFocus] = useState(false);
 
   const moreClasses = classNames("more", {
     more_hidden: !isExpanded,
@@ -73,40 +84,37 @@ const ListItem = ({
   };
 
   useEffect(() => {
-    setIsExpanded(true);
+    // setIsExpanded(true);
     setHeightOfEachSubtask(
       subtasksRef.current.map((subtask) => subtask.offsetHeight)
     );
     if (focusVisualNavIndex !== null && focusVisualNavIndex !== "head") {
-      subtasksRef.current[focusVisualNavIndex].childNodes[0].childNodes[0].childNodes[0].focus();
+      const subtaskInputCheckbox = subtasksRef.current[focusVisualNavIndex].childNodes[0].childNodes[0].childNodes[0];
+      subtaskInputCheckbox.focus();
     }
   }, [subtasks, focusVisualNavIndex]);
 
-
   return (
-    // <a href={'task-' + (index + 1)}>
     <StyledListItem
-      className={classNames({
-        "list-item_expanded": isExpanded,
-      })}
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
+      isListItemFocus={isListItemFocus}
       calcHeight={
         isExpanded
           ? liPrimaryAreaRef.current.offsetHeight +
-          liMoreRef.current.offsetHeight +
-          20 +
-          "px"
+          liMoreRef.current.offsetHeight + 20 + "px"
           : ""
       }
     >
       <div ref={liPrimaryAreaRef} className="primary-area">
-        <div className="paper">
-          <div
-            className={classNames("task", {
-              task_done: done,
-            })}
-          >
+        <StyledHiddenCheckbox
+          onFocus={() => setIsListItemFocus(true)}
+          onBlur={() => setIsListItemFocus(false)}
+          onChange={() => setIsExpanded(!isExpanded)}
+          type="checkbox"
+        />
+        <div className={classNames("paper", { "paper_expanded": isExpanded })}>
+          <div className={classNames("task", { task_done: done, })}>
             <div ref={checkboxRef} className="checkbox">
               <InputCheckbox
                 checked={done}
@@ -116,6 +124,7 @@ const ListItem = ({
                 onFocus={() => {
                   setFocusVisualNavIndex("head");
                 }}
+                tabIndex={isExpanded ? 0 : -1}
                 id={`task-${listItemId}`}
               />
 
@@ -124,9 +133,7 @@ const ListItem = ({
                   width="100%"
                   height={
                     checkboxRef.current
-                      ? checkboxRef.current.offsetHeight -
-                      checkRef.current.offsetHeight -
-                      2
+                      ? checkboxRef.current.offsetHeight - checkRef.current.offsetHeight - 5
                       : 0
                   }
                 >
@@ -161,14 +168,12 @@ const ListItem = ({
                         <div className="checkbox">
                           <InputCheckbox
                             checked={subtask.done}
-                            onChange={() => {
-                              changeTaskStatusHandler(listItemId, subtask.id, listItemIndex)
-                            }
-                            }
+                            onChange={() => changeTaskStatusHandler(listItemId, subtask.id, listItemIndex)}
                             onBlur={() => setFocusVisualNavIndex(null)}
                             onFocus={() => {
                               setFocusVisualNavIndex(index);
                             }}
+                            tabIndex={isExpanded ? 0 : -1}
                             id={`subtask-${subtask.id}`}
                           />
                         </div>
@@ -192,14 +197,21 @@ const ListItem = ({
             </div>
           </div>
         </div>
+        {isExpanded && (
+          <StyledHiddenCheckbox
+            onFocus={() => setIsListItemFocus(true)}
+            onBlur={() => setIsListItemFocus(false)}
+            onChange={() => setIsExpanded(!isExpanded)}
+            type="checkbox"
+          />
+        )}
       </div>
 
       <div ref={liMoreRef} className={moreClasses}>
-        <DeleteButton text="text" /*onClick={() => deleteTaskHandler(id)}*/ />
+        {/* <DeleteButton text="text" onClick={() => deleteTaskHandler(id)} /> */}
         <span>Start - {moment(creationDate).format("DD.MM.YY")}</span>
       </div>
     </StyledListItem >
-    // </a>
   );
 };
 
