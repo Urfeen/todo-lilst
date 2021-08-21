@@ -65,7 +65,8 @@ const TodoList = () => {
         id: task.id,
         done: false,
       })),
-      creationDate: Date.now(),
+      startDate: Date.now(),
+      endDate: null,
     };
 
     setTasks((prevState) => {
@@ -92,9 +93,11 @@ const TodoList = () => {
               return subtask;
             })
 
+            const isAllDone = !updatedSubtasks.find((subtask) => subtask.done === false);
             return {
               ...task,
-              done: !updatedSubtasks.find((subtask) => subtask.done === false),
+              done: isAllDone,
+              endDate: isAllDone ? Date.now() : null,
               subtasks: updatedSubtasks,
             };
           }
@@ -107,6 +110,7 @@ const TodoList = () => {
             return {
               ...task,
               done: !task.done,
+              endDate: !task.done ? Date.now() : null,
               subtasks: task.subtasks.map((subtask) => {
                 return {
                   ...subtask,

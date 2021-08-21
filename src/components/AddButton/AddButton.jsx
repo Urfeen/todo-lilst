@@ -5,7 +5,7 @@ const StyledAddButton = styled.button`
   width: ${(props) => props.size};
   height: ${(props) => props.size};
   border-radius: 50%;
-  border: 1px solid #fff;
+  border: 1px solid #ddd;
   position: relative;
 
   &::after,
@@ -16,7 +16,7 @@ const StyledAddButton = styled.button`
     left: 50%;
     width: 70%;
     height: 2px;
-    background-color: #fff;
+    background-color: #ddd;
   }
   &::before {
     transform: translate(-50%, -50%) rotate(90deg);
@@ -24,8 +24,14 @@ const StyledAddButton = styled.button`
   &::after {
     transform: translate(-50%, -50%);
   }
-  &:hover {
+  &:hover,
+  &:focus {
     transform: scale(1.1);
+    border: 1px solid #fff;
+    &::after,
+    &::before {
+      background-color: #fff;
+    }
   }
 `;
 

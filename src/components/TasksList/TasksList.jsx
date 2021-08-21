@@ -10,7 +10,8 @@ const TasksList = ({ tasks, changeTaskStatusHandler, deleteTaskHandler }) => {
           id={task.id}
           done={task.done}
           index={index}
-          creationDate={task.creationDate}
+          startDate={task.startDate}
+          endDate={task.endDate}
           taskText={task.text}
           subtasks={task.subtasks}
           changeTaskStatusHandler={changeTaskStatusHandler}

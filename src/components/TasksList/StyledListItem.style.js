@@ -8,7 +8,7 @@ const StyledListItem = styled.li`
   padding: 0.5rem;
   height: ${({ calcHeight }) => {
     if (!calcHeight) return "3.3rem"
-    return calcHeight;
+    return calcHeight + 'px';
   }};
 
   ${({ isListItemFocus }) => {
@@ -30,6 +30,7 @@ const StyledListItem = styled.li`
   box-shadow: inset 0px -10px 6px -6px #2b3044;
 
   transition: height 0.2s ease;
+
   polyline {
     transition: stroke 0.2s ease;
   }
@@ -39,7 +40,8 @@ const StyledListItem = styled.li`
   .paper {
     position: relative;
     width: 100%;
-    height: auto;
+    max-height: 132px;
+    overflow: auto;
     border: 1px solid #202a47;
     border-radius: 5px;
     padding: 0.4rem;
@@ -71,6 +73,9 @@ const StyledListItem = styled.li`
     &_focusing{
       color: #fff;
     }
+    &_done{
+      text-decoration: line-through;
+    }
     label{
       display: block;
     }
@@ -91,8 +96,19 @@ const StyledListItem = styled.li`
 
   .more {
     margin: 10px 0px 0px 0px;
+    padding: 0px 0px 0.4rem 0px;
     opacity: 1;
     transition: opacity 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__time {
+      color: #ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
     &_hidden {
       opacity: 0;
     }

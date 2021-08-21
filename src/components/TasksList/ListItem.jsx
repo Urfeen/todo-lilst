@@ -1,10 +1,10 @@
 import React, { useRef, useState, memo, useEffect } from "react";
 import classNames from "classnames";
 import moment from "moment";
-import DeleteButton from "../DeleteButton/DeleteButton.jsx";
 import InputCheckbox from "../InputCheckbox/InputCheckbox.jsx";
 import StyledListItem from "./StyledListItem.style.js";
 import styled from "styled-components";
+import Confirm from '../Confirm/Confirm.jsx';
 
 const StyledHiddenCheckbox = styled.input`
   position: absolute;
@@ -21,7 +21,8 @@ const ListItem = ({
   taskText,
   changeTaskStatusHandler,
   deleteTaskHandler,
-  creationDate,
+  startDate,
+  endDate,
   index: listItemIndex,
   subtasks,
 }) => {
@@ -30,10 +31,6 @@ const ListItem = ({
   const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);
   const [isListItemFocus, setIsListItemFocus] = useState(false);
 
-  const moreClasses = classNames("more", {
-    more_hidden: !isExpanded,
-  });
-  const EXPAND_DURATION = 200;
   const _MARGIN_TOP = 7;
 
   const liPrimaryAreaRef = useRef();
@@ -43,21 +40,10 @@ const ListItem = ({
   const checkRef = useRef();
   const subtasksRef = useRef([]);
 
-  let mouseEnterTimeoutId = useRef();
-  let mouseLeaveTimeoutId = useRef();
-
   const onMouseEnterHandler = () => {
-    if (mouseLeaveTimeoutId.current) clearTimeout(mouseLeaveTimeoutId.current);
-
-    mouseEnterTimeoutId.current = setTimeout(() => { }, EXPAND_DURATION);
-
     setIsExpanded(true);
   };
   const onMouseLeaveHandler = () => {
-    if (mouseEnterTimeoutId.current) clearTimeout(mouseEnterTimeoutId.current);
-
-    mouseLeaveTimeoutId.current = setTimeout(() => { }, EXPAND_DURATION);
-
     setIsExpanded(false);
   };
   const getPolylinePoints = (index) => {
@@ -84,7 +70,6 @@ const ListItem = ({
   };
 
   useEffect(() => {
-    // setIsExpanded(true);
     setHeightOfEachSubtask(
       subtasksRef.current.map((subtask) => subtask.offsetHeight)
     );
@@ -102,17 +87,19 @@ const ListItem = ({
       calcHeight={
         isExpanded
           ? liPrimaryAreaRef.current.offsetHeight +
-          liMoreRef.current.offsetHeight + 20 + "px"
+          liMoreRef.current.offsetHeight + 20
           : ""
       }
     >
+
+      <StyledHiddenCheckbox
+        onFocus={() => setIsListItemFocus(true)}
+        onBlur={() => setIsListItemFocus(false)}
+        onChange={() => setIsExpanded(!isExpanded)}
+        type="checkbox"
+      />
+
       <div ref={liPrimaryAreaRef} className="primary-area">
-        <StyledHiddenCheckbox
-          onFocus={() => setIsListItemFocus(true)}
-          onBlur={() => setIsListItemFocus(false)}
-          onChange={() => setIsExpanded(!isExpanded)}
-          type="checkbox"
-        />
         <div className={classNames("paper", { "paper_expanded": isExpanded })}>
           <div className={classNames("task", { task_done: done, })}>
             <div ref={checkboxRef} className="checkbox">
@@ -184,7 +171,13 @@ const ListItem = ({
                             }}
                             htmlFor={`subtask-${subtask.id}`}
                           >
-                            <span className={classNames({ "task-content_focusing": focusVisualNavIndex === index })}>
+                            <span
+                              className={classNames(
+                                {
+                                  "task-content_focusing": focusVisualNavIndex === index,
+                                  "task-content_done": subtasks[index].done
+                                })
+                              }>
                               {subtask.text}
                             </span>
                           </label>
@@ -197,20 +190,40 @@ const ListItem = ({
             </div>
           </div>
         </div>
-        {isExpanded && (
-          <StyledHiddenCheckbox
-            onFocus={() => setIsListItemFocus(true)}
-            onBlur={() => setIsListItemFocus(false)}
-            onChange={() => setIsExpanded(!isExpanded)}
-            type="checkbox"
-          />
-        )}
       </div>
 
-      <div ref={liMoreRef} className={moreClasses}>
-        {/* <DeleteButton text="text" onClick={() => deleteTaskHandler(id)} /> */}
-        <span>Start - {moment(creationDate).format("DD.MM.YY")}</span>
+      <div
+        ref={liMoreRef}
+        className={classNames("more", {
+          more_hidden: !isExpanded,
+        })}
+      >
+        <Confirm
+          showAccept={false}
+          tabIndex={isExpanded ? 0 : -1}
+          onDecline={() => deleteTaskHandler(listItemId)}
+          type="button"
+          declineText="Delete"
+        />
+        <div className="more__time">
+          <span>
+            Start - {moment(startDate).format("DD.MM.YY")}
+          </span>
+          <span>
+            End - {endDate ? moment(endDate).format("DD.MM.YY") : 'Not yet'}
+          </span>
+        </div>
       </div>
+
+      {isExpanded && (
+        <StyledHiddenCheckbox
+          onFocus={() => setIsListItemFocus(true)}
+          onBlur={() => setIsListItemFocus(false)}
+          onChange={() => setIsExpanded(!isExpanded)}
+          type="checkbox"
+        />
+      )}
+
     </StyledListItem >
   );
 };

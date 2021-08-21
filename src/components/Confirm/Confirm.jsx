@@ -49,6 +49,8 @@ const Confirm = ({
   showAccept = true,
   acceptText,
   declineText,
+  acceptTabIndex = 0,
+  declineTabIndex = 0,
 }) => {
   return (
     <StyledConfirm justifyContent={justifyContent} className={className}>
@@ -57,6 +59,7 @@ const Confirm = ({
           onClick={typeof onAccept === "function" ? onAccept : null}
           type={type}
           className="confirm-accept"
+          tabIndex={acceptTabIndex}
         >
           {acceptText || "Accept"}
         </button>
@@ -66,6 +69,7 @@ const Confirm = ({
           onClick={typeof onDecline === "function" ? onDecline : null}
           type={type}
           className="confirm-decline"
+          tabIndex={declineTabIndex}
         >
           {declineText || "Decline"}
         </button>
