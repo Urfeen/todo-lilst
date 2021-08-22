@@ -40,12 +40,6 @@ const ListItem = ({
   const checkRef = useRef();
   const subtasksRef = useRef([]);
 
-  const onMouseEnterHandler = () => {
-    setIsExpanded(true);
-  };
-  const onMouseLeaveHandler = () => {
-    setIsExpanded(false);
-  };
   const getPolylinePoints = (index) => {
     if (heightOfEachSubtask.length === 0) return;
 
@@ -81,8 +75,6 @@ const ListItem = ({
 
   return (
     <StyledListItem
-      onMouseEnter={onMouseEnterHandler}
-      onMouseLeave={onMouseLeaveHandler}
       isListItemFocus={isListItemFocus}
       calcHeight={
         isExpanded
@@ -90,14 +82,19 @@ const ListItem = ({
           liMoreRef.current.offsetHeight + 20
           : ""
       }
+      isExpanded={isExpanded}
     >
 
-      <StyledHiddenCheckbox
-        onFocus={() => setIsListItemFocus(true)}
-        onBlur={() => setIsListItemFocus(false)}
-        onChange={() => setIsExpanded(!isExpanded)}
-        type="checkbox"
-      />
+      {!isExpanded && (
+        <StyledHiddenCheckbox
+          onFocus={() => setIsListItemFocus(true)}
+          onBlur={() => setIsListItemFocus(false)}
+          onChange={() => setIsExpanded(true)}
+          type="checkbox"
+        />
+      )}
+
+      {!isExpanded && <div className="overlay" onClick={() => setIsExpanded(true)} />}
 
       <div ref={liPrimaryAreaRef} className="primary-area">
         <div className={classNames("paper", { "paper_expanded": isExpanded })}>
@@ -199,11 +196,13 @@ const ListItem = ({
         })}
       >
         <Confirm
-          showAccept={false}
-          tabIndex={isExpanded ? 0 : -1}
+          declineTabIndex={isExpanded ? 0 : -1}
+          acceptTabIndex={isExpanded ? 0 : -1}
           onDecline={() => deleteTaskHandler(listItemId)}
+          onAccept={() => setIsExpanded(false)}
           type="button"
           declineText="Delete"
+          acceptText="Shrink"
         />
         <div className="more__time">
           <span>
@@ -214,16 +213,6 @@ const ListItem = ({
           </span>
         </div>
       </div>
-
-      {isExpanded && (
-        <StyledHiddenCheckbox
-          onFocus={() => setIsListItemFocus(true)}
-          onBlur={() => setIsListItemFocus(false)}
-          onChange={() => setIsExpanded(!isExpanded)}
-          type="checkbox"
-        />
-      )}
-
     </StyledListItem >
   );
 };

@@ -10,7 +10,17 @@ body {
 .wrapper {
   padding: 0px 15px;
   height: 100%;
-
   overflow: auto;
   background-color: #1e2235;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper main {
+  flex: 1 1 auto;
+}
+
+.wrapper footer {
+  height: 3rem;
+  border-top: 1px solid #395ac0;
 }

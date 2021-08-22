@@ -7,7 +7,10 @@ import "./common-styles.scss";
 const App = () => {
   return (
     <div className="wrapper">
-      <TodoList />
+      <main>
+        <TodoList />
+      </main>
+      <footer></footer>
     </div>
   );
 };
