@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 
 const StyledTodoList = styled.div`
-  position: relative;
-  top: 10%;
-  left: 0;
-
-  margin: 0px auto;
+  margin: 10vh auto 0;
 
   display: flex;
   flex-direction: column;
