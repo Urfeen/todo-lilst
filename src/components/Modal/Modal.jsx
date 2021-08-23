@@ -76,6 +76,7 @@ const Modal = ({
         className="modal-background"
         onTransitionEnd={transitionEndHandler}
         onMouseDown={closeHandler}
+        onMouseOver={(e) => e.stopPropagation()}
       />
     </StyledModal>,
     document.querySelector("#modal-root")

@@ -83,6 +83,10 @@ const ListItem = ({
           : ""
       }
       isExpanded={isExpanded}
+      onClickCapture={!isExpanded ? ((e) => {
+        setIsExpanded(true);
+        e.stopPropagation();
+      }) : null}
     >
 
       {!isExpanded && (
@@ -93,8 +97,6 @@ const ListItem = ({
           type="checkbox"
         />
       )}
-
-      {!isExpanded && <div className="overlay" onClick={() => setIsExpanded(true)} />}
 
       <div ref={liPrimaryAreaRef} className="primary-area">
         <div className={classNames("paper", { "paper_expanded": isExpanded })}>
