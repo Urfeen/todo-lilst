@@ -10,6 +10,8 @@ const StyledTodoList = styled.div`
   max-width: 600px;
   border: 1px solid #5c86ff;
   padding: 0.8rem;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
 
   .todos {
     width: 100%;

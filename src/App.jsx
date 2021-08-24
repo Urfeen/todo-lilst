@@ -9,7 +9,17 @@ import particlesjsConfig from "./particlesjs-config.json"
 const App = () => {
   return (
     <>
-      <Particles />
+      <Particles params={{
+        "particles": {
+          "number": {
+            "value": 35,
+          },
+          "color": {
+            "value": "#dddddd45"
+          },
+        }
+      }}
+      />
       <div className="wrapper">
         <main>
           <TodoList />
