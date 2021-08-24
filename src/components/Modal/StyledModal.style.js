@@ -92,7 +92,7 @@ const StyledModal = styled.div`
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: ${({ zIndexBox }) => zIndexBox - 1};
-
+    
     opacity: ${({ fadeType }) => {
     switch (fadeType) {
       case "in":
