@@ -4,7 +4,6 @@ import "./App.css";
 import "./reset-styles.css";
 import ReactLogo from "./img/react-logo.png";
 import Particles from "react-particles-js";
-import particlesjsConfig from "./particlesjs-config.json"
 
 const App = () => {
   return (
