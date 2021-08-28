@@ -14,7 +14,12 @@ const App = () => {
             "value": 35,
           },
           "color": {
-            "value": "#dddddd45"
+            "value": "#ddd"
+          },
+          "line_linked": {
+            "distance": 120,
+            "color": "#ddd",
+            "opacity": 0.2,
           },
         }
       }}
