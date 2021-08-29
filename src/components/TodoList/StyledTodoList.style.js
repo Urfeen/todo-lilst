@@ -13,6 +13,23 @@ const StyledTodoList = styled.div`
   background-color: rgba(0,0,0,0.1);
   border-radius: 5px;
 
+  .signIn-btn{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 0.4rem 0.6rem;
+    color: #ddd;
+    box-shadow: 0 0 0 0 rgb(0,0,0);
+    transition: border 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+    &:hover,
+    &:focus {
+      border: 1px solid #fff;
+      box-shadow: 0 0 5px #ddd;
+      color: #fff;
+    }
+  }
   .todos {
     width: 100%;
     display: flex;

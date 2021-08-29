@@ -7,6 +7,8 @@ const StyledAddButton = styled.button`
   border-radius: 50%;
   border: 1px solid #ddd;
   position: relative;
+  box-shadow: 0 0 0 0 rgb(0,0,0);
+  transition: border 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
 
   &::after,
   &::before {
@@ -26,13 +28,19 @@ const StyledAddButton = styled.button`
   }
   &:hover,
   &:focus {
-    transform: scale(1.1);
     border: 1px solid #fff;
+    box-shadow: 0 0 5px #ddd;
+    color: #fff;
     &::after,
     &::before {
       background-color: #fff;
     }
   }
+    /* &:hover,
+    &:focus {
+      border: 1px solid #fff;
+      
+    } */
 `;
 
 const AddButton = ({

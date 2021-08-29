@@ -1,12 +1,13 @@
-import React, { memo, useEffect, useState } from "react";
-import TasksList from "./TasksList/TasksList.jsx";
-import Modal from "./Modal/Modal.jsx";
-import TextareaWithSubTextarea from "./TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
+import React, { memo, useEffect, useRef, useState } from "react";
+import TasksList from "../TasksList/TasksList.jsx";
+import Modal from "../Modal/Modal.jsx";
+import TextareaWithSubTextarea from "../TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
 import { nanoid } from "nanoid";
 import styled from "styled-components";
-import AddButton from "./AddButton/AddButton.jsx";
-import Confirm from "./Confirm/Confirm.jsx";
+import AddButton from "../AddButton/AddButton.jsx";
+import Confirm from "../Confirm/Confirm.jsx";
 import StyledTodoList from "./StyledTodoList.style.js";
+import SignUp from "../SignUp/SignUp.jsx";
 
 const StyledConfirmBox = styled.div`
   display: flex;
@@ -21,10 +22,14 @@ const StyledConfirmBox = styled.div`
   }
 `;
 
-const TodoList = () => {
+
+
+function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [textareaData, setTextareaData] = useState();
   const [emptyFieldMessage, setEmptyFieldMessage] = useState(null);
+
+  const modalContent = useRef(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
@@ -146,42 +151,59 @@ const TodoList = () => {
     <StyledTodoList>
       <header>
         <h1>Todo list</h1>
+        <button
+          className="signIn-btn"
+          type="button"
+          onClick={() => {
+            modalContent.current = "SignUp";
+            toggleModalHandler();
+          }}
+        >
+          <span>Sign up</span>
+        </button>
         <AddButton
           className="add-todo-btn"
           size="2rem"
-          onClick={toggleModalHandler}
+          onClick={() => {
+            modalContent.current = "addTask";
+            toggleModalHandler();
+          }}
         />
         {isModalOpen && (
           <Modal
-            title="Create new task"
+            title={modalContent.current === "addTask" ? "Create new task" : modalContent.current}
             zIndexBox={2}
             onClose={toggleModalHandler}
             modalClosing={modalClosing}
             setModalClosing={setModalClosing}
             onUnmount={() => setEmptyFieldMessage(null)}
           >
-            <form onSubmit={addTaskHandler}>
-              <TextareaWithSubTextarea
-                subPlaceholder="Type something here..."
-                showLines={true}
-                onChangeGetData={setTextareaData}
-              />
-              <StyledConfirmBox>
-                <Confirm
-                  justifyContent="flex-left"
-                  onDecline={(e) => {
-                    e.preventDefault();
-                    setModalClosing(true);
-                  }}
-                  onAccept={addTaskHandler}
+            {modalContent.current === "addTask" ? (
+              <form onSubmit={addTaskHandler}>
+                <TextareaWithSubTextarea
+                  subPlaceholder="Type something here..."
+                  showLines={true}
+                  onChangeGetData={setTextareaData}
                 />
-                {emptyFieldMessage && (
-                  <div>
-                    <span>{emptyFieldMessage}</span>
-                  </div>
-                )}
-              </StyledConfirmBox>
-            </form>
+                <StyledConfirmBox>
+                  <Confirm
+                    justifyContent="flex-left"
+                    onDecline={(e) => {
+                      e.preventDefault();
+                      setModalClosing(true);
+                    }}
+                    onAccept={addTaskHandler}
+                  />
+                  {emptyFieldMessage && (
+                    <div>
+                      <span>{emptyFieldMessage}</span>
+                    </div>
+                  )}
+                </StyledConfirmBox>
+              </form>
+            ) : modalContent.current === "SignUp" ? (
+              <SignUp />
+            ) : null}
           </Modal>
         )}
       </header>

@@ -1,9 +1,10 @@
 import React from "react";
-import TodoList from "./components/TodoList.jsx";
+import TodoList from "./components/TodoList/TodoList.jsx";
 import "./App.css";
 import "./reset-styles.css";
 import ReactLogo from "./img/react-logo.png";
 import Particles from "react-particles-js";
+import AuthProvider from "./contexts/AuthContext.js";
 
 const App = () => {
   return (
@@ -26,7 +27,9 @@ const App = () => {
       />
       <div className="wrapper">
         <main>
-          <TodoList />
+          <AuthProvider>
+            <TodoList />
+          </AuthProvider>
         </main>
         <footer>
           <img src={ReactLogo} alt="react-logo" />
