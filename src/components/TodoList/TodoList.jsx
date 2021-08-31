@@ -7,7 +7,7 @@ import styled from "styled-components";
 import AddButton from "../AddButton/AddButton.jsx";
 import Confirm from "../Confirm/Confirm.jsx";
 import StyledTodoList from "./StyledTodoList.style.js";
-import SignUp from "../SignUp/SignUp.jsx";
+import SignUpLogIn from "../SignUpLogIn/SignUpLogIn.jsx";
 
 const StyledConfirmBox = styled.div`
   display: flex;
@@ -201,7 +201,7 @@ function TodoList() {
                 </StyledConfirmBox>
               </form>
             ) : modalContent === "Sign up" ? (
-              <SignUp />
+              <SignUpLogIn />
             ) : null}
           </Modal>
         )}

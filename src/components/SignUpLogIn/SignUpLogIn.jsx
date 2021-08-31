@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import Confirm from '../Confirm/Confirm';
 import Loader from '../Loader/Loader';
 
-const StyledSignUp = styled.form`
+const StyledSignUpLogIn = styled.form`
   margin: 1rem 0 0;
 
   display: flex;
@@ -37,6 +37,21 @@ const StyledSignUp = styled.form`
     align-items: center;
     color: #ddd;
     gap: 0.5rem;
+    span{
+    }
+    button{
+      font-size: 1rem;
+      color: #395ac0;
+      /* max-width: 4rem; */
+      flex: 0 1 3rem;
+      filter: drop-shadow(0 0 0px #000);
+      transition: filter 0.2s ease, text-decoration 0.2s ease;
+      &:hover,
+      &:focus{
+        text-decoration: underline;
+        filter: drop-shadow(0 0 1px #395ac0);
+      }
+    }
   }
   .error{
     padding: 0 0 0.5rem;
@@ -53,12 +68,14 @@ const StyledSignUp = styled.form`
   }
 `;
 
-function SignUp() {
+function SignUpLogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [isLogin, setIsLogin] = useState(false);
 
   const { signUp } = useAuth();
 
@@ -87,7 +104,7 @@ function SignUp() {
   }
 
   return (
-    <StyledSignUp onSubmit={submitHandler}>
+    <StyledSignUpLogIn onSubmit={submitHandler}>
       <input
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -113,8 +130,11 @@ function SignUp() {
         acceptDisabled={loading}
       />
       <div className="redirect">
-        <span>Already have an account?</span>
-        <span>Login</span>
+        <span>{isLogin ? "Don't have an account?" : "Already have an account?"}</span>
+        <button
+          type="button"
+          onClick={() => setIsLogin(!isLogin)}
+        >{isLogin ? "Sign up" : "Log in"}</button>
       </div>
       {loading && (
         <div className="loader-box">
@@ -126,8 +146,8 @@ function SignUp() {
           <span>{error}</span>
         </div>
       )}
-    </StyledSignUp>
+    </StyledSignUpLogIn>
   );
 }
 
-export default SignUp;
+export default SignUpLogIn;
