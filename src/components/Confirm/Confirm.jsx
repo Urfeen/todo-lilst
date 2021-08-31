@@ -22,7 +22,17 @@ const StyledConfirm = styled.div`
   .confirm-decline {
     background-color: #5a14075c;
   }
-
+  .confirm-accept:disabled{
+    pointer-events: none;
+    background-color: #1b274b55;
+    color: #aaa;
+  }
+  .confirm-decline:disabled{
+    pointer-events: none;
+    background-color: #5a130721;
+    color: #aaa;
+  }
+  
   .confirm-accept:focus,
   .confirm-accept:hover {
     border: 1px #395ac0 solid;
@@ -47,6 +57,8 @@ const Confirm = ({
   onDecline,
   showDecline = true,
   showAccept = true,
+  declineDisabled = false,
+  acceptDisabled = false,
   acceptText,
   declineText,
   acceptTabIndex = 0,
@@ -60,6 +72,7 @@ const Confirm = ({
           type={type}
           className="confirm-accept"
           tabIndex={acceptTabIndex}
+          disabled={acceptDisabled}
         >
           {acceptText || "Accept"}
         </button>
@@ -70,6 +83,7 @@ const Confirm = ({
           type={type}
           className="confirm-decline"
           tabIndex={declineTabIndex}
+          disabled={declineDisabled}
         >
           {declineText || "Decline"}
         </button>

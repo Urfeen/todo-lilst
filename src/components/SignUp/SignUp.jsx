@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 import Confirm from '../Confirm/Confirm';
+import Loader from '../Loader/Loader';
 
 const StyledSignUp = styled.form`
   margin: 1rem 0 0;
@@ -33,7 +33,7 @@ const StyledSignUp = styled.form`
   .redirect{
     padding: 0.5rem 0;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     color: #ddd;
     gap: 0.5rem;
@@ -45,6 +45,12 @@ const StyledSignUp = styled.form`
     justify-content: center;
     color: tomato;
   }
+  .loader-box{
+    padding: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 function SignUp() {
@@ -52,8 +58,9 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const { currentUser, signUp } = useAuth();
+  const { signUp } = useAuth();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -66,15 +73,16 @@ function SignUp() {
       return setError("passwords do not match")
     }
 
-    signUp(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        return user;
+    setError('');
+    setLoading(true);
+
+    signUp(trimmedEmail, trimmedPassword)
+      .then(() => {
+        setLoading(false);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        console.log(error.message);
-        setError(errorCode.slice(5).split('-').join(" "));
+        setError(error.code.slice(5).split('-').join(" "));
+        setLoading(false);
       });
   }
 
@@ -102,11 +110,17 @@ function SignUp() {
       <Confirm
         showDecline={false}
         acceptText="Sign up"
+        acceptDisabled={loading}
       />
       <div className="redirect">
         <span>Already have an account?</span>
         <span>Login</span>
       </div>
+      {loading && (
+        <div className="loader-box">
+          <Loader size={25} />
+        </div>
+      )}
       {error && (
         <div className="error">
           <span>{error}</span>

@@ -28,8 +28,7 @@ function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [textareaData, setTextareaData] = useState();
   const [emptyFieldMessage, setEmptyFieldMessage] = useState(null);
-
-  const modalContent = useRef(null);
+  const [modalContent, setModalContent] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
@@ -155,7 +154,7 @@ function TodoList() {
           className="signIn-btn"
           type="button"
           onClick={() => {
-            modalContent.current = "SignUp";
+            setModalContent("Sign up");
             toggleModalHandler();
           }}
         >
@@ -165,20 +164,20 @@ function TodoList() {
           className="add-todo-btn"
           size="2rem"
           onClick={() => {
-            modalContent.current = "addTask";
+            setModalContent("Create new task");
             toggleModalHandler();
           }}
         />
         {isModalOpen && (
           <Modal
-            title={modalContent.current === "addTask" ? "Create new task" : modalContent.current}
+            title={modalContent}
             zIndexBox={2}
             onClose={toggleModalHandler}
             modalClosing={modalClosing}
             setModalClosing={setModalClosing}
             onUnmount={() => setEmptyFieldMessage(null)}
           >
-            {modalContent.current === "addTask" ? (
+            {modalContent === "Create new task" ? (
               <form onSubmit={addTaskHandler}>
                 <TextareaWithSubTextarea
                   subPlaceholder="Type something here..."
@@ -201,7 +200,7 @@ function TodoList() {
                   )}
                 </StyledConfirmBox>
               </form>
-            ) : modalContent.current === "SignUp" ? (
+            ) : modalContent === "Sign up" ? (
               <SignUp />
             ) : null}
           </Modal>
