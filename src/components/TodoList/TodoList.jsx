@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import TasksList from "../TasksList/TasksList.jsx";
 import Modal from "../Modal/Modal.jsx";
 import TextareaWithSubTextarea from "../TextareaWithSubTextarea/TextareaWithSubTextarea.jsx";
@@ -8,6 +8,7 @@ import AddButton from "../AddButton/AddButton.jsx";
 import Confirm from "../Confirm/Confirm.jsx";
 import StyledTodoList from "./StyledTodoList.style.js";
 import SignUpLogIn from "../SignUpLogIn/SignUpLogIn.jsx";
+import LogInButton from "../LogInButton/LogInButton.jsx";
 
 const StyledConfirmBox = styled.div`
   display: flex;
@@ -32,6 +33,8 @@ function TodoList() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
+
+  const [isLogin, setIsLogin] = useState(false);
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -150,16 +153,13 @@ function TodoList() {
     <StyledTodoList>
       <header>
         <h1>Todo list</h1>
-        <button
-          className="signIn-btn"
-          type="button"
+        <LogInButton
+          size={20}
           onClick={() => {
-            setModalContent("Sign up");
+            setModalContent("Sign up / Log in");
             toggleModalHandler();
           }}
-        >
-          <span>Sign up</span>
-        </button>
+        />
         <AddButton
           className="add-todo-btn"
           size="2rem"
@@ -170,7 +170,7 @@ function TodoList() {
         />
         {isModalOpen && (
           <Modal
-            title={modalContent}
+            title={modalContent === "Sign up / Log in" ? isLogin ? "Log in" : "Sign up" : modalContent}
             zIndexBox={2}
             onClose={toggleModalHandler}
             modalClosing={modalClosing}
@@ -200,8 +200,8 @@ function TodoList() {
                   )}
                 </StyledConfirmBox>
               </form>
-            ) : modalContent === "Sign up" ? (
-              <SignUpLogIn />
+            ) : modalContent === "Sign up / Log in" ? (
+              <SignUpLogIn setModalClosing={setModalClosing} isLogin={isLogin} setIsLogin={setIsLogin} />
             ) : null}
           </Modal>
         )}

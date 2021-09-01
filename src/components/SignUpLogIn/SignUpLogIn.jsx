@@ -37,13 +37,10 @@ const StyledSignUpLogIn = styled.form`
     align-items: center;
     color: #ddd;
     gap: 0.5rem;
-    span{
-    }
     button{
       font-size: 1rem;
       color: #395ac0;
-      /* max-width: 4rem; */
-      flex: 0 1 3rem;
+      max-width: 3.5rem;
       filter: drop-shadow(0 0 0px #000);
       transition: filter 0.2s ease, text-decoration 0.2s ease;
       &:hover,
@@ -68,16 +65,14 @@ const StyledSignUpLogIn = styled.form`
   }
 `;
 
-function SignUpLogIn() {
+function SignUpLogIn({ setModalClosing, isLogin = false, setIsLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [isLogin, setIsLogin] = useState(false);
-
-  const { signUp } = useAuth();
+  const { signUp, logIn } = useAuth();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -86,19 +81,41 @@ function SignUpLogIn() {
     const trimmedPassword = password.trim();
     const trimmedPasswordConfirm = passwordConfirm.trim();
 
-    if (trimmedPassword !== trimmedPasswordConfirm) {
+    if (!isLogin && trimmedPassword !== trimmedPasswordConfirm) {
       return setError("passwords do not match")
     }
 
     setError('');
     setLoading(true);
 
+    if (isLogin) {
+      return logIn(trimmedEmail, trimmedPassword)
+        .then(() => {
+          setLoading(false);
+          setModalClosing(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.code) {
+            setError(error.code.slice(5).split('-').join(" "));
+          } else {
+            setError(error);
+          }
+          setLoading(false);
+        });
+    }
+
     signUp(trimmedEmail, trimmedPassword)
       .then(() => {
         setLoading(false);
+        setModalClosing(true);
       })
       .catch((error) => {
-        setError(error.code.slice(5).split('-').join(" "));
+        if (error.code) {
+          setError(error.code.slice(5).split('-').join(" "));
+        } else {
+          setError(error);
+        }
         setLoading(false);
       });
   }
@@ -118,15 +135,17 @@ function SignUpLogIn() {
         onChange={(e) => setPassword(e.target.value)}
         placeholder={`Password`}
       />
-      <input
-        value={passwordConfirm}
-        type="password"
-        onChange={(e) => setPasswordConfirm(e.target.value)}
-        placeholder={`Password confirmation`}
-      />
+      {!isLogin && (
+        <input
+          value={passwordConfirm}
+          type="password"
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+          placeholder={`Password confirmation`}
+        />
+      )}
       <Confirm
         showDecline={false}
-        acceptText="Sign up"
+        acceptText={isLogin ? "Log in" : "Sign up"}
         acceptDisabled={loading}
       />
       <div className="redirect">
