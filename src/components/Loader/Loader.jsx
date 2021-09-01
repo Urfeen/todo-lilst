@@ -84,9 +84,9 @@ height: ${({ size }) => size}px;
 }
 `;
 
-function Loader({ size = 80 }) {
+function Loader({ size = 80, className = "" }) {
   return (
-    <StyledLoader size={size} >
+    <StyledLoader className={className} size={size} >
       <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </StyledLoader>
   );

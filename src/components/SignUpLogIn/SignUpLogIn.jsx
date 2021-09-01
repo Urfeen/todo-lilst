@@ -65,7 +65,7 @@ const StyledSignUpLogIn = styled.form`
   }
 `;
 
-function SignUpLogIn({ setModalClosing, isLogin = false, setIsLogin }) {
+function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIsLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -81,14 +81,14 @@ function SignUpLogIn({ setModalClosing, isLogin = false, setIsLogin }) {
     const trimmedPassword = password.trim();
     const trimmedPasswordConfirm = passwordConfirm.trim();
 
-    if (!isLogin && trimmedPassword !== trimmedPasswordConfirm) {
+    if (!modalFormIsLogin && trimmedPassword !== trimmedPasswordConfirm) {
       return setError("passwords do not match")
     }
 
     setError('');
     setLoading(true);
 
-    if (isLogin) {
+    if (modalFormIsLogin) {
       return logIn(trimmedEmail, trimmedPassword)
         .then(() => {
           setLoading(false);
@@ -135,7 +135,7 @@ function SignUpLogIn({ setModalClosing, isLogin = false, setIsLogin }) {
         onChange={(e) => setPassword(e.target.value)}
         placeholder={`Password`}
       />
-      {!isLogin && (
+      {!modalFormIsLogin && (
         <input
           value={passwordConfirm}
           type="password"
@@ -145,15 +145,15 @@ function SignUpLogIn({ setModalClosing, isLogin = false, setIsLogin }) {
       )}
       <Confirm
         showDecline={false}
-        acceptText={isLogin ? "Log in" : "Sign up"}
+        acceptText={modalFormIsLogin ? "Log in" : "Sign up"}
         acceptDisabled={loading}
       />
       <div className="redirect">
-        <span>{isLogin ? "Don't have an account?" : "Already have an account?"}</span>
+        <span>{modalFormIsLogin ? "Don't have an account?" : "Already have an account?"}</span>
         <button
           type="button"
-          onClick={() => setIsLogin(!isLogin)}
-        >{isLogin ? "Sign up" : "Log in"}</button>
+          onClick={() => setModalFormIsLogin(!modalFormIsLogin)}
+        >{modalFormIsLogin ? "Sign up" : "Log in"}</button>
       </div>
       {loading && (
         <div className="loader-box">

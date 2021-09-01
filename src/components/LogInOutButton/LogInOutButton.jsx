@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import LogIn from "./LogIn.svg";
+import LogOut from "./LogOut.svg";
 
-const StyledLogInButton = styled.button`
+const StyledLogInOutButton = styled.button`
   border-radius: 5px;
-  padding: 1rem;
+  padding: 14px;
   color: #ddd;
   transition: filter 0.2s ease;
-  background: url(${LogIn}) center / cover no-repeat;
+  background: url(${({ isLogOut }) => isLogOut ? LogOut : LogIn}) center / cover no-repeat;
   &:hover,
   &:focus {
     filter: drop-shadow(0 0 2px #ddd);
@@ -15,16 +16,17 @@ const StyledLogInButton = styled.button`
   }
 `;
 
-function LogInButton({ onClick, size = 32 }) {
+function LogInOutButton({ onClick, isLogOut = false, size = 32 }) {
   return (
-    <StyledLogInButton
+    <StyledLogInOutButton
+      isLogOut={isLogOut}
       className="signIn-btn"
       type="button"
       onClick={typeof onClick === "function" ? onClick : null}
       size={size}
     >
-    </StyledLogInButton>
+    </StyledLogInOutButton>
   );
 }
 
-export default LogInButton;
+export default LogInOutButton;

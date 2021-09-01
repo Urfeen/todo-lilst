@@ -8,7 +8,9 @@ import AddButton from "../AddButton/AddButton.jsx";
 import Confirm from "../Confirm/Confirm.jsx";
 import StyledTodoList from "./StyledTodoList.style.js";
 import SignUpLogIn from "../SignUpLogIn/SignUpLogIn.jsx";
-import LogInButton from "../LogInButton/LogInButton.jsx";
+import LogInOutButton from "../LogInOutButton/LogInOutButton.jsx";
+import { useAuth } from "../../contexts/AuthContext.js";
+import Loader from "../Loader/Loader.jsx";
 
 const StyledConfirmBox = styled.div`
   display: flex;
@@ -34,7 +36,9 @@ function TodoList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [modalFormIsLogin, setModalFormIsLogin] = useState(false);
+
+  const { currentUser, userLoading } = useAuth();
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -152,59 +156,73 @@ function TodoList() {
   return (
     <StyledTodoList>
       <header>
-        <h1>Todo list</h1>
-        <LogInButton
-          size={20}
-          onClick={() => {
-            setModalContent("Sign up / Log in");
-            toggleModalHandler();
-          }}
-        />
-        <AddButton
-          className="add-todo-btn"
-          size="2rem"
-          onClick={() => {
-            setModalContent("Create new task");
-            toggleModalHandler();
-          }}
-        />
-        {isModalOpen && (
-          <Modal
-            title={modalContent === "Sign up / Log in" ? isLogin ? "Log in" : "Sign up" : modalContent}
-            zIndexBox={2}
-            onClose={toggleModalHandler}
-            modalClosing={modalClosing}
-            setModalClosing={setModalClosing}
-            onUnmount={() => setEmptyFieldMessage(null)}
-          >
-            {modalContent === "Create new task" ? (
-              <form onSubmit={addTaskHandler}>
-                <TextareaWithSubTextarea
-                  subPlaceholder="Type something here..."
-                  showLines={true}
-                  onChangeGetData={setTextareaData}
-                />
-                <StyledConfirmBox>
-                  <Confirm
-                    justifyContent="flex-left"
-                    onDecline={(e) => {
-                      e.preventDefault();
-                      setModalClosing(true);
-                    }}
-                    onAccept={addTaskHandler}
-                  />
-                  {emptyFieldMessage && (
-                    <div>
-                      <span>{emptyFieldMessage}</span>
-                    </div>
-                  )}
-                </StyledConfirmBox>
-              </form>
-            ) : modalContent === "Sign up / Log in" ? (
-              <SignUpLogIn setModalClosing={setModalClosing} isLogin={isLogin} setIsLogin={setIsLogin} />
-            ) : null}
-          </Modal>
+        {currentUser && (
+          <div className="userEmail">
+            <span>{currentUser && currentUser.email}</span>
+          </div>
         )}
+        <div className="title">
+          <h1>Todo list</h1>
+          {userLoading ? <Loader size={28} className="header-loader" /> : (
+            <LogInOutButton
+              isLogOut={currentUser}
+              size={20}
+              onClick={() => {
+                setModalContent(currentUser ? "Log out" : "SignUpLogIn");
+                toggleModalHandler();
+              }}
+            />
+          )}
+          <AddButton
+            className="add-todo-btn"
+            size="2rem"
+            onClick={() => {
+              setModalContent("Create new task");
+              toggleModalHandler();
+            }}
+          />
+          {isModalOpen && (
+            <Modal
+              title={modalContent === "SignUpLogIn" ? modalFormIsLogin ? "Log in" : "Sign up" : modalContent}
+              zIndexBox={2}
+              onClose={toggleModalHandler}
+              modalClosing={modalClosing}
+              setModalClosing={setModalClosing}
+              onUnmount={() => setEmptyFieldMessage(null)}
+            >
+              {modalContent === "Create new task" ? (
+                <form onSubmit={addTaskHandler}>
+                  <TextareaWithSubTextarea
+                    subPlaceholder="Type something here..."
+                    showLines={true}
+                    onChangeGetData={setTextareaData}
+                  />
+                  <StyledConfirmBox>
+                    <Confirm
+                      justifyContent="flex-left"
+                      onDecline={(e) => {
+                        e.preventDefault();
+                        setModalClosing(true);
+                      }}
+                      onAccept={addTaskHandler}
+                    />
+                    {emptyFieldMessage && (
+                      <div>
+                        <span>{emptyFieldMessage}</span>
+                      </div>
+                    )}
+                  </StyledConfirmBox>
+                </form>
+              ) : modalContent === "SignUpLogIn" ? (
+                <SignUpLogIn
+                  setModalClosing={setModalClosing}
+                  modalFormIsLogin={modalFormIsLogin}
+                  setModalFormIsLogin={setModalFormIsLogin}
+                />
+              ) : null}
+            </Modal>
+          )}
+        </div>
       </header>
       <div className="todos">
         {tasks.length !== 0 ? (
