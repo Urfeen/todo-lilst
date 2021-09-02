@@ -6,7 +6,7 @@ import ReactLogo from "./img/react-logo.png";
 import Particles from "react-particles-js";
 import AuthProvider from "./contexts/AuthContext.js";
 
-const App = () => {
+function App() {
   return (
     <>
       <Particles params={{

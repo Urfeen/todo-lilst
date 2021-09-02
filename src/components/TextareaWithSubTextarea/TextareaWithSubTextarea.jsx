@@ -4,13 +4,13 @@ import TextareaAutosize from "react-textarea-autosize";
 import StyledTextareaWithSubTextarea from "./TextareaWithSubTextarea.css.js";
 import classNames from "classnames";
 
-const TextareaWithSubTextarea = ({
+function TextareaWithSubTextarea({
   className,
   onChangeGetData: onChangeReturnData,
   placeholder,
   subPlaceholder,
   showLines,
-}) => {
+}) {
   const [data, setData] = useState({ textareaText: "", subTextareas: [] });
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
   const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);

@@ -9,7 +9,7 @@ if (!document.querySelector("#modal-root")) {
   document.body.appendChild(modalRoot);
 }
 
-const Modal = ({
+function Modal({
   title = "",
   id = "modal",
   className = "",
@@ -19,7 +19,7 @@ const Modal = ({
   modalClosing = false,
   setModalClosing,
   onUnmount: unmountAction,
-}) => {
+}) {
   const [fadeType, setFadeType] = useState(null);
 
   const transitionEndHandler = (e) => {

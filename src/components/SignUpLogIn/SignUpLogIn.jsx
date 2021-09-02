@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 import Confirm from '../Confirm/Confirm';
+import InputPassword from '../InputPassword/InputPassword';
 import Loader from '../Loader/Loader';
 
 const StyledSignUpLogIn = styled.form`
@@ -27,6 +28,7 @@ const StyledSignUpLogIn = styled.form`
     color: #ccc;
     transition: border 0.2s ease, color 0.2s ease;
     border-radius: 3px;
+    position: relative;
   }
   input:focus {
     border: 1px #395ac0 solid;
@@ -75,6 +77,7 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -125,6 +128,7 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
       });
   }
 
+
   return (
     <StyledSignUpLogIn onSubmit={submitHandler}>
       <input
@@ -134,16 +138,14 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
         autoFocus
         type="email"
       />
-      <input
+      <InputPassword
         value={password}
-        type="password"
         onChange={(e) => setPassword(e.target.value)}
         placeholder={`Password`}
       />
       {!modalFormIsLogin && (
-        <input
+        <InputPassword
           value={passwordConfirm}
-          type="password"
           onChange={(e) => setPasswordConfirm(e.target.value)}
           placeholder={`Password confirmation`}
         />

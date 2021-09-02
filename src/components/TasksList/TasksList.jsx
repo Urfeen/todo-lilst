@@ -1,7 +1,7 @@
 import ListItem from "./ListItem.jsx";
 import React from "react";
 
-const TasksList = ({ tasks, changeTaskStatusHandler, deleteTaskHandler }) => {
+function TasksList({ tasks, changeTaskStatusHandler, deleteTaskHandler }) {
   return (
     <ul>
       {tasks.map((task, index) => (

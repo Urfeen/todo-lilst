@@ -15,7 +15,7 @@ const StyledHiddenCheckbox = styled.input`
   appearance: none;
 `;
 
-const ListItem = ({
+function ListItem({
   id: listItemId,
   done,
   taskText,
@@ -25,7 +25,7 @@ const ListItem = ({
   endDate,
   index: listItemIndex,
   subtasks,
-}) => {
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [heightOfEachSubtask, setHeightOfEachSubtask] = useState([]);
   const [focusVisualNavIndex, setFocusVisualNavIndex] = useState(null);

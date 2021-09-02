@@ -49,7 +49,7 @@ const StyledConfirm = styled.div`
   }
 `;
 
-const Confirm = ({
+function Confirm({
   type = "submit",
   className = "",
   justifyContent = "center",
@@ -63,7 +63,7 @@ const Confirm = ({
   declineText,
   acceptTabIndex = 0,
   declineTabIndex = 0,
-}) => {
+}) {
   return (
     <StyledConfirm
       showDecline={showDecline}
