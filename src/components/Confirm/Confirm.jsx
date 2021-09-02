@@ -5,7 +5,6 @@ const StyledConfirm = styled.div`
   display: flex;
   align-items: center;
   justify-content: ${({ justifyContent }) => justifyContent};
-  gap: 10px;
   button {
     padding: 7px 10px;
     border: 1px #2b3044 solid;
@@ -17,6 +16,7 @@ const StyledConfirm = styled.div`
     transition: background-color 0.2s ease, border 0.2s ease, color 0.2s ease;
   }
   .confirm-accept {
+    ${({ showDecline }) => showDecline && `margin: 0px 10px 0px 0px;`}
     background-color: #1b274b87;
   }
   .confirm-decline {
@@ -65,7 +65,11 @@ const Confirm = ({
   declineTabIndex = 0,
 }) => {
   return (
-    <StyledConfirm justifyContent={justifyContent} className={className}>
+    <StyledConfirm
+      showDecline={showDecline}
+      justifyContent={justifyContent}
+      className={className}
+    >
       {showAccept && (
         <button
           onClick={typeof onAccept === "function" ? onAccept : null}

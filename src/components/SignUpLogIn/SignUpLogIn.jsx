@@ -9,7 +9,13 @@ const StyledSignUpLogIn = styled.form`
 
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+
+  &>*{
+    margin: 0.5rem 0px 0 0px;
+  }
+  &:first-child{
+    margin: 0rem 0px 0px 0px;
+  }
 
   input {
     width: 100%;
@@ -36,8 +42,8 @@ const StyledSignUpLogIn = styled.form`
     justify-content: center;
     align-items: center;
     color: #ddd;
-    gap: 0.5rem;
     button{
+      margin: 0px 0px 0px 0.5rem;
       font-size: 1rem;
       color: #395ac0;
       max-width: 3.5rem;
