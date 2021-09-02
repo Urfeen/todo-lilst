@@ -25,7 +25,24 @@ const StyledConfirmBox = styled.div`
   }
 `;
 
-
+const StyledLogOutConfirmation = styled.div`
+  padding: 0.5rem;
+  text-align: center;
+  &>div{
+    margin: 0.5rem 0px 0px 0px;
+    div{
+      margin: 0.8rem 0px 0 0px;
+    }
+  }
+  .title{
+    font-size: 1.2rem;
+  }
+  .error{
+    margin: 0.8rem 0px 0px 0px;
+    font-size: 1rem;
+    color: tomato;
+  }
+`;
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
@@ -36,14 +53,15 @@ function TodoList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
 
-  const [modalFormIsLogin, setModalFormIsLogin] = useState(false);
+  const [modalFormIsLogin, setModalFormIsLogin] = useState(true);
 
-  const { currentUser, userLoading } = useAuth();
+  const [logOutConfirmationError, setLogOutConfirmationError] = useState('');
+
+  const { currentUser, userLoading, logOut } = useAuth();
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
-
   const isTextareaHasEmptyFields = () => {
     if (!textareaData.textareaText.trim()) return true;
 
@@ -55,9 +73,8 @@ function TodoList() {
 
     return false;
   };
-
-  const addTaskHandler = (event) => {
-    event.preventDefault();
+  const addTaskHandler = (e) => {
+    e.preventDefault();
 
     if (isTextareaHasEmptyFields()) {
       const message = "You must fill in all empty fields";
@@ -142,6 +159,21 @@ function TodoList() {
       return updatedList;
     });
   };
+  const logOutHandler = (e) => {
+    e.preventDefault();
+
+    logOut()
+      .then(() => {
+        setModalClosing(true);
+      })
+      .catch((error) => {
+        if (error.code) {
+          setLogOutConfirmationError(error.code.slice(5).split('-').join(" "));
+        } else {
+          setLogOutConfirmationError(error);
+        }
+      });
+  }
 
   useEffect(() => {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -168,7 +200,7 @@ function TodoList() {
               isLogOut={currentUser}
               size={20}
               onClick={() => {
-                setModalContent(currentUser ? "Log out" : "SignUpLogIn");
+                setModalContent(currentUser ? "LogOut" : "SignUpLogIn");
                 toggleModalHandler();
               }}
             />
@@ -204,7 +236,6 @@ function TodoList() {
                         e.preventDefault();
                         setModalClosing(true);
                       }}
-                      onAccept={addTaskHandler}
                     />
                     {emptyFieldMessage && (
                       <div>
@@ -219,6 +250,29 @@ function TodoList() {
                   modalFormIsLogin={modalFormIsLogin}
                   setModalFormIsLogin={setModalFormIsLogin}
                 />
+              ) : modalContent === "LogOut" ? (
+                <form onSubmit={logOutHandler}>
+                  <StyledLogOutConfirmation>
+                    <div>
+                      <span className="title">Are you sure want to log out?</span>
+                      <Confirm
+                        acceptText="Log out"
+                        declineText="Cancel"
+                        onDecline={(e) => {
+                          e.preventDefault();
+                          setModalClosing(true);
+                        }}
+                      />
+                      {logOutConfirmationError && (
+                        <div className="error">
+                          <span>
+                            {logOutConfirmationError}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </StyledLogOutConfirmation>
+                </form>
               ) : null}
             </Modal>
           )}

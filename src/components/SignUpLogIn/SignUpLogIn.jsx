@@ -95,7 +95,6 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
           setModalClosing(true);
         })
         .catch((error) => {
-          console.log(error);
           if (error.code) {
             setError(error.code.slice(5).split('-').join(" "));
           } else {

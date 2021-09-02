@@ -18,10 +18,13 @@ const App = () => {
             "value": "#ddd"
           },
           "line_linked": {
-            "distance": 120,
+            "distance": 80,
             "color": "#ddd",
             "opacity": 0.2,
           },
+          "move": {
+            "speed": 1
+          }
         }
       }}
       />
