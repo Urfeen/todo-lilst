@@ -4,6 +4,7 @@ const StyledTextareaWithSubTextarea = styled.div`
   margin: 0.8rem 0px 0.8rem 0px;
   textarea {
     width: 100%;
+    height: auto;
     resize: none;
     padding: 4px;
     font-size: 16px;
@@ -12,6 +13,7 @@ const StyledTextareaWithSubTextarea = styled.div`
     color: #ccc;
     transition: border 0.2s ease, color 0.2s ease;
     border-radius: 3px;
+    overflow: hidden;
   }
   textarea:focus {
     border: 1px #395ac0 solid;

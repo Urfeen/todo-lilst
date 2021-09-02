@@ -21,10 +21,9 @@ const TextareaWithSubTextarea = ({
 
   const textareaOnChangeHandler = (event) => {
     event.preventDefault();
-    const inputType = event.nativeEvent.inputType;
-    const value = event.target.value;
+    const value = event.target.value.replace(/\r?\n/g, "");
 
-    if (inputType === "insertLineBreak") {
+    if (value === data.textareaText) {
       addSubTextarea();
       return;
     }
@@ -33,10 +32,9 @@ const TextareaWithSubTextarea = ({
   };
   const subTextareaOnChangeHandler = (event, subTextareaIndex) => {
     event.preventDefault();
-    const inputType = event.nativeEvent.inputType;
-    const value = event.target.value;
+    const value = event.target.value.replace(/\r?\n/g, "");
 
-    if (inputType === "insertLineBreak") {
+    if (value === data.subTextareas[subTextareaIndex].subTextareaText) {
       addSubTextarea();
       return;
     }
@@ -49,8 +47,10 @@ const TextareaWithSubTextarea = ({
   };
 
   const onKeyDownSubTextareaHandler = (event, subTextareaIndex) => {
+    const code = event.keyCode;
+
     if (
-      event.code === "Backspace" &&
+      (code === 8 || code === 46) &&
       data.subTextareas[subTextareaIndex].subTextareaText === ""
     ) {
       if (subTextareaIndex > 0) {
