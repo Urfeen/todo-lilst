@@ -9,7 +9,7 @@ import Confirm from "../Confirm/Confirm.jsx";
 import StyledTodoList from "./StyledTodoList.style.js";
 import SignUpLogIn from "../SignUpLogIn/SignUpLogIn.jsx";
 import LogInOutButton from "../LogInOutButton/LogInOutButton.jsx";
-import { useAuth } from "../../contexts/AuthContext.js";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 import Loader from "../Loader/Loader.jsx";
 
 const StyledConfirmBox = styled.div`

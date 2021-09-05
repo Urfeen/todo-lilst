@@ -4,7 +4,7 @@ import "./App.css";
 import "./reset-styles.css";
 import ReactLogo from "./img/react-logo.png";
 import Particles from "react-particles-js";
-import AuthProvider from "./contexts/AuthContext.js";
+import AuthProvider from "./contexts/AuthContext.jsx";
 
 function App() {
   return (

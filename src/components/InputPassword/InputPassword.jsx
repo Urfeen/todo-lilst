@@ -30,7 +30,7 @@ const StyledInputPassword = styled.div`
     right: 0.4rem;
     transform: translateY(-50%);
     height: calc(1rem + 8px);
-    width: 1.6rem;
+    max-width: 1.6rem;
     background: url(${({ inputType }) => inputType === "password" ? hide : show}) center / cover no-repeat;
     &:focus,
     &:hover{

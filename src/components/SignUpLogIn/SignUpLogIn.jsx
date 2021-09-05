@@ -100,7 +100,6 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
     if (modalFormIsLogin) {
       return logIn(trimmedEmail, trimmedPassword)
         .then(() => {
-          setLoading(false);
           setModalClosing(true);
         })
         .catch((error) => {
@@ -109,13 +108,14 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
           } else {
             setError(error);
           }
+        })
+        .finally(() => {
           setLoading(false);
         });
     }
 
     signUp(trimmedEmail, trimmedPassword)
       .then(() => {
-        setLoading(false);
         setModalClosing(true);
       })
       .catch((error) => {
@@ -124,6 +124,8 @@ function SignUpLogIn({ setModalClosing, modalFormIsLogin = false, setModalFormIs
         } else {
           setError(error);
         }
+      })
+      .finally(() => {
         setLoading(false);
       });
   }
