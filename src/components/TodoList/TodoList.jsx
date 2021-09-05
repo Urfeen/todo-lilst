@@ -10,6 +10,7 @@ import StyledTodoList from "./StyledTodoList.style.js";
 import SignUpLogIn from "../SignUpLogIn/SignUpLogIn.jsx";
 import LogInOutButton from "../LogInOutButton/LogInOutButton.jsx";
 import { useAuth } from "../../contexts/AuthContext.jsx";
+import { useRtDB } from "../../contexts/RtDBProvider.jsx";
 import Loader from "../Loader/Loader.jsx";
 
 const StyledConfirmBox = styled.div`
@@ -58,6 +59,7 @@ function TodoList() {
   const [logOutConfirmationError, setLogOutConfirmationError] = useState('');
 
   const { currentUser, userLoading, logOut } = useAuth();
+  const { getKey } = useRtDB();
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);

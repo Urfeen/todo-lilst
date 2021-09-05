@@ -8,7 +8,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }) {
+function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [userLoading, setUserLoading] = useState(true);
 

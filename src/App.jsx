@@ -5,6 +5,7 @@ import "./reset-styles.css";
 import ReactLogo from "./img/react-logo.png";
 import Particles from "react-particles-js";
 import AuthProvider from "./contexts/AuthContext.jsx";
+import RtDBProvider from "./contexts/RtDBProvider.jsx";
 
 function App() {
   return (
@@ -31,7 +32,9 @@ function App() {
       <div className="wrapper">
         <main>
           <AuthProvider>
-            <TodoList />
+            <RtDBProvider>
+              <TodoList />
+            </RtDBProvider>
           </AuthProvider>
         </main>
         <footer>
