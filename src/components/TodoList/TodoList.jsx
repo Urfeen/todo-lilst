@@ -178,14 +178,19 @@ function TodoList() {
   }
 
   useEffect(() => {
-    const tasks = JSON.parse(localStorage.getItem("tasks"));
-    if (!tasks || tasks.length === 0) return;
-    setTasks(tasks);
-  }, []);
+    if (currentUser) {
+    } else if (currentUser === null) {
+      const tasks = JSON.parse(localStorage.getItem("tasks"));
+      if (tasks.length !== 0) setTasks(tasks);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    if (currentUser) {
+    } else if (currentUser === null) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks, currentUser]);
 
   return (
     <StyledTodoList>

@@ -11,21 +11,23 @@ export function useRtDB() {
 function RtDBProvider({ children }) {
 
   const getOnValue = (url) => {
-    return onValue(ref(database, url), (snapshot) => {
+    const listener = onValue(ref(database, url), (snapshot) => {
       if (snapshot.exists()) {
         return snapshot.val();
       }
       return null;
     });
+    return listener;
   }
   const getOnValueChild = (url) => {
     const databaseRef = ref(database);
-    return onValue(child(databaseRef, url), (snapshot) => {
+    const listener = onValue(child(databaseRef, url), (snapshot) => {
       if (snapshot.exists()) {
         return snapshot.val();
       }
       return null;
     });
+    return listener;
   }
 
   const getOnceValue = (url) => {
@@ -67,7 +69,8 @@ function RtDBProvider({ children }) {
         getOnceValueChild,
         delDataByUrl,
         getKey
-      }}>
+      }}
+    >
       {children}
     </RtDBContext.Provider>
   );
