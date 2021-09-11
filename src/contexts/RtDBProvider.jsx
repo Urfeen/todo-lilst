@@ -15,7 +15,7 @@ function RtDBProvider({ children }) {
       if (snapshot.exists()) {
         return setMethod(snapshot.val());
       }
-      setMethod(null);
+      setMethod([]);
     });
     return unSubscriber;
   }

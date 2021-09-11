@@ -182,7 +182,8 @@ function TodoList() {
     setTasksLoading(true);
     if (currentUser) {
       const unSubscriber = getOnValue(`users/${currentUser.uid}/tasks`, (tasks) => {
-        setTasks(JSON.parse(tasks));
+        if (Array.isArray(tasks)) setTasks(tasks);
+        else setTasks(JSON.parse(tasks));
         setTasksLoading(false);
       });
       return unSubscriber;
