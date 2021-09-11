@@ -296,7 +296,7 @@ function TodoList() {
       </header>
       <div className="todos">
         {userLoading || tasksLoading ? <Loader size={28} /> : (
-          tasks.length !== 0 ? (
+          tasks && (tasks.length !== 0) ? (
             <TasksList
               tasks={tasks}
               changeTaskStatusHandler={changeTaskStatusHandler}
