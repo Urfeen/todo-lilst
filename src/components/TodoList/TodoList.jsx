@@ -59,7 +59,8 @@ function TodoList() {
   const [logOutConfirmationError, setLogOutConfirmationError] = useState('');
 
   const { currentUser, userLoading, logOut } = useAuth();
-  const { getKey } = useRtDB();
+  const [tasksLoading, setTasksLoading] = useState(true);
+  const { setDataByUrl, getOnValue } = useRtDB();
 
   const toggleModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -178,19 +179,27 @@ function TodoList() {
   }
 
   useEffect(() => {
+    setTasksLoading(true);
     if (currentUser) {
+      const unSubscriber = getOnValue(`users/${currentUser.uid}/tasks`, (tasks) => {
+        setTasks(JSON.parse(tasks));
+        setTasksLoading(false);
+      });
+      return unSubscriber;
     } else if (currentUser === null) {
       const tasks = JSON.parse(localStorage.getItem("tasks"));
-      if (tasks.length !== 0) setTasks(tasks);
+      if (tasks && tasks.length !== 0) setTasks(tasks);
+      setTasksLoading(false);
     }
-  }, [currentUser]);
+  }, [currentUser, getOnValue]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && !tasksLoading && (JSON.stringify(tasks) !== localStorage.getItem("tasks"))) {
+      setDataByUrl(`users/${currentUser.uid}/tasks`, JSON.stringify(tasks));
     } else if (currentUser === null) {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
-  }, [tasks, currentUser]);
+  }, [tasks, currentUser, tasksLoading, setDataByUrl]);
 
   return (
     <StyledTodoList>
@@ -286,14 +295,16 @@ function TodoList() {
         </div>
       </header>
       <div className="todos">
-        {tasks.length !== 0 ? (
-          <TasksList
-            tasks={tasks}
-            changeTaskStatusHandler={changeTaskStatusHandler}
-            deleteTaskHandler={deleteTaskHandler}
-          />
-        ) : (
-          <span>no one todo</span>
+        {userLoading || tasksLoading ? <Loader size={28} /> : (
+          tasks.length !== 0 ? (
+            <TasksList
+              tasks={tasks}
+              changeTaskStatusHandler={changeTaskStatusHandler}
+              deleteTaskHandler={deleteTaskHandler}
+            />
+          ) : (
+            <span>no one todo</span>
+          )
         )}
       </div>
     </StyledTodoList>

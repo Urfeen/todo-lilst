@@ -4,12 +4,13 @@ import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 const app = firebase.initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyDag_AO5Gabdn0O85SGVejgq8bJ1GZqUxY",
+  authDomain: "todo-list-development-dac75.firebaseapp.com",
+  databaseURL: "https://todo-list-development-dac75-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "todo-list-development-dac75",
+  storageBucket: "todo-list-development-dac75.appspot.com",
+  messagingSenderId: "307678707726",
+  appId: "1:307678707726:web:b173c333e9f2f7f55dfc5f"
 });
 
 export const database = getDatabase();

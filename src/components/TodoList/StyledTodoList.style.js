@@ -33,7 +33,7 @@ const StyledTodoList = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0.5rem 0px 0.8rem 0px;
+    margin: 0.8rem 0px;
     ul{
       width: 100%;
     }
