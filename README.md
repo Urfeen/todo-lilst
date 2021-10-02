@@ -4,7 +4,7 @@
 ___
 
 ### 🛠Functionality
-The todo list keyboard supports such features as:
+The todo list supports such features as:
 - Adding tasks with subtasks;
 - Delete tasks;
 - Toggle tasks status;
