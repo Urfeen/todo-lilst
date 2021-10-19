@@ -1,6 +1,6 @@
 # Todo list
 
-### 🖥Deploy: https://urfeen.github.io/todo-list/
+### 🖥Deploy: https://mykkarp.github.io/todo-list/
 ___
 
 ### 🛠Functionality
